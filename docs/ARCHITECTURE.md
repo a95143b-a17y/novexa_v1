@@ -10,8 +10,8 @@ Construire une plateforme éducative modulaire pour les apprenants, les parents,
 - Langage : TypeScript en mode strict.
 - Interface : composants accessibles et feuille de styles partagée.
 - API : Route Handlers et services côté serveur.
-- Base de données : PostgreSQL recommandé, fournisseur à confirmer.
-- Authentification : fournisseur à sélectionner ; aucune authentification réelle n'est activée dans ce socle.
+- Base de données : PostgreSQL ; le schéma et les migrations initiales sont présents dans `database/migrations`, mais ils doivent encore être appliqués sur une instance configurée.
+- Authentification : Better Auth est intégré au code (e-mail/mot de passe, vérification e-mail et rôles). Son activation réelle dépend de PostgreSQL, des secrets serveur, du service e-mail et de tests en environnement configuré.
 
 Node.js 20.9 ou supérieur est requis par ce socle.
 
@@ -64,8 +64,8 @@ Ce document est une orientation technique, pas une certification de conformité 
 
 ## Décisions encore ouvertes
 
-- Fournisseur PostgreSQL et stratégie de sauvegarde.
-- Fournisseur d'authentification et gestion des comptes mineurs.
+- Fournisseur PostgreSQL définitif, stratégie de sauvegarde et application vérifiée des migrations.
+- Configuration de production Better Auth, service e-mail et règles de gestion adaptées aux comptes de mineurs.
 - Hébergement et environnement de production.
 - Passerelle IA, modèles autorisés, quotas et coûts.
 - Fournisseur de paiement.
