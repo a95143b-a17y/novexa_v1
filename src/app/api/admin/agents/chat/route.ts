@@ -19,17 +19,23 @@ export async function POST(request: NextRequest) {
 
   let body: any;
   try { body = await request.json(); } catch { return NextResponse.json({ error: "Requête invalide." }, { status: 400 }); }
+
   const agentId = String(body.agentId || "");
-  if (!(agentId in PROMPTS)) return NextResponse.json({ error: "Agent inconnu." }, { status: 400 });
+  if (!Object.hasOwn(PROMPTS, agentId)) return NextResponse.json({ error: "Agent inconnu." }, { status: 400 });
   if (!Array.isArray(body.messages) || body.messages.length === 0 || body.messages.length > 12) return NextResponse.json({ error: "Historique de conversation invalide." }, { status: 400 });
 
-  const messages = body.messages.map((item: any) => {
+  const messages: { role: "user" | "assistant"; content: string }[] = [];
+  let totalLength = 0;
+  for (const item of body.messages) {
     if (!item || !["user", "assistant"].includes(item.role) || typeof item.content !== "string" || item.content.length > 3000) {
-      throw new Error("Message invalide.");
+      return NextResponse.json({ error: "Un message de la conversation est invalide." }, { status: 400 });
     }
-    return { role: item.role, content: item.content };
-  });
-  if (messages[messages.length - 1].role !== "user") return NextResponse.json({ error: "Le dernier message doit provenir de l'administrateur." }, { status: 400 });
+    totalLength += item.content.length;
+    messages.push({ role: item.role, content: item.content });
+  }
+  if (totalLength > 12000 || messages[messages.length - 1].role !== "user") {
+    return NextResponse.json({ error: "Conversation trop longue ou dernier message manquant." }, { status: 400 });
+  }
 
   try {
     const response = await fetch("https://api.openai.com/v1/responses", {

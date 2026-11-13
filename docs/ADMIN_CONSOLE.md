@@ -53,3 +53,17 @@ Permissions nécessaires de la GitHub App : Contents read/write et Pull requests
 ## Limites et sécurité avant production
 
 Cette première porte d'accès n'est pas le système complet de comptes. Avant ouverture publique : authentification multi-utilisateur, rôles et permissions côté serveur, limitation persistante des tentatives, tests de sécurité, journal d'audit, quotas de tâches IA, contrôle des coûts et protection des comptes de mineurs.
+
+
+## Veille automatique hebdomadaire
+
+Le fichier `vercel.json` configure une veille ATLAS tous les lundis à 05:00 UTC, après déploiement en production sur Vercel. La route `GET /api/cron/atlas-france-watch` :
+
+- vérifie le jeton `CRON_SECRET` ;
+- recherche les changements officiels de la semaine écoulée ;
+- filtre les sources sur les domaines institutionnels français ;
+- utilise une sortie JSON structurée ;
+- n'ouvre une Pull Request que si un changement matériel est détecté et qu'une source officielle est citée ;
+- ne publie jamais directement dans le catalogue actif.
+
+Configurer `CRON_SECRET`, `OPENAI_API_KEY` et les secrets de GitHub App dans l'environnement Production de Vercel. Les Cron Vercel s'exécutent sur la production et transmettent le secret dans l'en-tête Authorization Bearer. Voir [la configuration des Cron Vercel](https://vercel.com/docs/project-configuration/vercel-json).

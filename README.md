@@ -55,6 +55,10 @@ Consulter [les spécifications d'ATLAS](docs/AGENT_ATLAS.md), [le pilote France]
 - Les assistants restent consultatifs tant que les systèmes métier réels ne sont pas connectés.
 - Voir `docs/ADMIN_CONSOLE.md` pour configurer les secrets côté serveur.
 
+## Veille automatique ATLAS
+
+Après déploiement en production sur Vercel et configuration de `CRON_SECRET`, `OPENAI_API_KEY` et de la GitHub App, ATLAS lance une veille chaque lundi à 05:00 UTC. Les changements matériels sourcés donnent lieu à une Pull Request de revue ; aucun programme n'est publié automatiquement. Voir `vercel.json` et `docs/ADMIN_CONSOLE.md`.
+
 ## Principes
 
 1. Architecture par domaines métier.

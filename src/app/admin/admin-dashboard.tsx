@@ -153,6 +153,7 @@ export default function AdminDashboard() {
               <div><b>OpenAI Responses API</b><span>Recherche web ATLAS</span><em>Clé serveur requise</em></div>
               <div><b>Lecteur Web contrôlé</b><span>Pages institutionnelles publiques</span><em>Lecture HTML autorisée</em></div>
               <div><b>GitHub App</b><span>Propositions par Pull Request</span><em>App et permissions requises</em></div>
+              <div><b>Veille Vercel</b><span>Recherche automatique hebdomadaire</span><em>Production + CRON_SECRET requis</em></div>
             </div>
           </section>
           <footer className="admin-footer">NOVEXA · Console administrateur · Aucun programme n'est publié sans validation humaine.</footer>

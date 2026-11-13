@@ -68,7 +68,7 @@
 .atlas-source-list a,.atlas-inspection a,.atlas-report a{color:#8edff1;font-size:10px;overflow-wrap:anywhere}
 .admin-secondary-button{width:100%;justify-content:center;margin-top:17px}
 .atlas-inspection pre{max-height:400px;overflow:auto;padding:12px;border:1px solid var(--admin-line);border-radius:8px;background:#090f1d;color:#bdcbe0;font-size:10px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
-.admin-integration-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.admin-integration-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .admin-integration-grid>div{display:flex;flex-direction:column;gap:8px;padding:16px;border:1px solid var(--admin-line);border-radius:10px;background:#10192c}
 .admin-integration-grid b{font-size:12px}
 .admin-integration-grid span{color:#98a6bf;font-size:10px}
