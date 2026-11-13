@@ -12,10 +12,16 @@ Les étapes ci-dessous sont un ordre de réalisation proposé, pas des fonctionn
 - [ ] Installer les dépendances et vérifier le build dans l'environnement de développement.
 
 ## Phase 1 — Identité et structure
-- [ ] Choisir le fournisseur d'authentification.
-- [ ] Définir le modèle de données et la base PostgreSQL.
-- [ ] Construire les espaces apprenant, parent, enseignant et établissement.
-- [ ] Ajouter les permissions serveur et les tests associés.
+- [x] Intégrer Better Auth au code : inscription, connexion, sessions, vérification e-mail et rôles initiaux.
+- [x] Définir le schéma PostgreSQL initial et les migrations versionnées.
+- [x] Construire le premier espace personnel et le début de l'espace enseignant.
+- [x] Ajouter les premières routes API de création et de gestion des cours côté enseignant.
+- [ ] Provisionner PostgreSQL, appliquer les migrations et configurer les secrets de production.
+- [ ] Configurer et tester l'envoi des e-mails de vérification et de réinitialisation.
+- [ ] Finaliser les espaces parent et établissement.
+- [ ] Compléter les tests d'autorisations, de séparation des rôles et des comptes de mineurs.
+
+**État :** le code de base est présent ; la validation de bout en bout reste bloquée par la configuration des services externes et de la base.
 
 ## Phase 2 — Cœur pédagogique et référentiels
 - [ ] Construire le catalogue de programmes et de matières.
