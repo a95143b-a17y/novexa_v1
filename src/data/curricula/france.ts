@@ -94,8 +94,7 @@ export const FRANCE_OFFICIAL_SOURCES: readonly OfficialSource[] = [
       "Cartographier les voies de formation, diplômes et établissements ; vérifier ensuite les accréditations et maquettes officielles applicables.",
     priority: 2,
     requiresDocumentLevelVerification: true
-  }
-,
+  },
   {
     id: "fr-eduscol-nsi",
     title: "Programmes et ressources en numérique et sciences informatiques",
