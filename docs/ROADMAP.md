@@ -28,7 +28,7 @@ Les étapes ci-dessous sont un ordre de réalisation proposé, pas des fonctionn
 - [ ] Implémenter le pipeline de collecte France en lecture seule.
 - [ ] Vérifier la provenance, les dates d'application et les droits de réutilisation.
 - [ ] Ajouter les cours et ressources pédagogiques.
-- [ ] Enregistrer la progression et les objectifs.
+- [x] Ajouter le tableau de bord apprenant, la lecture des cours publiés et le suivi par leçon dans le code (migration 0004 à appliquer).\n- [ ] Étendre la progression aux objectifs, parcours et statistiques détaillées.
 - [ ] Créer les exercices, quiz et évaluations.
 
 ## Phase 3 — Intelligence artificielle et ATLAS
@@ -53,3 +53,11 @@ Les étapes ci-dessous sont un ordre de réalisation proposé, pas des fonctionn
 - [ ] Préparer un lancement limité avant toute ouverture générale.
 
 Aucune ouverture publique ne doit avoir lieu avant la validation de l'authentification, des autorisations, de la protection des données des mineurs, des sauvegardes, des procédures d'incident et des tests de sécurité.
+
+## État technique — 13 novembre 2026
+
+- Le tableau de bord apprenant, la consultation des cours publiés et l'enregistrement de la progression par leçon sont implémentés sur la branche de travail.
+- La migration `0004_lesson_progress.sql` est ajoutée, mais elle n'est pas appliquée à une base distante.
+- Le guide de configuration et de déploiement est disponible dans `docs/DEPLOYMENT_SETUP.md`.
+- L'authentification, les e-mails, les assistants IA et les données persistantes restent conditionnés par les variables d'environnement et les services externes.
+- La Pull Request reste en brouillon tant que la CI et les vérifications de prévisualisation ne sont pas terminées.
