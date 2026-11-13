@@ -2,68 +2,74 @@
 
 ## Accès
 
-- URL : `/admin/login`
-- Accès contrôlé côté serveur par un cookie HTTP-only signé.
-- Durée maximale de session : huit heures.
-- Les secrets sont lus uniquement côté serveur.
-- Cette première version utilise un compte administrateur mono-compte configuré par variables d'environnement. Ce n'est pas encore le système complet multi-utilisateur.
+- Inscription/connexion : `/inscription` et `/connexion`.
+- Console administrateur : `/admin`.
+- L'authentification multi-utilisateur utilise Better Auth avec PostgreSQL.
+- Les sessions sont vérifiées côté serveur.
+- Les secrets ne sont jamais envoyés au navigateur.
 
-## Initialisation locale
+## Configuration requise
 
-1. Installer les dépendances : `npm install`.
-2. Générer un hash : `node scripts/hash-admin-password.mjs`.
-3. Renseigner `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` et `ADMIN_SESSION_SECRET` dans `.env.local`.
-4. Lancer `npm run dev`.
-5. Ouvrir `/admin/login`.
+Configurer côté serveur :
 
-Le hash utilise scrypt et un sel aléatoire. Le secret de session doit contenir au moins 32 caractères ; génère-le localement avec `openssl rand -base64 48`. N'utilise pas le mot de passe administrateur d'un autre service. Les appels à l'API OpenAI nécessitent une clé API et une facturation API distinctes d'un abonnement ChatGPT.
+- `DATABASE_URL` : PostgreSQL.
+- `BETTER_AUTH_URL` : URL publique de l'application.
+- `BETTER_AUTH_SECRET` : secret aléatoire de 32 caractères minimum.
+- `RESEND_API_KEY` : service transactionnel de vérification et réinitialisation.
+- `EMAIL_FROM` : expéditeur validé chez le fournisseur e-mail.
 
-Une limitation simple des tentatives est incluse dans le processus serveur. Avant production, ajouter une limitation persistante via Redis ou un service de protection de l'hébergeur, car la mémoire du processus n'est pas partagée entre instances.
+Générer un secret localement : `openssl rand -base64 48`. Ne pas le partager dans un chat ou dans GitHub.
+
+## Initialisation de la base
+
+1. Configurer `DATABASE_URL` dans l'environnement sécurisé.
+2. Configurer `BETTER_AUTH_SECRET` et les variables e-mail.
+3. Lancer `npm run auth:migrate` pour créer les tables Better Auth et le champ de rôle.
+4. Appliquer `database/migrations/0001_initial.sql`.
+5. Appliquer `database/migrations/0002_auth_profile_links.sql`.
+6. Définir des politiques PostgreSQL Row-Level Security et les tester avant d'importer des données réelles.
+
+## Créer le premier administrateur
+
+1. Créer le compte depuis `/inscription`.
+2. Vérifier son adresse e-mail.
+3. Depuis un environnement sécurisé, exécuter :
+   `npm run auth:promote-admin -- adresse-administrateur@example.com`
+4. Se déconnecter puis se reconnecter.
+5. Ouvrir `/admin`.
+
+L'inscription publique attribue toujours le rôle `learner). Le champ de rôle n'est pas modifiable dans le navigateur. Le rôle `platform_admin` doit être attribué par la procédure d'administration sécurisée.
+
+Les rôles parent, enseignant et établissement doivent également être attribués par un administrateur après vérification. Un utilisateur ne peut pas s'accorder lui-même des privilèges.
+
+## E-mails
+
+Better Auth impose la vérification de l'adresse e-mail avant d'ouvrir une session par mot de passe. NOVEXA utilise Resend pour envoyer les liens de vérification et de réinitialisation. Sans les variables Resend, l'inscription et les opérations de vérification restent indisponibles.
 
 ## ATLAS — recherche
 
-`POST /api/admin/atlas/discover` :
-- nécessite une session administrateur ;
-- appelle l'API OpenAI Responses ;
-- force une recherche Web ;
-- limite la recherche aux domaines institutionnels du pilote France ;
-- retourne le rapport et les citations extraites ;
-- ne publie ni ne remplace automatiquement un programme.
+`POST /api/admin/atlas/discover` nécessite une session Better Auth avec le rôle `platform_admin`. La route appelle OpenAI Responses API avec Web Search, filtre les résultats sur les domaines institutionnels français et retourne un rapport sourcé. Elle ne publie ni ne remplace automatiquement un programme.
 
 Variable requise : `OPENAI_API_KEY`. Modèle configurable avec `OPENAI_MODEL`.
 
 ## Lecteur Web contrôlé
 
-`POST /api/admin/atlas/inspect` lit uniquement les pages HTTPS de la liste institutionnelle France. Il refuse les redirections hors liste, les contenus non HTML et les pages de plus de 2 Mo. Le traitement des PDF nécessite le module documentaire suivant.
+`POST /api/admin/atlas/inspect` lit uniquement les pages HTTPS des domaines institutionnels autorisés pour la France. Il refuse les redirections hors liste, les contenus non HTML et les pages de plus de 2 Mo. Les PDF nécessitent un module documentaire distinct.
 
 ## GitHub
 
-`POST /api/admin/atlas/proposal` :
-- nécessite une session administrateur ;
-- utilise une GitHub App installée sur le dépôt cible ;
-- crée une branche distincte ;
-- ajoute un rapport JSON de recherche avec les sources ;
-- crée une Pull Request vers la branche de base ;
-- ne pousse jamais directement sur la branche principale.
+`POST /api/admin/atlas/proposal` nécessite le rôle `platform_admin`, utilise une GitHub App installée sur le dépôt cible, crée une branche distincte et une Pull Request. Il ne pousse jamais directement sur la branche principale.
 
-Variables requises : `GITHUB_APP_ID`, `GITHUB_APP_PRIVATE_KEY`, `GITHUB_INSTALLATION_ID`, `GITHUB_OWNER`, `GITHUB_REPO` et facultativement `GITHUB_BASE_BRANCH`.
+Variables requises : `GITHUB_APP_ID`, `GITHUB_APP_PRIVATE_KEY`, `GITHUB_INSTALLATION_ID`, `GITHUB_OWNER`, `GITHUB_REPO` et `GITHUB_BASE_BRANCH`.
 
-Permissions nécessaires de la GitHub App : Contents read/write et Pull requests read/write. Limiter son installation au dépôt NOVEXA V1.
+Permissions nécessaires : Contents read/write et Pull requests read/write. Limiter l'installation au dépôt NOVEXA V1.
 
-## Limites et sécurité avant production
+## Veille automatique ATLAS
 
-Cette première porte d'accès n'est pas le système complet de comptes. Avant ouverture publique : authentification multi-utilisateur, rôles et permissions côté serveur, limitation persistante des tentatives, tests de sécurité, journal d'audit, quotas de tâches IA, contrôle des coûts et protection des comptes de mineurs.
+Après déploiement en production sur Vercel et configuration de `CRON_SECRET`, `OPENAI_API_KEY` et des secrets GitHub App, ATLAS effectue une veille hebdomadaire sur les sources officielles françaises et crée une Pull Request si un changement matériel est confirmé. Aucun programme n'est publié automatiquement.
 
+## Limites avant ouverture publique
 
-## Veille automatique hebdomadaire
+Avant ouverture publique : migrations appliquées, RLS testée, récupération de compte, vérification e-mail, limitation persistante des tentatives, audit de sécurité, règles de conservation/suppression et protection adaptée aux comptes de mineurs.
 
-Le fichier `vercel.json` configure une veille ATLAS tous les lundis à 05:00 UTC, après déploiement en production sur Vercel. La route `GET /api/cron/atlas-france-watch` :
-
-- vérifie le jeton `CRON_SECRET` ;
-- recherche les changements officiels de la semaine écoulée ;
-- filtre les sources sur les domaines institutionnels français ;
-- utilise une sortie JSON structurée ;
-- n'ouvre une Pull Request que si un changement matériel est détecté et qu'une source officielle est citée ;
-- ne publie jamais directement dans le catalogue actif.
-
-Configurer `CRON_SECRET`, `OPENAI_API_KEY` et les secrets de GitHub App dans l'environnement Production de Vercel. Les Cron Vercel s'exécutent sur la production et transmettent le secret dans l'en-tête Authorization Bearer. Voir [la configuration des Cron Vercel](https://vercel.com/docs/project-configuration/vercel-json).
+Les robots restent consultatifs : les données financières, journaux de sécurité, comptes et métriques d'infrastructure ne sont pas encore connectés.

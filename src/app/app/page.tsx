@@ -30,6 +30,7 @@ export default async function LearnerHomePage() {
         <h1>Bienvenue, {session.user.name || "sur NOVEXA"}.</h1>
         <p className="user-home-subtitle">Ton espace de travail éducatif est initialisé.</p>
         <div className="user-role-card"><span>RÔLE DU COMPTE</span><strong>{roleLabels[session.user.role] || "Utilisateur"}</strong><small>Adresse confirmée : {session.user.email}</small></div>
+        {session.user.role === "platform_admin" && <Link href="/admin" className="user-home-link">Ouvrir la console administrateur ↗</Link>}
         <div className="user-home-notice"><strong>Modules pédagogiques en cours de construction</strong><p>Les cours, programmes, exercices et tableaux de progression seront activés à mesure que leurs services et leurs données seront connectés.</p></div>
         <Link href="/" className="user-home-link">Retour à l'accueil NOVEXA ↗</Link>
       </section>

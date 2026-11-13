@@ -62,7 +62,9 @@ export default function HomePage() {
         <header className="topbar">
           <div className="breadcrumb">NOVEXA <span>/</span> Vue d'ensemble</div>
           <div className="topbar-right">
-            <a className="text-button" href="/admin/login">Console administrateur ↗</a>
+            <a className="text-button" href="/connexion">Se connecter</a>
+            <a className="text-button" href="/inscription">Créer un compte ↗</a>
+            <a className="text-button" href="/admin/login">Console administrateur</a>
             <span className="env-tag"><span /> ENVIRONNEMENT DE DÉVELOPPEMENT</span>
             <div className="avatar" aria-label="Compte de démonstration">N</div>
           </div>
