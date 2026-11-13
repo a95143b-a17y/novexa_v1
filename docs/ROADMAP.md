@@ -6,6 +6,9 @@ Les étapes ci-dessous sont un ordre de réalisation proposé, pas des fonctionn
 - [x] Initialiser Next.js et TypeScript.
 - [x] Définir le référentiel initial des rôles.
 - [x] Documenter les domaines et les principes de sécurité.
+- [x] Définir les six agents administrateur et leurs périmètres.
+- [x] Définir ATLAS et son pipeline d'importation mondial.
+- [x] Enregistrer la France comme premier pilote et référencer les sources institutionnelles initiales.
 - [ ] Installer les dépendances et vérifier le build dans l'environnement de développement.
 
 ## Phase 1 — Identité et structure
@@ -14,19 +17,25 @@ Les étapes ci-dessous sont un ordre de réalisation proposé, pas des fonctionn
 - [ ] Construire les espaces apprenant, parent, enseignant et établissement.
 - [ ] Ajouter les permissions serveur et les tests associés.
 
-## Phase 2 — Cœur pédagogique
+## Phase 2 — Cœur pédagogique et référentiels
 - [ ] Construire le catalogue de programmes et de matières.
+- [ ] Implémenter le pipeline de collecte France en lecture seule.
+- [ ] Vérifier la provenance, les dates d'application et les droits de réutilisation.
 - [ ] Ajouter les cours et ressources pédagogiques.
 - [ ] Enregistrer la progression et les objectifs.
 - [ ] Créer les exercices, quiz et évaluations.
 
-## Phase 3 — Intelligence artificielle
-- [ ] Choisir la passerelle et les fournisseurs IA.
+## Phase 3 — Intelligence artificielle et ATLAS
+- [ ] Choisir et configurer la passerelle IA côté serveur.
+- [ ] Connecter ATLAS à la recherche Web et au navigateur contrôlé.
+- [ ] Configurer une GitHub App à permissions minimales et workflow par Pull Request.
+- [ ] Ajouter les limites d'usage, journaux d'audit et contrôles de coût.
 - [ ] Construire NOVA et les assistants spécialisés.
-- [ ] Ajouter les limites d'usage, journaux techniques et contrôles de coût.
-- [ ] Tester la qualité des réponses pédagogiques.
+- [ ] Tester la qualité des extractions et des réponses pédagogiques.
 
-## Phase 4 — Médias et collaboration
+## Phase 4 — Extension internationale et collaboration
+- [ ] Valider le pilote France sur plusieurs niveaux et matières.
+- [ ] Ajouter progressivement de nouveaux pays et leurs autorités compétentes.
 - [ ] Ajouter les vidéos et ressources multimédias.
 - [ ] Construire les classes, groupes et retours enseignants.
 - [ ] Évaluer les intégrations scolaires officielles.

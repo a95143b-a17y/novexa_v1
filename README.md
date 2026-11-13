@@ -31,8 +31,21 @@ Commandes : `npm run dev`, `npm run typecheck`, `npm run build`, `npm start`.
 - `src/lib` : rôles, permissions et configuration partagée.
 - `src/modules` : domaines fonctionnels.
 - `src/types` : types partagés.
-- `docs` : architecture et feuille de route.
+- `src/data/curricula` : registres initiaux des sources pédagogiques.
+- `docs` : architecture, feuille de route et spécifications ATLAS.
 - `SECURITY.md` : règles de sécurité.
+
+## ATLAS — programmes officiels
+
+ATLAS est le sixième agent administrateur. Son objectif est de rechercher, vérifier, structurer et suivre les référentiels éducatifs officiels des pays et territoires couverts progressivement par NOVEXA.
+
+- Stratégie : couverture mondiale progressive, autorité par autorité.
+- Premier pays pilote : France.
+- Les sources normatives, pages de navigation et ressources d'accompagnement sont distinguées.
+- Toute publication d'un programme dans le catalogue actif exige une validation humaine.
+- Les documents sont importés uniquement lorsque leur accès et leurs droits de réutilisation le permettent.
+
+Consulter [les spécifications d'ATLAS](docs/AGENT_ATLAS.md), [le pilote France](docs/FRANCE_PILOT.md) et [le pipeline d'importation](docs/CURRICULUM_INGESTION.md).
 
 ## Principes
 
@@ -48,10 +61,13 @@ Commandes : `npm run dev`, `npm run typecheck`, `npm run build`, `npm start`.
 - [x] Socle Next.js et TypeScript.
 - [x] Première interface de présentation.
 - [x] Référentiel initial des rôles et permissions.
-- [x] Documentation d'architecture, sécurité et roadmap.
+- [x] Référentiel des six agents administrateur.
+- [x] Spécification ATLAS et pipeline mondial.
+- [x] Sources institutionnelles initiales du pilote France documentées.
+- [ ] Installer les dépendances et vérifier le build dans l'environnement de développement.
 - [ ] Authentification réelle.
 - [ ] Base de données et modèles persistants.
 - [ ] Modules pédagogiques fonctionnels.
-- [ ] Services IA et intégrations externes.
+- [ ] Connexions OpenAI, navigateur contrôlé et GitHub App dans NOVEXA.
 
 Les cases non cochées ne sont pas encore livrées.
