@@ -50,6 +50,7 @@ export default function HomePage() {
           <a className="nav-link active" href="#accueil"><span>⌂</span> Vue d'ensemble</a>
           <a className="nav-link" href="#modules"><span>▦</span> Modules</a>
           <a className="nav-link" href="#architecture"><span>⌘</span> Architecture</a>
+          <a className="nav-link" href="/programmes/france"><span>◎</span> Programmes France</a>
         </nav>
         <div className="sidebar-bottom">
           <div className="sidebar-status"><span className="status-light" /> Projet initialisé</div>
@@ -65,6 +66,7 @@ export default function HomePage() {
             <a className="text-button" href="/connexion">Se connecter</a>
             <a className="text-button" href="/inscription">Créer un compte ↗</a>
             <a className="text-button" href="/admin/login">Console administrateur</a>
+            <a className="text-button" href="/programmes/france">Programmes France</a>
             <span className="env-tag"><span /> ENVIRONNEMENT DE DÉVELOPPEMENT</span>
             <div className="avatar" aria-label="Compte de démonstration">N</div>
           </div>
@@ -81,6 +83,7 @@ export default function HomePage() {
             <div className="welcome-actions">
               <a className="primary-button" href="#modules">Explorer les modules <span>↗</span></a>
               <a className="text-button" href="#architecture">Voir l’architecture <span>→</span></a>
+              <a className="text-button" href="/programmes/france">Explorer le pilote France <span>↗</span></a>
             </div>
           </section>
 
