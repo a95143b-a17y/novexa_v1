@@ -83,6 +83,7 @@ export default async function LearnerHomePage() {
         <h1>Bienvenue, {session.user.name || "sur NOVEXA"}.</h1>
         <p className="learning-lead">Un espace clair pour retrouver tes cours, avancer leçon après leçon et suivre tes apprentissages.</p>
 
+        {session.user.role === "learner" && <div className="learning-shortcut-row"><Link href="/app/evaluations" className="learning-open-course">Mes évaluations et quiz →</Link></div>}
         <div className="learning-overview-grid">
           <article className="learning-overview-card"><span>COURS DISPONIBLES</span><strong>{courses.length}</strong><small>Contenus publiés dans le catalogue</small></article>
           <article className="learning-overview-card"><span>LEÇONS TERMINÉES</span><strong>{completedLessons}</strong><small>Sur {totalLessons} leçon(s) disponibles</small></article>
