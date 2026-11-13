@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-type Assessment = { id: string; title: string; duration_minutes: number; question_count: number; attempts: number };
+type Assessment = { id: string; title: string; duration_minutes: number; question_count: number; attempts: number; last_score: number | null; last_maximum_score: number | null };
 
 export default function LearnerAssessments() {
   const [items, setItems] = useState<Assessment[]>([]);
@@ -27,7 +27,7 @@ export default function LearnerAssessments() {
       <p className="learning-course-kicker">QUIZ · ÉVALUATION</p>
       <h3>{item.title}</h3>
       <p>{item.question_count} question(s) · {item.duration_minutes} minutes</p>
-      <div className="learning-course-meta"><span>{item.attempts} tentative(s)</span><strong>Disponible</strong></div>
+      <div className="learning-course-meta"><span>{item.attempts} tentative(s)</span><strong>{item.last_score !== null && item.last_maximum_score ? `Dernier résultat : ${item.last_score}/${item.last_maximum_score}` : "Disponible"}</strong></div>
       <Link href={`/app/evaluations/${item.id}`} className="learning-open-course">Commencer le quiz <span>→</span></Link>
     </article>)}
   </div>;
