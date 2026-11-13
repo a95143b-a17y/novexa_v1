@@ -356,3 +356,13 @@ h2 { margin: 8px 0 0; font-size: 21px; letter-spacing: -.025em; }
 .quiz-incorrect{color:#ffb3be!important;font-weight:750}
 .learning-shortcut-row{display:flex;gap:12px;margin:22px 0}
 @media(max-width:650px){.teacher-header-links{gap:10px;flex-wrap:wrap;justify-content:flex-end}.quiz-score{align-items:flex-start;flex-direction:column;gap:6px}}
+
+.catalog-filter-panel{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(220px,.8fr);gap:14px;align-items:end;margin:22px 0 16px;padding:17px;border:1px solid var(--border);border-radius:12px;background:rgba(16,26,46,.76)}
+.catalog-search-field,.catalog-filter-field{display:grid;gap:8px}
+.catalog-search-field label,.catalog-filter-field label{color:#9cacc7;font-size:10px;font-weight:750;letter-spacing:.04em}
+.catalog-search-field input,.catalog-filter-field select{width:100%;min-height:44px;padding:0 12px;border:1px solid rgba(135,160,199,.24);border-radius:8px;background:#0d172a;color:#eff6ff;font:inherit;font-size:12px}
+.catalog-filter-count{grid-column:1/-1;margin:0;color:#8798b6;font-size:10px}
+.catalog-empty{grid-column:1/-1;padding:26px;border:1px solid var(--border);border-radius:12px;background:rgba(16,26,46,.76)}
+.catalog-empty h3{margin:0 0 8px;font-size:15px}
+.catalog-empty p{margin:0;color:#99a9c2;font-size:11px}
+@media(max-width:650px){.catalog-filter-panel{grid-template-columns:1fr}.catalog-filter-count{grid-column:auto}}
