@@ -11,24 +11,6 @@ export const metadata: Metadata = {
     "Sources institutionnelles de référence du pilote français ATLAS de NOVEXA."
 };
 
-const sourceKindLabels: Record<FranceSourceKind, string> = {
-  normative_publication: "Publication normative",
-  national_curriculum_index: "Portail des programmes",
-  implementation_guidance: "Calendrier et accompagnement",
-  higher_education_index: "Enseignement supérieur"
-};
-
-const sourceKindDescriptions: Record<FranceSourceKind, string> = {
-  normative_publication:
-    "Point de contrôle prioritaire pour retrouver les textes adoptés et leurs dates d’application.",
-  national_curriculum_index:
-    "Portail de découverte permettant de repérer les programmes par niveau et discipline.",
-  implementation_guidance:
-    "Ressources et informations utiles pour suivre le calendrier de mise en œuvre.",
-  higher_education_index:
-    "Point d’entrée pour cartographier les diplômes et formations, à compléter par les accréditations et maquettes propres aux établissements."
-};
-
 export default function FranceCurriculumPage() {
   const normativeCount = FRANCE_OFFICIAL_SOURCES.filter(
     (source) => source.kind === "normative_publication"
@@ -93,39 +75,7 @@ export default function FranceCurriculumPage() {
           <span>{FRANCE_OFFICIAL_SOURCES.length} ENTRÉES</span>
         </div>
 
-        <div className="catalog-source-list">
-          {FRANCE_OFFICIAL_SOURCES.map((source, index) => (
-            <article className="catalog-source" key={source.id}>
-              <div className="catalog-source-top">
-                <span className="catalog-source-number">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="catalog-source-kind">
-                  {sourceKindLabels[source.kind]}
-                </span>
-                <span className="catalog-source-status">
-                  Vérification du document requise
-                </span>
-              </div>
-              <h3>{source.title}</h3>
-              <p className="catalog-authority">{source.authority}</p>
-              <p className="catalog-description">{source.intendedUse}</p>
-              <p className="catalog-kind-description">
-                {sourceKindDescriptions[source.kind]}
-              </p>
-              <a
-                className="catalog-source-link"
-                href={source.url}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Consulter la source officielle <span aria-hidden="true">↗</span>
-              </a>
-            </article>
-          ))}
-        </div>
-
-        <section className="catalog-next">
+        <FranceSourceExplorer sources={FRANCE_OFFICIAL_SOURCES} />\n\n        <section className="catalog-next">
           <div>
             <p className="auth-eyebrow">PROCHAINE ÉTAPE ATLAS</p>
             <h2>Passer du registre aux programmes vérifiés</h2>
