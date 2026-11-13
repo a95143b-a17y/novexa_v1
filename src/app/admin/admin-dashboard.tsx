@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { ADMIN_AGENTS } from "@/lib/admin-agents";
 import AgentDesk from "./agent-desk";
+import UserManagement from "./user-management";
 
 type Source = { title: string; url: string };
 type Discovery = { text: string; sources: Source[]; createdAt: string };
@@ -80,6 +81,7 @@ export default function AdminDashboard() {
         <p className="admin-nav-label">DIRECTION</p>
         <a className="admin-nav-link active" href="#overview">◈ Vue générale</a>
         <a className="admin-nav-link" href="#agents">✦ Équipe IA</a>
+        <a className="admin-nav-link" href="#accounts">◎ Comptes</a>
         <a className="admin-nav-link" href="#atlas">◎ Programmes · ATLAS</a>
         <a className="admin-nav-link" href="#activity">⌁ Intégrations</a>
         <div className="admin-sidebar-bottom"><span className="admin-live-dot" /> Espace administrateur<p>Les connecteurs externes restent désactivés tant que leurs secrets ne sont pas configurés.</p></div>
@@ -110,6 +112,8 @@ export default function AdminDashboard() {
               ))}
             </div>
           </section>
+
+          <UserManagement />
 
           <AgentDesk />
 
