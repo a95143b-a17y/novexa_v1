@@ -194,3 +194,33 @@ h2 { margin: 8px 0 0; font-size: 21px; letter-spacing: -.025em; }
 .user-home-notice strong{font-size:13px}
 .user-home-link{display:inline-block;margin-top:25px;font-size:12px}
 @media(max-width:480px){.auth-card{padding:24px}.user-home-content{padding:48px 0}}
+
+.teacher-shell{min-height:100vh;background:#090d1b;color:#f4f7ff;font-family:Inter,ui-sans-serif,system-ui,sans-serif}
+.teacher-top{display:flex;align-items:center;justify-content:space-between;padding:18px 5%;border-bottom:1px solid rgba(158,177,218,.13)}
+.teacher-content{width:min(1160px,92%);margin:0 auto;padding:48px 0}
+.teacher-content>.auth-eyebrow{margin:0 0 8px}
+.teacher-content h1{margin:0;font-size:36px;letter-spacing:-.04em}
+.teacher-lead{color:#9aa8c0;font-size:12px;line-height:1.7}
+.teacher-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px}
+.teacher-panel{padding:20px;border:1px solid rgba(158,177,218,.14);border-radius:12px;background:#111a2e}
+.teacher-panel h2{margin:0 0 15px;font-size:16px}
+.teacher-form{display:grid;gap:8px}
+.teacher-form label{margin-top:4px;color:#bdc9dc;font-size:10px}
+.teacher-form input,.teacher-form textarea{width:100%;padding:10px;border:1px solid rgba(153,174,218,.2);border-radius:7px;background:#080f1d;color:white;font:inherit;font-size:11px}
+.teacher-form button,.teacher-publish{min-height:40px;margin-top:8px;padding:0 13px;border:1px solid rgba(104,220,242,.3);border-radius:7px;background:rgba(104,220,242,.1);color:#ddf8ff;font-size:11px;font-weight:700;cursor:pointer}
+.teacher-form button:disabled,.teacher-publish:disabled{opacity:.5;cursor:not-allowed}
+.teacher-subheading{margin-top:25px!important}
+.teacher-course-list,.teacher-unit-list{display:grid;gap:7px}
+.teacher-course-choice{display:flex;flex-direction:column;gap:5px;padding:11px;border:1px solid rgba(158,177,218,.13);border-radius:8px;background:#0b1426;color:#dce7f8;text-align:left;cursor:pointer}
+.teacher-course-choice.selected{border-color:rgba(104,220,242,.45);background:rgba(104,220,242,.07)}
+.teacher-course-choice b,.teacher-unit b{font-size:11px}
+.teacher-course-choice span,.teacher-unit span{color:#8291aa;font-size:9px}
+.teacher-unit{display:flex;justify-content:space-between;gap:10px;padding:10px;border-bottom:1px solid rgba(158,177,218,.1)}
+.teacher-unit-form{margin-top:22px;padding-top:18px;border-top:1px solid rgba(158,177,218,.13)}
+.teacher-unit-form h3{margin:0;font-size:12px}
+.teacher-publish{width:100%;margin-top:15px}
+.teacher-publish-note,.teacher-placeholder,.teacher-course-list p,.teacher-unit-list p{color:#8f9db5;font-size:11px;line-height:1.6}
+.teacher-success,.teacher-error{padding:10px;border-radius:8px;font-size:11px}
+.teacher-success{border:1px solid rgba(91,211,175,.22);color:#a6efd7;background:rgba(91,211,175,.07)}
+.teacher-error{border:1px solid rgba(255,123,139,.25);color:#ffb2bd;background:rgba(255,123,139,.08)}
+@media(max-width:780px){.teacher-grid{grid-template-columns:1fr}.teacher-content{padding:35px 0}}
