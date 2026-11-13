@@ -224,3 +224,47 @@ h2 { margin: 8px 0 0; font-size: 21px; letter-spacing: -.025em; }
 .teacher-success{border:1px solid rgba(91,211,175,.22);color:#a6efd7;background:rgba(91,211,175,.07)}
 .teacher-error{border:1px solid rgba(255,123,139,.25);color:#ffb2bd;background:rgba(255,123,139,.08)}
 @media(max-width:780px){.teacher-grid{grid-template-columns:1fr}.teacher-content{padding:35px 0}}
+
+
+/* Catalogue des sources institutionnelles — pilote France */
+.catalog-shell{min-height:100vh;background:radial-gradient(circle at 80% 0%,rgba(44,105,157,.16),transparent 34%),#090d1b;color:#f3f7ff;font-family:Inter,ui-sans-serif,system-ui,sans-serif}
+.catalog-top{display:flex;align-items:center;justify-content:space-between;padding:19px 5%;border-bottom:1px solid rgba(158,177,218,.13)}
+.catalog-nav{display:flex;align-items:center;gap:22px}
+.catalog-nav a,.catalog-footer a{color:#aebbd2;text-decoration:none;font-size:11px}
+.catalog-nav a:hover,.catalog-footer a:hover{color:#79dff2}
+.catalog-content{width:min(1050px,92%);margin:0 auto;padding:55px 0 35px}
+.catalog-content>.auth-eyebrow{margin:0 0 12px}
+.catalog-content>h1{max-width:760px;margin:0;font-size:clamp(31px,5vw,47px);letter-spacing:-.045em;line-height:1.12}
+.catalog-lead{max-width:740px;margin:16px 0 0;color:#9aa8c0;font-size:13px;line-height:1.8}
+.catalog-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:30px}
+.catalog-stat{display:flex;flex-direction:column;gap:8px;min-height:132px;padding:18px;border:1px solid rgba(158,177,218,.15);border-radius:12px;background:rgba(17,26,46,.86)}
+.catalog-stat>span,.catalog-source-number,.catalog-section-heading>span{color:#8291af;font-size:9px;font-weight:800;letter-spacing:.13em}
+.catalog-stat strong{font-size:27px;letter-spacing:-.04em}
+.catalog-stat small{color:#8f9db5;font-size:10px;line-height:1.6}
+.catalog-stat .catalog-stat-status{font-size:18px;color:#f0d39a}
+.catalog-notice{margin-top:18px;padding:18px 20px;border:1px solid rgba(237,190,112,.2);border-radius:11px;background:rgba(237,190,112,.055)}
+.catalog-notice strong{font-size:12px;color:#f2d9a8}
+.catalog-notice p{margin:8px 0 0;color:#a9b4c7;font-size:11px;line-height:1.8}
+.catalog-section-heading{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:42px 0 15px}
+.catalog-section-heading .auth-eyebrow{margin:0 0 7px}
+.catalog-section-heading h2,.catalog-next h2{margin:0;font-size:22px;letter-spacing:-.03em}
+.catalog-source-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.catalog-source{display:flex;flex-direction:column;align-items:flex-start;padding:19px;border:1px solid rgba(158,177,218,.14);border-radius:12px;background:linear-gradient(145deg,rgba(17,26,46,.96),rgba(12,20,36,.92))}
+.catalog-source-top{display:flex;align-items:center;gap:9px;flex-wrap:wrap;width:100%}
+.catalog-source-kind{padding:5px 8px;border:1px solid rgba(104,220,242,.19);border-radius:20px;background:rgba(104,220,242,.06);color:#94dff0;font-size:9px}
+.catalog-source-status{margin-left:auto;color:#c6a978;font-size:9px}
+.catalog-source h3{margin:17px 0 4px;font-size:16px;line-height:1.4}
+.catalog-authority{margin:0;color:#8d9bb4;font-size:10px}
+.catalog-description{margin:13px 0 8px;color:#bac6d9;font-size:11px;line-height:1.7}
+.catalog-kind-description{margin:0;color:#8392ad;font-size:10px;line-height:1.7}
+.catalog-source-link{display:inline-flex;align-items:center;gap:8px;margin-top:17px;color:#79dff2;text-decoration:none;font-size:10px;font-weight:750}
+.catalog-source-link:hover{text-decoration:underline}
+.catalog-next{display:flex;align-items:center;justify-content:space-between;gap:22px;margin-top:30px;padding:22px;border:1px solid rgba(104,220,242,.16);border-radius:12px;background:linear-gradient(110deg,rgba(37,107,139,.13),rgba(91,77,154,.1))}
+.catalog-next .auth-eyebrow{margin:0 0 8px}
+.catalog-next h2{font-size:18px}
+.catalog-next p{max-width:650px;margin:10px 0 0;color:#9aa8c0;font-size:11px;line-height:1.8}
+.catalog-admin-link{flex:none;padding:11px 13px;border:1px solid rgba(104,220,242,.25);border-radius:8px;color:#d7f7ff;text-decoration:none;font-size:10px}
+.catalog-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:28px;padding-top:16px;border-top:1px solid var(--border);color:#6f7d98;font-size:9px}
+.catalog-footer span{color:#71809a;font-size:9px}
+@media(max-width:720px){.catalog-stats{grid-template-columns:1fr}.catalog-stat{min-height:100px}.catalog-source-list{grid-template-columns:1fr}.catalog-content{padding-top:38px}.catalog-next{align-items:flex-start;flex-direction:column}.catalog-footer{align-items:flex-start;flex-direction:column}}
+@media(max-width:480px){.catalog-nav{gap:13px}.catalog-nav a{font-size:10px}.catalog-section-heading{align-items:flex-start;flex-direction:column}.catalog-source-status{margin-left:0}}
