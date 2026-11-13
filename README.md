@@ -47,6 +47,14 @@ ATLAS est le sixième agent administrateur. Son objectif est de rechercher, vér
 
 Consulter [les spécifications d'ATLAS](docs/AGENT_ATLAS.md), [le pilote France](docs/FRANCE_PILOT.md) et [le pipeline d'importation](docs/CURRICULUM_INGESTION.md).
 
+## Console administrateur
+
+- Connexion : `/admin/login`.
+- Tableau de bord et six assistants spécialisés : `/admin`.
+- ATLAS utilise la recherche Web OpenAI sur les sources institutionnelles françaises, un lecteur de pages publiques et des propositions GitHub par Pull Request.
+- Les assistants restent consultatifs tant que les systèmes métier réels ne sont pas connectés.
+- Voir `docs/ADMIN_CONSOLE.md` pour configurer les secrets côté serveur.
+
 ## Principes
 
 1. Architecture par domaines métier.

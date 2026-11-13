@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { ADMIN_AGENTS } from "@/lib/admin-agents";
+import AgentDesk from "./agent-desk";
 
 type Source = { title: string; url: string };
 type Discovery = { text: string; sources: Source[]; createdAt: string };
@@ -109,6 +110,8 @@ export default function AdminDashboard() {
               ))}
             </div>
           </section>
+
+          <AgentDesk />
 
           <section className="admin-section" id="atlas">
             <div className="admin-section-heading"><div><p className="admin-kicker">PROGRAMMES OFFICIELS · FRANCE</p><h2>Centre de recherche ATLAS</h2></div><span className="admin-count">PAYS PILOTE : FR</span></div>
