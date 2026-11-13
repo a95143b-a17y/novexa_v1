@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getSessionFromHeaders } from "@/lib/auth-guards";
 import Link from "next/link";
+import LearnerAssessments from "./learner-assessments";
 
 export const metadata: Metadata = { title: "Mes évaluations" };
 export const dynamic = "force-dynamic";
@@ -17,7 +18,7 @@ export default async function LearnerAssessmentsPage() {
       <section className="learning-content">
         <p className="auth-eyebrow">ENTRAÎNEMENT & ÉVALUATION</p><h1>Mes évaluations</h1>
         <p className="learning-lead">Retrouve les quiz publiés par tes enseignants et consulte tes corrections après chaque tentative.</p>
-        <div id="learner-assessments" className="assessment-list-root" data-role="learner" />
+        <LearnerAssessments />
       </section>
     </main>
   );
