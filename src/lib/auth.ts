@@ -1,7 +1,57 @@
 import { betterAuth } from "better-auth";
 import { Pool } from "pg";
 
-type AuthInstance = ReturnType<typeof betterAuth>;
+function createAuth(database: Pool, baseURL: string, secret: string, trustedOrigins: string[]) {
+  return betterAuth({
+    appName: "NOVEXA",
+    baseURL,
+    secret,
+    database,
+    trustedOrigins,
+    emailAndPassword: {
+      enabled: true,
+      minPasswordLength: 12,
+      maxPasswordLength: 128,
+      requireEmailVerification: true,
+      sendResetPassword: async ({ user, url }) => {
+        await sendTransactionalEmail({
+          to: user.email,
+          subject: "Réinitialiser ton mot de passe NOVEXA",
+          text: "Une demande de réinitialisation du mot de passe a été effectuée pour ton compte.",
+          actionUrl: url,
+          actionLabel: "Réinitialiser mon mot de passe"
+        });
+      }
+    },
+    emailVerification: {
+      sendOnSignUp: true,
+      sendOnSignIn: true,
+      autoSignInAfterVerification: false,
+      expiresIn: 3600,
+      sendVerificationEmail: async ({ user, url }) => {
+        await sendTransactionalEmail({
+          to: user.email,
+          subject: "Vérifie ton adresse e-mail NOVEXA",
+          text: "Pour confirmer que cette adresse e-mail t'appartient, utilise le lien sécurisé ci-dessous.",
+          actionUrl: url,
+          actionLabel: "Vérifier mon adresse e-mail"
+        });
+      }
+    },
+    user: {
+      additionalFields: {
+        role: {
+          type: "string",
+          required: true,
+          defaultValue: "learner",
+          input: false
+        }
+      }
+    }
+  });
+}
+
+type AuthInstance = ReturnType<typeof createAuth>;
 type GlobalWithNovexa = typeof globalThis & {
   novexaPgPool?: Pool;
   novexaAuth?: AuthInstance;
@@ -69,8 +119,14 @@ export function getAuth(): AuthInstance {
   }
   if (globalForNovexa.novexaAuth) return globalForNovexa.novexaAuth;
 
+  const secret = process.env.BETTER_AUTH_SECRET;
+  const databaseUrl = process.env.DATABASE_URL;
+  if (!secret || !databaseUrl) {
+    throw new Error("Configuration d'authentification incomplète.");
+  }
+
   const pool = globalForNovexa.novexaPgPool ?? new Pool({
-    connectionString: process.env.DATABASE_URL,
+    connectionString: databaseUrl,
     max: 10,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 10000
@@ -83,53 +139,7 @@ export function getAuth(): AuthInstance {
     process.env.NEXT_PUBLIC_APP_URL
   ].filter((value): value is string => Boolean(value)))];
 
-  globalForNovexa.novexaAuth = betterAuth({
-    appName: "NOVEXA",
-    baseURL,
-    secret: process.env.BETTER_AUTH_SECRET,
-    database: pool,
-    trustedOrigins,
-    emailAndPassword: {
-      enabled: true,
-      minPasswordLength: 12,
-      maxPasswordLength: 128,
-      requireEmailVerification: true,
-      sendResetPassword: async ({ user, url }) => {
-        await sendTransactionalEmail({
-          to: user.email,
-          subject: "Réinitialiser ton mot de passe NOVEXA",
-          text: "Une demande de réinitialisation du mot de passe a été effectuée pour ton compte.",
-          actionUrl: url,
-          actionLabel: "Réinitialiser mon mot de passe"
-        });
-      }
-    },
-    emailVerification: {
-      sendOnSignUp: true,
-      sendOnSignIn: true,
-      autoSignInAfterVerification: false,
-      expiresIn: 3600,
-      sendVerificationEmail: async ({ user, url }) => {
-        await sendTransactionalEmail({
-          to: user.email,
-          subject: "Vérifie ton adresse e-mail NOVEXA",
-          text: "Pour confirmer que cette adresse e-mail t'appartient, utilise le lien sécurisé ci-dessous.",
-          actionUrl: url,
-          actionLabel: "Vérifier mon adresse e-mail"
-        });
-      }
-    },
-    user: {
-      additionalFields: {
-        role: {
-          type: "string",
-          required: true,
-          defaultValue: "learner",
-          input: false
-        }
-      }
-    }
-  });
-
-  return globalForNovexa.novexaAuth;
+  const auth = createAuth(pool, baseURL, secret, trustedOrigins);
+  globalForNovexa.novexaAuth = auth;
+  return auth;
 }
