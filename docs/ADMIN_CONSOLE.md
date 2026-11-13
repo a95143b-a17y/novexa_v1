@@ -16,7 +16,7 @@
 4. Lancer `npm run dev`.
 5. Ouvrir `/admin/login`.
 
-Le hash utilise scrypt et un sel aléatoire. Le secret de session doit contenir au moins 32 caractères.
+Le hash utilise scrypt et un sel aléatoire. Le secret de session doit contenir au moins 32 caractères ; génère-le localement avec `openssl rand -base64 48`. N'utilise pas le mot de passe administrateur d'un autre service. Les appels à l'API OpenAI nécessitent une clé API et une facturation API distinctes d'un abonnement ChatGPT.
 
 Une limitation simple des tentatives est incluse dans le processus serveur. Avant production, ajouter une limitation persistante via Redis ou un service de protection de l'hébergeur, car la mémoire du processus n'est pas partagée entre instances.
 
