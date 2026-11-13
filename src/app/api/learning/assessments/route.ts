@@ -14,9 +14,18 @@ export async function GET(request: NextRequest) {
       `SELECT a.id, a.title, a.assessment_type, a.duration_minutes, a.published_at,
               COUNT(ai.id)::int AS question_count,
               (SELECT COUNT(*)::int FROM assessment_attempts aa
-               WHERE aa.assessment_id = a.id AND aa.learner_id = $1) AS attempts
+               WHERE aa.assessment_id = a.id AND aa.learner_id = $1) AS attempts,
+              latest.score AS last_score,
+              latest.maximum_score AS last_maximum_score,
+              latest.submitted_at AS last_submitted_at
        FROM assessments a
        LEFT JOIN assessment_items ai ON ai.assessment_id = a.id
+       LEFT JOIN LATERAL (
+         SELECT score, maximum_score, submitted_at
+         FROM assessment_attempts aa
+         WHERE aa.assessment_id = a.id AND aa.learner_id = $1
+         ORDER BY aa.submitted_at DESC LIMIT 1
+       ) latest ON TRUE
        WHERE a.status = 'active' AND a.published_at IS NOT NULL
        GROUP BY a.id
        ORDER BY a.published_at DESC LIMIT 100`,
