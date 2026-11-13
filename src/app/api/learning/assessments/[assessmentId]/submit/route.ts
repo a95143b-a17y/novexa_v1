@@ -49,11 +49,15 @@ export async function POST(request: NextRequest, context: { params: Promise<{ as
       const correctOptionId = item.grading_config?.correctOptionId;
       const correct = validOption && selected === correctOptionId;
       if (correct) score += 1;
+      const selectedOption = options.find((option: { id?: string }) => option.id === selected);
+      const correctOption = options.find((option: { id?: string }) => option.id === correctOptionId);
       return {
         itemId: item.id,
         question: item.prompt?.question ?? "",
         selectedOptionId: validOption ? selected : null,
+        selectedOptionText: selectedOption?.text ?? null,
         correctOptionId,
+        correctOptionText: correctOption?.text ?? "",
         correct,
         explanation: item.grading_config?.explanation ?? ""
       };
