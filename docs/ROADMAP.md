@@ -28,8 +28,10 @@ Les étapes ci-dessous sont un ordre de réalisation proposé, pas des fonctionn
 - [ ] Implémenter le pipeline de collecte France en lecture seule.
 - [ ] Vérifier la provenance, les dates d'application et les droits de réutilisation.
 - [ ] Ajouter les cours et ressources pédagogiques.
-- [x] Ajouter le tableau de bord apprenant, la lecture des cours publiés et le suivi par leçon dans le code (migration 0004 à appliquer).\n- [ ] Étendre la progression aux objectifs, parcours et statistiques détaillées.
-- [x] Ajouter une première version de quiz à choix unique, correction serveur et historique des tentatives.\n- [ ] Étendre les exercices, formats de questions, barèmes partiels et examens blancs.
+- [x] Ajouter le tableau de bord apprenant, la lecture des cours publiés et le suivi par leçon dans le code (migration 0004 à appliquer). 
+- [ ] Étendre la progression aux objectifs, parcours et statistiques détaillées.
+- [x] Ajouter une première version de quiz à choix unique, correction serveur et historique des tentatives. 
+- [ ] Étendre les exercices, formats de questions, barèmes partiels et examens blancs.
 
 ## Phase 3 — Intelligence artificielle et ATLAS
 - [ ] Choisir et configurer la passerelle IA côté serveur et valider le modèle disponible dans le compte fournisseur.
@@ -57,7 +59,7 @@ Aucune ouverture publique ne doit avoir lieu avant la validation de l'authentifi
 ## État technique — 13 novembre 2026
 
 - Le tableau de bord apprenant, la consultation des cours publiés et l'enregistrement de la progression par leçon sont implémentés sur la branche de travail.
-- La migration `0004_lesson_progress.sql` est ajoutée, mais elle n'est pas appliquée à une base distante.
+- Les migrations `0004_lesson_progress.sql` et `0005_seed_france_subject_sources.sql` sont ajoutées, mais elles ne sont pas appliquées à une base distante.
 - Le guide de configuration et de déploiement est disponible dans `docs/DEPLOYMENT_SETUP.md`.
 - L'authentification, les e-mails, les assistants IA et les données persistantes restent conditionnés par les variables d'environnement et les services externes.
 - La CI du commit `62ac2c1` a réussi (typecheck et build) ; les derniers ajouts quiz sont en cours de validation sur la branche.\n- La Pull Request reste en brouillon et la production n'est pas modifiée.
