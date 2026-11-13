@@ -330,3 +330,29 @@ h2 { margin: 8px 0 0; font-size: 21px; letter-spacing: -.025em; }
 .user-signout:hover{border-color:rgba(98,216,245,.35);color:#effbff}
 @media(max-width:720px){.learning-top{padding:0 18px}.learning-content{padding:36px 18px 55px}.learning-overview-grid{grid-template-columns:1fr}.learning-course-grid{grid-template-columns:1fr}.learning-section-heading{align-items:flex-start;flex-direction:column;gap:10px}.learning-completed-label{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.learning-shell *{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* NOVEXA assessment authoring and learner quiz */
+.teacher-header-links{display:flex;align-items:center;gap:18px}
+.assessment-option-editor{display:grid;gap:7px}
+.assessment-option-editor label{margin-top:4px}
+.teacher-form select{min-height:42px;padding:0 11px;border:1px solid var(--border);border-radius:8px;background:#111b30;color:#edf5ff;font:inherit}
+.quiz-form{display:grid;gap:17px;margin-top:25px}
+.quiz-question,.quiz-correction{min-width:0;margin:0;padding:20px;border:1px solid var(--border);border-radius:13px;background:linear-gradient(145deg,rgba(19,29,51,.94),rgba(14,21,39,.98))}
+.quiz-question legend{max-width:100%;padding:0 5px;color:#f0f5ff;font-size:15px;font-weight:750;line-height:1.6}
+.quiz-option{display:flex;align-items:flex-start;gap:11px;margin-top:11px;padding:13px;border:1px solid rgba(125,151,190,.16);border-radius:9px;color:#c2cde0;font-size:12px;line-height:1.6;cursor:pointer}
+.quiz-option.selected{border-color:rgba(102,207,238,.55);background:rgba(58,145,184,.12)}
+.quiz-option input{margin-top:3px;accent-color:#70d6ed}
+.quiz-option b{color:#8de3f3}
+.quiz-result>h1{margin:12px 0 24px;font-size:clamp(30px,4vw,44px)}
+.quiz-score{display:flex;align-items:center;gap:18px;margin:20px 0 32px;padding:24px;border:1px solid rgba(105,208,231,.25);border-radius:14px;background:rgba(38,111,143,.13)}
+.quiz-score strong{color:#82e2f2;font-size:42px;letter-spacing:-.05em}
+.quiz-score span{color:#aab8d0;font-size:12px}
+.quiz-result>h2{margin:0 0 15px;font-size:20px}
+.quiz-correction{margin-bottom:12px}
+.quiz-correction h3{font-size:14px;line-height:1.6}
+.quiz-correction>p:not(.learning-course-kicker){color:#aab8d0;font-size:11px;line-height:1.7}
+.quiz-correct{color:#82dfbd!important;font-weight:750}
+.quiz-incorrect{color:#ffb3be!important;font-weight:750}
+.learning-shortcut-row{display:flex;gap:12px;margin:22px 0}
+@media(max-width:650px){.teacher-header-links{gap:10px;flex-wrap:wrap;justify-content:flex-end}.quiz-score{align-items:flex-start;flex-direction:column;gap:6px}}
