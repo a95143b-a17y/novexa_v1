@@ -95,7 +95,7 @@ export const FRANCE_OFFICIAL_SOURCES: readonly OfficialSource[] = [
     priority: 2,
     requiresDocumentLevelVerification: true
   }
-  ,\n
+,
   {
     id: "fr-eduscol-nsi",
     title: "Programmes et ressources en numérique et sciences informatiques",
