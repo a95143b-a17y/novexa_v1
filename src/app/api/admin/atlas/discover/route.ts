@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isAdminAuthenticated } from "@/lib/admin-session";
+import { isPlatformAdmin } from "@/lib/auth-guards";
+import { isAuthConfigured } from "@/lib/auth";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -31,7 +32,8 @@ function extractTextAndSources(payload: any) {
 }
 
 export async function POST(request: NextRequest) {
-  if (!(await isAdminAuthenticated())) return NextResponse.json({ error: "Accès administrateur requis." }, { status: 401 });
+  if (!isAuthConfigured()) return NextResponse.json({ error: "Authentification non configurée." }, { status: 503 });
+  if (!(await isPlatformAdmin(request.headers))) return NextResponse.json({ error: "Accès administrateur requis." }, { status: 401 });
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return NextResponse.json({ error: "ATLAS n'est pas connecté à OpenAI. Ajoute OPENAI_API_KEY côté serveur." }, { status: 503 });
 

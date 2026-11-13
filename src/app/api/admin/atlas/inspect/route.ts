@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isAdminAuthenticated } from "@/lib/admin-session";
+import { isPlatformAdmin } from "@/lib/auth-guards";
+import { isAuthConfigured } from "@/lib/auth";
 
 export const runtime = "nodejs";
 const ALLOWED_DOMAINS = ["education.gouv.fr", "eduscol.education.gouv.fr", "eduscol.education.fr", "enseignementsup-recherche.gouv.fr", "legifrance.gouv.fr", "journal-officiel.gouv.fr"];
@@ -22,7 +23,8 @@ function cleanHtml(html: string) {
 }
 
 export async function POST(request: NextRequest) {
-  if (!(await isAdminAuthenticated())) return NextResponse.json({ error: "Accès administrateur requis." }, { status: 401 });
+  if (!isAuthConfigured()) return NextResponse.json({ error: "Authentification non configurée." }, { status: 503 });
+  if (!(await isPlatformAdmin(request.headers))) return NextResponse.json({ error: "Accès administrateur requis." }, { status: 401 });
   let body: { url?: string };
   try { body = await request.json(); } catch { return NextResponse.json({ error: "Corps invalide." }, { status: 400 }); }
   let url: URL;

@@ -21,8 +21,8 @@ export default function AdminDashboard() {
   const [proposalUrl, setProposalUrl] = useState("");
 
   async function logout() {
-    await fetch("/api/admin/auth/logout", { method: "POST" });
-    window.location.assign("/admin/login");
+    await fetch("/api/auth/sign-out", { method: "POST" });
+    window.location.assign("/connexion?next=%2Fadmin");
   }
 
   async function discover(event: FormEvent<HTMLFormElement>) {

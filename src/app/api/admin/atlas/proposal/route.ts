@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isAdminAuthenticated } from "@/lib/admin-session";
+import { isPlatformAdmin } from "@/lib/auth-guards";
+import { isAuthConfigured } from "@/lib/auth";
 import { createAtlasProposal, isGithubAppConfigured } from "@/lib/github-app";
 
 export const runtime = "nodejs";
@@ -15,7 +16,8 @@ function isOfficialUrl(value: string) {
 }
 
 export async function POST(request: NextRequest) {
-  if (!(await isAdminAuthenticated())) return NextResponse.json({ error: "Accès administrateur requis." }, { status: 401 });
+  if (!isAuthConfigured()) return NextResponse.json({ error: "Authentification non configurée." }, { status: 503 });
+  if (!(await isPlatformAdmin(request.headers))) return NextResponse.json({ error: "Accès administrateur requis." }, { status: 401 });
   if (!isGithubAppConfigured()) return NextResponse.json({ error: "GitHub App non configurée. Configure ses secrets et permissions côté serveur." }, { status: 503 });
 
   let body: any;

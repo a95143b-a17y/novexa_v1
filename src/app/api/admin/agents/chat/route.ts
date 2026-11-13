@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isAdminAuthenticated } from "@/lib/admin-session";
+import { isPlatformAdmin } from "@/lib/auth-guards";
+import { isAuthConfigured } from "@/lib/auth";
 
 export const runtime = "nodejs";
 export const maxDuration = 45;
@@ -14,7 +15,8 @@ const PROMPTS: Record<string, string> = {
 };
 
 export async function POST(request: NextRequest) {
-  if (!(await isAdminAuthenticated())) return NextResponse.json({ error: "Accès administrateur requis." }, { status: 401 });
+  if (!isAuthConfigured()) return NextResponse.json({ error: "Authentification non configurée." }, { status: 503 });
+  if (!(await isPlatformAdmin(request.headers))) return NextResponse.json({ error: "Accès administrateur requis." }, { status: 401 });
   if (!process.env.OPENAI_API_KEY) return NextResponse.json({ error: "Les assistants IA ne sont pas connectés : ajoute OPENAI_API_KEY côté serveur." }, { status: 503 });
 
   let body: any;
