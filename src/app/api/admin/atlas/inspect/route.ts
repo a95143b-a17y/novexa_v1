@@ -28,36 +28,33 @@ function cleanHtml(html: string) {
 
 async function extractPdf(bytes: Uint8Array) {
   const { getDocumentProxy, extractText } = await import("unpdf");
-  const document = await getDocumentProxy(bytes);
+  const document = await getDocumentProxy(bytes, { maxImageSize: 16_777_216 });
+  const pageCount = document.numPages;
+  if (pageCount > MAX_PDF_PAGES) {
+    throw new Error("PDF trop volumineux en nombre de pages : limite de " + MAX_PDF_PAGES + " pages.");
+  }
+
+  let timer: ReturnType<typeof setTimeout> | undefined;
   try {
-    const pageCount = document.numPages;
-    if (pageCount > MAX_PDF_PAGES) {
-      throw new Error("PDF trop volumineux en nombre de pages : limite de " + MAX_PDF_PAGES + " pages.");
+    const timeout = new Promise<never>((_, reject) => {
+      timer = setTimeout(() => reject(new Error("L'extraction PDF a dépassé le délai autorisé.")), 20000);
+    });
+    const extraction = await Promise.race([
+      extractText(document, { mergePages: true }),
+      timeout
+    ]);
+    const text = extraction.text;
+    if (text.trim().length < 40) {
+      throw new Error("Ce PDF ne contient pas assez de texte exploitable. Il peut s'agir d'un document scanné ; l'OCR n'est pas encore activé.");
     }
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    try {
-      const timeout = new Promise<never>((_, reject) => {
-        timer = setTimeout(() => reject(new Error("L'extraction PDF a dépassé le délai autorisé.")), 20000);
-      });
-      const extraction = await Promise.race([
-        extractText(document, { mergePages: true }),
-        timeout
-      ]);
-      const text = typeof extraction.text === "string" ? extraction.text : extraction.text.join("\n\n");
-      if (text.trim().length < 40) {
-        throw new Error("Ce PDF ne contient pas assez de texte exploitable. Il peut s'agir d'un document scanné ; l'OCR n'est pas encore activé.");
-      }
-      return {
-        kind: "pdf" as const,
-        pageCount,
-        title: "",
-        text: text.trim().slice(0, 40000)
-      };
-    } finally {
-      if (timer) clearTimeout(timer);
-    }
+    return {
+      kind: "pdf" as const,
+      pageCount,
+      title: "",
+      text: text.trim().slice(0, 40000)
+    };
   } finally {
-    await document.destroy().catch(() => undefined);
+    if (timer) clearTimeout(timer);
   }
 }
 
