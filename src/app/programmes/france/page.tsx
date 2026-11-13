@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  FRANCE_OFFICIAL_SOURCES,
-  type FranceSourceKind
-} from "@/data/curricula/france";
+import { FRANCE_OFFICIAL_SOURCES } from "@/data/curricula/france";
+import FranceSourceExplorer from "./source-explorer";
 
 export const metadata: Metadata = {
   title: "Référentiel France",
