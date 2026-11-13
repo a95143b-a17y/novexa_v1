@@ -4,7 +4,7 @@ import { useEffect, useState, type FormEvent } from "react";
 
 type Option = { id: string; text: string };
 type Item = { id: string; prompt: { question: string; options: Option[] }; position: number };
-type Result = { attempt: { score: number; maximum_score: number }; percentage: number; corrections: { itemId: string; question: string; selectedOptionId: string | null; correctOptionId: string; correct: boolean; explanation: string }[] };
+type Result = { attempt: { score: number; maximum_score: number }; percentage: number; corrections: { itemId: string; question: string; selectedOptionId: string | null; selectedOptionText: string | null; correctOptionId: string; correctOptionText: string; correct: boolean; explanation: string }[] };
 
 export default function QuizRunner({ assessmentId }: { assessmentId: string }) {
   const [assessment, setAssessment] = useState<{ title: string; duration_minutes: number } | null>(null);
@@ -49,7 +49,8 @@ export default function QuizRunner({ assessmentId }: { assessmentId: string }) {
     {result.corrections.map((correction,index)=><article className="quiz-correction" key={correction.itemId}>
       <p className="learning-course-kicker">QUESTION {index+1}</p><h3>{correction.question}</h3>
       <p className={correction.correct?"quiz-correct":"quiz-incorrect"}>{correction.correct?"Bonne réponse":"Réponse incorrecte"}</p>
-      <p>Bonne réponse : <strong>{correction.correctOptionId}</strong></p>
+      <p>Ta réponse : <strong>{correction.selectedOptionText || "Aucune réponse"}</strong></p>
+      <p>Bonne réponse : <strong>{correction.correctOptionText}</strong></p>
       {correction.explanation && <p>{correction.explanation}</p>}
     </article>)}
   </div>;
