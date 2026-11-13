@@ -9,7 +9,7 @@ Les étapes ci-dessous sont un ordre de réalisation proposé, pas des fonctionn
 - [x] Définir les six agents administrateur et leurs périmètres.
 - [x] Définir ATLAS et son pipeline d'importation mondial.
 - [x] Enregistrer la France comme premier pilote et référencer les sources institutionnelles initiales.
-- [ ] Installer les dépendances et vérifier le build dans l'environnement de développement.
+- [x] Installer les dépendances et vérifier le build de production dans la CI GitHub.
 
 ## Phase 1 — Identité et structure
 - [x] Intégrer Better Auth au code : inscription, connexion, sessions, vérification e-mail et rôles initiaux.
@@ -29,11 +29,11 @@ Les étapes ci-dessous sont un ordre de réalisation proposé, pas des fonctionn
 - [ ] Vérifier la provenance, les dates d'application et les droits de réutilisation.
 - [ ] Ajouter les cours et ressources pédagogiques.
 - [x] Ajouter le tableau de bord apprenant, la lecture des cours publiés et le suivi par leçon dans le code (migration 0004 à appliquer).\n- [ ] Étendre la progression aux objectifs, parcours et statistiques détaillées.
-- [ ] Créer les exercices, quiz et évaluations.
+- [x] Ajouter une première version de quiz à choix unique, correction serveur et historique des tentatives.\n- [ ] Étendre les exercices, formats de questions, barèmes partiels et examens blancs.
 
 ## Phase 3 — Intelligence artificielle et ATLAS
-- [ ] Choisir et configurer la passerelle IA côté serveur.
-- [ ] Connecter ATLAS à la recherche Web et au navigateur contrôlé.
+- [ ] Choisir et configurer la passerelle IA côté serveur et valider le modèle disponible dans le compte fournisseur.
+- [x] Ajouter une première route de découverte ATLAS avec recherche Web côté serveur et filtrage de domaines institutionnels (clé OpenAI requise).
 - [ ] Configurer une GitHub App à permissions minimales et workflow par Pull Request.
 - [ ] Ajouter les limites d'usage, journaux d'audit et contrôles de coût.
 - [ ] Construire NOVA et les assistants spécialisés.
@@ -60,7 +60,7 @@ Aucune ouverture publique ne doit avoir lieu avant la validation de l'authentifi
 - La migration `0004_lesson_progress.sql` est ajoutée, mais elle n'est pas appliquée à une base distante.
 - Le guide de configuration et de déploiement est disponible dans `docs/DEPLOYMENT_SETUP.md`.
 - L'authentification, les e-mails, les assistants IA et les données persistantes restent conditionnés par les variables d'environnement et les services externes.
-- La Pull Request reste en brouillon tant que la CI et les vérifications de prévisualisation ne sont pas terminées.
+- La CI du commit `62ac2c1` a réussi (typecheck et build) ; les derniers ajouts quiz sont en cours de validation sur la branche.\n- La Pull Request reste en brouillon et la production n'est pas modifiée.
 
 ## Évaluations — état au 13 novembre 2026
 
