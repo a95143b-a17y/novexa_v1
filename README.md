@@ -27,6 +27,8 @@ Commandes : `npm run dev`, `npm run typecheck`, `npm run build`, `npm start`.
 
 ## Organisation
 
+- `database/migrations` : schéma initial PostgreSQL proposé (à appliquer après provisionnement de la base).
+
 - `src/app` : routes, layout et interface.
 - `src/lib` : rôles, permissions et configuration partagée.
 - `src/modules` : domaines fonctionnels.
