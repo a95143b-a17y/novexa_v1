@@ -26,6 +26,7 @@ Créer une base dédiée à NOVEXA, avec un utilisateur applicatif limité aux o
 2. `database/migrations/0002_auth_profile_links.sql`
 3. `database/migrations/0003_seed_france_curriculum_sources.sql`
 4. `database/migrations/0004_lesson_progress.sql`
+5. `database/migrations/0005_seed_france_subject_sources.sql`
 
 Les migrations applicatives ne sont pas exécutées automatiquement au démarrage. Conserver un journal des migrations appliquées et sauvegarder la base avant toute évolution de schéma.
 
