@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { Pool } from "pg";
 
-function createAuth(database: Pool, baseURL: string, secret: string, trustedOrigins: string[]) {
+function makeAuth(database: Pool, baseURL: string, secret: string, trustedOrigins: string[]) {
   return betterAuth({
     appName: "NOVEXA",
     baseURL,
@@ -47,11 +47,26 @@ function createAuth(database: Pool, baseURL: string, secret: string, trustedOrig
           input: false
         }
       }
+    },
+    databaseHooks: {
+      user: {
+        create: {
+          after: async (user) => {
+            const possibleRole = String((user as { role?: unknown }).role || "learner");
+            const allowedRoles = ["learner", "parent", "teacher", "institution_admin", "platform_admin"];
+            const role = allowedRoles.includes(possibleRole) ? possibleRole : "learner";
+            await database.query(
+              "INSERT INTO profiles (id, display_name, role) VALUES ($1, $2, $3::app_role) ON CONFLICT (id) DO NOTHING",
+              [user.id, user.name || "Utilisateur NOVEXA", role]
+            );
+          }
+        }
+      }
     }
   });
 }
 
-type AuthInstance = ReturnType<typeof createAuth>;
+type AuthInstance = ReturnType<typeof makeAuth>;
 type GlobalWithNovexa = typeof globalThis & {
   novexaPgPool?: Pool;
   novexaAuth?: AuthInstance;
@@ -113,33 +128,27 @@ async function sendTransactionalEmail(input: {
   }
 }
 
+const databaseUrl = process.env.DATABASE_URL || "postgres://novexa:novexa@127.0.0.1:5432/novexa";
+const secret = process.env.BETTER_AUTH_SECRET || "NOVEXA_BUILD_ONLY_SECRET_DO_NOT_USE_IN_PRODUCTION_0123456789";
+const baseURL = process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+const trustedOrigins = [...new Set([baseURL, process.env.NEXT_PUBLIC_APP_URL].filter((value): value is string => Boolean(value)))];
+
+const pool = globalForNovexa.novexaPgPool ?? new Pool({
+  connectionString: databaseUrl,
+  max: 10,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 10000
+});
+globalForNovexa.novexaPgPool = pool;
+
+// Export the Better Auth instance so the schema CLI can discover its configuration.
+// Runtime handlers must call getAuth(), which refuses to work without real secrets.
+export const auth: AuthInstance = globalForNovexa.novexaAuth ?? makeAuth(pool, baseURL, secret, trustedOrigins);
+globalForNovexa.novexaAuth = auth;
+
 export function getAuth(): AuthInstance {
   if (!isAuthConfigured()) {
     throw new Error("Authentification non configurée : renseigne DATABASE_URL et BETTER_AUTH_SECRET côté serveur.");
   }
-  if (globalForNovexa.novexaAuth) return globalForNovexa.novexaAuth;
-
-  const secret = process.env.BETTER_AUTH_SECRET;
-  const databaseUrl = process.env.DATABASE_URL;
-  if (!secret || !databaseUrl) {
-    throw new Error("Configuration d'authentification incomplète.");
-  }
-
-  const pool = globalForNovexa.novexaPgPool ?? new Pool({
-    connectionString: databaseUrl,
-    max: 10,
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 10000
-  });
-  globalForNovexa.novexaPgPool = pool;
-
-  const baseURL = process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-  const trustedOrigins = [...new Set([
-    baseURL,
-    process.env.NEXT_PUBLIC_APP_URL
-  ].filter((value): value is string => Boolean(value)))];
-
-  const auth = createAuth(pool, baseURL, secret, trustedOrigins);
-  globalForNovexa.novexaAuth = auth;
   return auth;
 }

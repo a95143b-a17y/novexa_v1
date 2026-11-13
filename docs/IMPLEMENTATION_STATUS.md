@@ -5,7 +5,7 @@
 - Socle Next.js 16.4.6, React 19 et TypeScript strict.
 - Page d'accueil, console administrateur et interface responsive.
 - Six agents spécialisés et une interface de discussion consultative.
-- Better Auth configuré pour PostgreSQL, e-mail/mot de passe et rôle initial apprenant.
+- Better Auth exporté sous `auth` pour l'utilisation serveur et la génération de schéma CLI ; hook de création du profil utilisateur ; e-mail/mot de passe et rôle initial apprenant.
 - Pages d'inscription, de connexion et espace personnel.
 - Contrôle serveur du rôle platform_admin pour la console et ses API.
 - Procédure de promotion du premier administrateur.

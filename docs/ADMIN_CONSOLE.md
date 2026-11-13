@@ -24,7 +24,7 @@ Générer un secret localement : `openssl rand -base64 48`. Ne pas le partager d
 
 1. Configurer `DATABASE_URL` dans l'environnement sécurisé.
 2. Configurer `BETTER_AUTH_SECRET` et les variables e-mail.
-3. Lancer `npm run auth:migrate` pour créer les tables Better Auth et le champ de rôle.
+3. Lancer `npm run auth:migrate` pour créer les tables Better Auth et le champ de rôle (la commande vise explicitement `src/lib/auth.ts`).
 4. Appliquer `database/migrations/0001_initial.sql`.
 5. Appliquer `database/migrations/0002_auth_profile_links.sql`.
 6. Définir des politiques PostgreSQL Row-Level Security et les tester avant d'importer des données réelles.

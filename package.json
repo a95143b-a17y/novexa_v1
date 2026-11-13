@@ -11,8 +11,8 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "auth:migrate": "auth migrate",
-    "auth:generate": "auth generate",
+    "auth:migrate": "npx auth@latest migrate --config src/lib/auth.ts --yes",
+    "auth:generate": "npx auth@latest generate --config src/lib/auth.ts --yes",
     "auth:promote-admin": "node scripts/promote-platform-admin.mjs"
   },
   "dependencies": {
