@@ -61,3 +61,15 @@ Aucune ouverture publique ne doit avoir lieu avant la validation de l'authentifi
 - Le guide de configuration et de déploiement est disponible dans `docs/DEPLOYMENT_SETUP.md`.
 - L'authentification, les e-mails, les assistants IA et les données persistantes restent conditionnés par les variables d'environnement et les services externes.
 - La Pull Request reste en brouillon tant que la CI et les vérifications de prévisualisation ne sont pas terminées.
+
+## Évaluations — état au 13 novembre 2026
+
+- [x] Création d'évaluations de type quiz à choix unique dans l'espace enseignant.
+- [x] Ajout de questions, propositions, réponse correcte et explication pédagogique.
+- [x] Publication contrôlée d'une évaluation par son auteur ou un administrateur.
+- [x] Catalogue des évaluations publiées dans l'espace apprenant.
+- [x] Correction côté serveur : les réponses correctes ne sont jamais renvoyées avec le questionnaire initial.
+- [x] Enregistrement des tentatives et affichage du résultat et des corrections détaillées.
+- [x] Affichage du dernier résultat dans le catalogue apprenant.
+- [ ] Ajouter les formats de questions multiples, texte libre et barèmes partiels.
+- [ ] Ajouter les examens blancs chronométrés et les rapports de résultats.
