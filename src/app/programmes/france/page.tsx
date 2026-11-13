@@ -73,7 +73,9 @@ export default function FranceCurriculumPage() {
           <span>{FRANCE_OFFICIAL_SOURCES.length} ENTRÉES</span>
         </div>
 
-        <FranceSourceExplorer sources={FRANCE_OFFICIAL_SOURCES} />\n\n        <section className="catalog-next">
+        <FranceSourceExplorer sources={FRANCE_OFFICIAL_SOURCES} />
+
+        <section className="catalog-next">
           <div>
             <p className="auth-eyebrow">PROCHAINE ÉTAPE ATLAS</p>
             <h2>Passer du registre aux programmes vérifiés</h2>
