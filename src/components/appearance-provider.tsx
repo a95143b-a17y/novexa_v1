@@ -5,7 +5,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 export type NovexaAppearance = {
   theme: "light" | "dark";
   accent: "violet" | "blue" | "mint" | "rose";
-  background: "aurora" | "paper" | "midnight" | "forest";
+  background: "aurora" | "paper" | "midnight" | "forest" | "custom";\n  customImage?: string;
   writer: boolean;
   motion: boolean;
 };
@@ -34,7 +34,7 @@ export function AppearanceProvider({children}:{children:ReactNode}) {
       local={
         theme:parsed.theme==="light"?"light":"dark",
         accent:["violet","blue","mint","rose"].includes(parsed.accent)?parsed.accent:"violet",
-        background:["aurora","paper","midnight","forest"].includes(parsed.background)?parsed.background:"aurora",
+        background:parsed.background==="custom" && typeof parsed.customImage==="string" && parsed.customImage.startsWith("data:image/") ? "custom" : (["aurora","paper","midnight","forest"].includes(parsed.background)?parsed.background:"aurora"),\n        customImage:typeof parsed.customImage==="string" && parsed.customImage.startsWith("data:image/")?parsed.customImage:undefined,
         writer:typeof parsed.writer==="boolean"?parsed.writer:true,
         motion:typeof parsed.motion==="boolean"?parsed.motion:true
       };
@@ -45,7 +45,7 @@ export function AppearanceProvider({children}:{children:ReactNode}) {
       const payload=await response.json();
       const saved=payload.appearance;
       if(!saved||!Object.keys(saved).length)return;
-      const merged={...local,...saved} as NovexaAppearance;
+      const merged={...local,...saved,customImage:local.customImage} as NovexaAppearance;
       setAppearance(merged);applyAppearance(merged);
       try{localStorage.setItem(storageKey,JSON.stringify({...JSON.parse(localStorage.getItem(storageKey)||"{}"),...merged}));}catch{}
     }).catch(()=>{}).finally(()=>setReady(true));
@@ -53,7 +53,7 @@ export function AppearanceProvider({children}:{children:ReactNode}) {
   },[]);
   const saveAppearance=useCallback(async(value:NovexaAppearance)=>{
     setAppearance(value);applyAppearance(value);
-    try{localStorage.setItem(storageKey,JSON.stringify(value));}catch{}
+    try{const current=JSON.parse(localStorage.getItem(storageKey)||"{}");localStorage.setItem(storageKey,JSON.stringify({...current,...value}));}catch{}
     try{
       const response=await fetch("/api/profile/appearance",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({appearance:value})});
       return response.ok;
