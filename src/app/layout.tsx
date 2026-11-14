@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
+import { AppearanceProvider } from "@/components/appearance-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -22,7 +23,7 @@ export default function RootLayout({
 }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body><AppearanceProvider>{children}</AppearanceProvider></body>
     </html>
   );
 }
