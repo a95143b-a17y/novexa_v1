@@ -23,12 +23,16 @@ function makeAuth(database: Pool, baseURL: string, secret: string, trustedOrigin
       sendOnSignUp: true, sendOnSignIn: true, autoSignInAfterVerification: false, expiresIn: 3600,
       sendVerificationEmail: async ({ user, url }) => sendTransactionalEmail({to:user.email,subject:"Vérifie ton adresse e-mail NOVEXA",text:"Pour confirmer que cette adresse e-mail t'appartient, utilise le lien sécurisé ci-dessous.",actionUrl:url,actionLabel:"Vérifier mon adresse e-mail"})
     },
-    user: { additionalFields: { role: {type:"string",required:true,defaultValue:"learner",input:false} } },
-    databaseHooks: { user: { create: { after: async (user) => {
-      const possibleRole=String((user as {role?:unknown}).role||"learner");
-      const allowedRoles=["learner","parent","teacher","institution_admin","platform_admin"];
-      const role=allowedRoles.includes(possibleRole)?possibleRole:"learner";
-      await database.query("INSERT INTO profiles (id, display_name, role) VALUES ($1, $2, $3::app_role) ON CONFLICT (id) DO NOTHING",[user.id,user.name||"Utilisateur NOVEXA",role]);
+    user: { additionalFields: { role: {type:"string",required:false,defaultValue:"learner",input:false}, accountType: {type:"string",required:true,defaultValue:"student",input:true} } },
+    databaseHooks: { user: { create: { before: async (user) => {
+      const candidate=String((user as {accountType?:unknown}).accountType||"student");
+      const allowed=["student","university","teacher","institution","parent"];
+      return {data:{...user,role:"learner",accountType:allowed.includes(candidate)?candidate:"student"}};
+    }, after: async (user) => {
+      const candidate=String((user as {accountType?:unknown}).accountType||"student");
+      const allowed=["student","university","teacher","institution","parent"];
+      const accountType=allowed.includes(candidate)?candidate:"student";
+      await database.query("INSERT INTO profiles (id, display_name, role, account_type, account_type_status) VALUES ($1, $2, 'learner'::app_role, $3, 'active') ON CONFLICT (id) DO NOTHING",[user.id,user.name||"Utilisateur NOVEXA",accountType]);
     } } } }
   });
 }
