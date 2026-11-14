@@ -479,3 +479,14 @@ html[data-novexa-background="midnight"] body{background:radial-gradient(ellipse 
 html[data-novexa-background="forest"] body{background:linear-gradient(130deg,#0c201e,#1e3d35)}
 html[data-novexa-background="custom"] body{background-image:var(--novexa-wallpaper);background-position:center;background-size:cover;background-repeat:no-repeat;background-attachment:fixed}
 html[data-novexa-theme="light"] body{background-color:#f5f3ef;color:#25242a}
+
+.account-type-select{width:100%;min-height:48px;padding:0 13px;border:1px solid var(--on-border,rgba(130,145,175,.3));border-radius:7px;background:var(--on-card,#fff);color:var(--on-text,#202333);font:500 12px Inter,sans-serif;outline:none}
+.account-type-select:focus{border-color:#8975dc;box-shadow:0 0 0 3px rgba(137,117,220,.13)}
+.account-type-admin-divider{display:flex;align-items:center;gap:12px;margin:23px 0 14px;color:#9a8acb}
+.account-type-admin-divider span{height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(137,117,220,.7))}
+.account-type-admin-divider span:last-child{background:linear-gradient(90deg,rgba(137,117,220,.7),transparent)}
+.account-type-admin-divider i{font:600 8px Inter,sans-serif;letter-spacing:1.8px;white-space:nowrap}
+.account-type-admin-note{margin:0 0 18px;padding:14px 15px 13px 17px;border:1px solid rgba(137,117,220,.3);border-left:3px solid #8975dc;border-radius:7px;background:linear-gradient(115deg,rgba(137,117,220,.1),rgba(137,117,220,.025))}
+.account-type-admin-note b{font:600 12px Inter,sans-serif;color:var(--on-text,#eee)}
+.account-type-admin-note p{margin:7px 0 9px;font:10px/1.65 Inter,sans-serif;color:var(--on-muted,#8993a8)}
+.account-type-admin-note small{font:600 8px Inter,sans-serif;letter-spacing:.5px;color:#a895ed}
