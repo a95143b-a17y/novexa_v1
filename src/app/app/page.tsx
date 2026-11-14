@@ -74,6 +74,7 @@ export default async function LearnerHomePage() {
       <header className="learning-top">
         <Link href="/" className="auth-brand"><span className="auth-brand-mark">N</span>NOVEXA<span className="auth-brand-dot">.</span></Link>
         <nav className="learning-nav">
+          <Link href="/app/parametres/apparence">Apparence</Link>
           {session.user.role === "platform_admin" && <Link href="/admin">Administration</Link>}
           <form action="/api/auth/sign-out" method="post"><button className="user-signout">Se déconnecter</button></form>
         </nav>
