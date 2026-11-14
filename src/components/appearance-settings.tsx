@@ -15,7 +15,7 @@ export default function AppearanceSettings(){
   const [status,setStatus]=useState("");
   useEffect(()=>setDraft(appearance),[appearance]);
   if(!ready)return <main className="appearance-settings"><p>Chargement de vos préférences…</p></main>;
-  function update<K extends keyof NovexaAppearance>(key:K,value:NovexaAppearance[K]){setDraft(current=>({...current,[key]:value}));}
+  function update<K extends keyof NovexaAppearance>(key:K,value:NovexaAppearance[K]){setDraft(current=>({...current,[key]:value,...(key==="background"&&value!=="custom"?{customImage:undefined}:{})}));}
   async function save(){setStatus("Enregistrement…");const ok=await saveAppearance(draft);setStatus(ok?"Préférences enregistrées dans votre compte.":"Préférences enregistrées sur cet appareil. La synchronisation du compte nécessite la base de données.");}
   return <main className="appearance-settings">
     <header><p className="auth-eyebrow">VOTRE ESPACE · PARAMÈTRES</p><h1>Votre apparence.</h1><p>Personnalisez NOVEXA et retrouvez vos réglages sur vos appareils lorsque votre compte est synchronisé.</p></header>
