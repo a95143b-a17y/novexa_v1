@@ -5,7 +5,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 export type NovexaAppearance = {
   theme: "light" | "dark";
   accent: "violet" | "blue" | "mint" | "rose";
-  background: "aurora" | "paper" | "midnight" | "forest" | "custom";\n  customImage?: string;
+  background: "aurora" | "paper" | "midnight" | "forest" | "custom";
+  customImage?: string;
   writer: boolean;
   motion: boolean;
 };
@@ -22,6 +23,8 @@ function applyAppearance(value:NovexaAppearance) {
   root.dataset.novexaWriter=value.writer?"on":"off";
   root.dataset.novexaMotion=value.motion?"on":"off";
   root.style.colorScheme=value.theme;
+  if(value.customImage?.startsWith("data:image/")) root.style.setProperty("--novexa-wallpaper",`url("${value.customImage}")`);
+  else root.style.removeProperty("--novexa-wallpaper");
 }
 
 export function AppearanceProvider({children}:{children:ReactNode}) {
@@ -31,10 +34,12 @@ export function AppearanceProvider({children}:{children:ReactNode}) {
     let local=defaults;
     try {
       const parsed=JSON.parse(localStorage.getItem(storageKey)||"{}");
+      const customImage=typeof parsed.customImage==="string"&&parsed.customImage.startsWith("data:image/")?parsed.customImage:undefined;
       local={
         theme:parsed.theme==="light"?"light":"dark",
         accent:["violet","blue","mint","rose"].includes(parsed.accent)?parsed.accent:"violet",
-        background:parsed.background==="custom" && typeof parsed.customImage==="string" && parsed.customImage.startsWith("data:image/") ? "custom" : (["aurora","paper","midnight","forest"].includes(parsed.background)?parsed.background:"aurora"),\n        customImage:typeof parsed.customImage==="string" && parsed.customImage.startsWith("data:image/")?parsed.customImage:undefined,
+        background:customImage&&parsed.background==="custom"?"custom":(["aurora","paper","midnight","forest"].includes(parsed.background)?parsed.background:"aurora"),
+        customImage,
         writer:typeof parsed.writer==="boolean"?parsed.writer:true,
         motion:typeof parsed.motion==="boolean"?parsed.motion:true
       };
