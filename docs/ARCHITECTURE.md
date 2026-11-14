@@ -31,6 +31,10 @@ Node.js 20.9 ou supérieur est requis par ce socle.
 | Billing | Offres, abonnements et facturation |
 | Analytics | Indicateurs agrégés et suivi opérationnel |
 
+## Référentiels pédagogiques internationaux
+
+Le domaine Curriculum distingue pays, juridictions éducatives, systèmes nationaux ou sous-nationaux, niveaux ISCED, domaines ISCED-F, programmes versionnés, matières locales et parcours/spécialités. Les classifications internationales servent uniquement à la comparaison ; les libellés, règles, langues et sources propres à chaque système restent conservés. Voir `docs/GLOBAL_CURRICULUM_MODEL.md`.
+
 ## Organisation des couches
 
 - app : routes, layouts et présentation.
