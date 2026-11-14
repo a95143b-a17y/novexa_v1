@@ -438,3 +438,27 @@ h2 { margin: 8px 0 0; font-size: 21px; letter-spacing: -.025em; }
 .onboarding-content .social-auth-list{margin-top:14px}.onboarding-content .social-auth-button{min-height:39px;border-color:var(--on-border);color:var(--on-text);font:10px Inter,sans-serif}.onboarding-content .auth-divider{color:var(--on-muted)}.onboarding-content .auth-switch{color:var(--on-muted)}.onboarding-content .auth-switch a,.onboarding-content .auth-back-link{color:#8975dc}.onboarding-content .auth-back-link{font:10px Inter,sans-serif}.onboarding-content .auth-error{color:#b63f50}.onboarding-content .auth-success{color:#26836b}
 @media(max-width:760px){.onboarding-layout{grid-template-columns:1fr}.onboarding-aside{padding:28px 30px;min-height:230px}.onboarding-aside h1{font-size:36px}.onboarding-aside>p:not(.auth-art-kicker){margin-bottom:0}.onboarding-steps{display:flex;gap:24px;margin-top:20px}.onboarding-aside .auth-art-foot{display:none}.onboarding-content{padding:32px 28px}.onboarding-header{padding:18px 22px}}
 @media(max-width:480px){.onboarding-shell{padding:0}.onboarding-frame{border:0;border-radius:0;min-height:100vh}.onboarding-header>span{font-size:7px}.onboarding-content{padding:28px 21px}.theme-options{gap:8px}}
+
+
+/* Sélecteur d'arrière-plan personnalisé NOVEXA */
+.onboarding-background-section{margin:19px 0 15px;padding:15px;border:1px solid var(--on-border);border-radius:10px;background:color-mix(in srgb,var(--on-bg) 72%,transparent)}
+.onboarding-background-heading{display:grid;gap:4px;margin-bottom:12px}.onboarding-background-heading b{font:600 11px Inter,sans-serif;color:var(--on-text)}.onboarding-background-heading small{font:9px/1.5 Inter,sans-serif;color:var(--on-muted)}
+.onboarding-background-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.background-choice{display:grid;gap:5px;min-width:0;padding:6px;border:1px solid var(--on-border);border-radius:7px;background:var(--on-card);color:var(--on-text);text-align:left;cursor:pointer}
+.background-choice.selected{border:2px solid #8975dc;padding:5px;box-shadow:0 0 0 2px rgba(137,117,220,.1)}
+.background-swatch{display:block;width:100%;height:43px;border-radius:4px}
+.background-aurora .background-swatch{background:radial-gradient(at 80% 20%,#a48cff,transparent 45%),linear-gradient(130deg,#111a38,#315c8a 55%,#9a76c5)}
+.background-paper .background-swatch{background:radial-gradient(at 20% 20%,#fff,transparent 55%),linear-gradient(135deg,#e7e1d6,#c9c2b8)}
+.background-midnight .background-swatch{background:radial-gradient(at 70% 30%,#394c78,transparent 50%),linear-gradient(130deg,#080d1c,#1b2441)}
+.background-forest .background-swatch{background:radial-gradient(at 80% 15%,#a4c5a0,transparent 48%),linear-gradient(130deg,#142e2a,#52765c)}
+.background-choice b{font:600 9px Inter,sans-serif}.background-choice small{font:8px/1.3 Inter,sans-serif;color:var(--on-muted)}
+.background-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}.background-actions button,.background-preview button{min-height:35px;padding:0 10px;border:1px solid var(--on-border);border-radius:6px;background:var(--on-card);color:var(--on-text);font:600 9px Inter,sans-serif;cursor:pointer}
+.background-preview{display:flex;min-height:105px;align-items:flex-end;justify-content:space-between;gap:10px;margin-top:11px;padding:10px;border-radius:7px;background-position:center;background-size:cover;color:white;box-shadow:inset 0 -60px 45px -35px rgba(0,0,0,.75)}
+.background-preview span{font:600 9px Inter,sans-serif;text-shadow:0 1px 4px #000}
+.background-preview button{background:rgba(15,17,30,.8);color:#fff;border-color:rgba(255,255,255,.35)}
+.onboarding-shell[data-background="aurora"]{background:radial-gradient(ellipse at 15% 10%,rgba(137,117,220,.2),transparent 36%),linear-gradient(130deg,#0d142b,#192b46 55%,#1b1630)}
+.onboarding-shell[data-background="paper"]{background:radial-gradient(ellipse at 15% 10%,rgba(255,255,255,.7),transparent 36%),linear-gradient(130deg,#e9e4db,#d4cfc7)}
+.onboarding-shell[data-background="midnight"]{background:radial-gradient(ellipse at 75% 15%,rgba(71,100,161,.24),transparent 36%),linear-gradient(130deg,#070b17,#141d37)}
+.onboarding-shell[data-background="forest"]{background:radial-gradient(ellipse at 80% 10%,rgba(153,194,154,.18),transparent 38%),linear-gradient(130deg,#0c201e,#1e3d35)}
+.onboarding-shell[data-background="custom"]{background-position:center;background-size:cover;background-repeat:no-repeat}
+@media(max-width:480px){.onboarding-background-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.background-swatch{height:52px}}
