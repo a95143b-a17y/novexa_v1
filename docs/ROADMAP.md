@@ -24,6 +24,7 @@ Les étapes ci-dessous sont un ordre de réalisation proposé, pas des fonctionn
 **État :** le code de base est présent ; la validation de bout en bout reste bloquée par la configuration des services externes et de la base.
 
 ## Phase 2 — Cœur pédagogique et référentiels
+- [x] Définir le modèle international du catalogue (pays, juridictions, systèmes, niveaux ISCED, domaines ISCED-F, matières et parcours) et la migration 0006.
 - [ ] Construire le catalogue de programmes et de matières.
 - [ ] Implémenter le pipeline de collecte France en lecture seule.
 - [ ] Vérifier la provenance, les dates d'application et les droits de réutilisation.
@@ -42,8 +43,11 @@ Les étapes ci-dessous sont un ordre de réalisation proposé, pas des fonctionn
 - [ ] Tester la qualité des extractions et des réponses pédagogiques.
 
 ## Phase 4 — Extension internationale et collaboration
+- [ ] Terminer l’inventaire exhaustif des programmes français : maternelle, élémentaire, collège, voies générale/technologique/professionnelle, apprentissage et supérieur.
 - [ ] Valider le pilote France sur plusieurs niveaux et matières.
-- [ ] Ajouter progressivement de nouveaux pays et leurs autorités compétentes.
+- [ ] Référencer les systèmes éducatifs de tous les pays et juridictions, avec leurs autorités officielles.
+- [ ] Collecter puis vérifier les matières, filières, spécialités et qualifications par système et année d’application.
+- [ ] Étendre progressivement les programmes vérifiés par région du monde, sans annoncer une couverture mondiale avant preuve.
 - [ ] Ajouter les vidéos et ressources multimédias.
 - [ ] Construire les classes, groupes et retours enseignants.
 - [ ] Évaluer les intégrations scolaires officielles.
@@ -76,3 +80,15 @@ Aucune ouverture publique ne doit avoir lieu avant la validation de l'authentifi
 - [x] Affichage du dernier résultat dans le catalogue apprenant.
 - [ ] Ajouter les formats de questions multiples, texte libre et barèmes partiels.
 - [ ] Ajouter les examens blancs chronométrés et les rapports de résultats.
+
+
+## Extension internationale — 14 novembre 2026
+
+- [x] Définir un modèle de données qui distingue pays, juridictions (États/provinces/régions), systèmes éducatifs, niveaux locaux, matières et parcours.
+- [x] Ajouter les niveaux de comparaison ISCED 0 à 8 et une première taxonomie des domaines ISCED-F 2013.
+- [x] Ajouter la page d’entrée `/programmes` et la relier depuis l’accueil ; la France reste le premier pays pilote.
+- [ ] Alimenter le registre de pays et juridictions avec les autorités officielles et leurs portails de programmes.
+- [ ] Décomposer les programmes français en documents, matières, spécialités, voies, niveaux et versions vérifiées.
+- [ ] Ajouter les autres pays par lots contrôlés, avec indicateurs publics de couverture et date de dernière vérification.
+
+**Important :** le modèle et la taxonomie sont une fondation technique. Ils ne signifient pas que tous les pays, matières ou programmes sont déjà importés. Chaque programme doit être documenté et vérifié avant publication.
