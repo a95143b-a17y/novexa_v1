@@ -8,6 +8,7 @@ type AuthFormProps = { mode: "sign-in" | "sign-up"; nextPath?: string };
 type Theme = "light" | "dark";
 type Accent = "violet" | "blue" | "mint" | "rose";
 type BackgroundChoice = "aurora" | "paper" | "midnight" | "forest";
+type AccountType = "student" | "university" | "teacher" | "institution" | "parent";
 const backgroundChoices: {id:BackgroundChoice;label:string;description:string}[] = [
   {id:"aurora",label:"Aurore",description:"Dégradé violet et bleu"},
   {id:"paper",label:"Papier",description:"Texture claire et douce"},
@@ -33,6 +34,7 @@ export default function AuthForm({ mode, nextPath = "/app" }: AuthFormProps) {
   const [name,setName] = useState("");
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
+  const [accountType,setAccountType] = useState<AccountType>("student");
   const [theme,setTheme] = useState<Theme>("light");
   const [accent,setAccent] = useState<Accent>("violet");
   const [writer,setWriter] = useState(true);
@@ -104,7 +106,7 @@ export default function AuthForm({ mode, nextPath = "/app" }: AuthFormProps) {
     event.preventDefault(); setError(""); setMessage(""); setBusy(true); savePreferences();
     try {
       const endpoint = isSignUp ? "/api/auth/sign-up/email" : "/api/auth/sign-in/email";
-      const body = isSignUp ? {name:name.trim(),email:email.trim(),password,callbackURL:nextPath} : {email:email.trim(),password,callbackURL:nextPath};
+      const body = isSignUp ? {name:name.trim(),email:email.trim(),password,accountType,callbackURL:nextPath} : {email:email.trim(),password,callbackURL:nextPath};
       const response = await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
       const data = await response.json().catch(()=>({}));
       if (!response.ok) throw new Error(data.message || data.error?.message || data.error || "La demande n'a pas abouti.");
@@ -140,9 +142,20 @@ export default function AuthForm({ mode, nextPath = "/app" }: AuthFormProps) {
               <p className="auth-switch">Pas encore de compte ? <Link href="/inscription">Créer un compte</Link></p>
             </>:<>
               {step===1?<>
-                <p className="auth-eyebrow">ÉTAPE 1 SUR 2 · VOTRE PROFIL</p><h2>Commençons par faire connaissance.</h2><p className="auth-muted">Comment devons-nous vous appeler ?</p>
+                <p className="auth-eyebrow">ÉTAPE 1 SUR 2 · VOTRE PROFIL</p><h2>Commençons par faire connaissance.</h2><p className="auth-muted">Indiquez votre profil pour adapter votre espace NOVEXA.</p>
                 <form className="auth-form onboarding-form" onSubmit={e=>{e.preventDefault();setError("");setStep(2);}}>
                   <label htmlFor="auth-name">Nom et prénom</label><input id="auth-name" name="name" autoComplete="name" required maxLength={80} placeholder="Votre nom" value={name} onChange={e=>setName(e.target.value)}/>
+                  <label htmlFor="auth-account-type">Vous êtes…</label>
+                  <select id="auth-account-type" name="accountType" className="account-type-select" value={accountType} onChange={e=>setAccountType(e.target.value as AccountType)} required>
+                    <option value="student">Élève / étudiant</option>
+                    <option value="university">Université / enseignement supérieur</option>
+                    <option value="teacher">Professeur / enseignant</option>
+                    <option value="institution">Établissement scolaire / organisme de formation</option>
+                    <option value="parent">Parent / responsable légal</option>
+                  </select>
+                  <p className="auth-hint">Ce choix prépare les fonctionnalités adaptées à votre profil. Les accès professionnels et institutionnels peuvent nécessiter une validation.</p>
+                  <div className="account-type-admin-divider" role="separator" aria-label="Espace administrateur réservé"><span></span><i>ACCÈS PRIVILÉGIÉ</i><span></span></div>
+                  <aside className="account-type-admin-note"><b>Administrateur NOVEXA</b><p>Accès strictement réservé au créateur de la plateforme. Aucun compte administrateur ne peut être créé depuis cette inscription. Les autres demandes de connexion administrateur sont refusées.</p><small>🔒 Espace privé · Créateur uniquement</small></aside>
                   <label htmlFor="auth-email">Adresse e-mail</label><input id="auth-email" name="email" type="email" autoComplete="email" required maxLength={254} placeholder="vous@exemple.fr" value={email} onChange={e=>setEmail(e.target.value)}/>
                   <p className="auth-hint">Votre adresse e-mail servira à sécuriser votre compte et à recevoir les informations importantes.</p>
                   <button className="auth-submit" type="submit">Continuer <span>→</span></button>
