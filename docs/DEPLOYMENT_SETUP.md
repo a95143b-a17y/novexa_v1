@@ -9,6 +9,9 @@ Ce document décrit la configuration minimale avant d'activer les fonctions dyna
 | PostgreSQL | `DATABASE_URL` | Comptes, profils, cours, leçons, progression, catalogue | Bloquante |
 | Better Auth | `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` | Sessions et authentification | Bloquante |
 | URL de l'application | `NEXT_PUBLIC_APP_URL` | Liens et origines de l'application | Bloquante |
+| Google OAuth | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Connexion avec Google | Optionnelle |
+| Microsoft OAuth | `MICROSOFT_CLIENT_ID`, `MICROSOFT_CLIENT_SECRET`, `MICROSOFT_TENANT_ID` | Connexion avec Microsoft (tenant `common` par défaut) | Optionnelle |
+| Apple OAuth | `APPLE_CLIENT_ID`, `APPLE_CLIENT_SECRET` | Connexion avec Apple | Optionnelle |
 | E-mail transactionnel | `RESEND_API_KEY`, `EMAIL_FROM` | Vérification d'adresse et réinitialisation du mot de passe | Bloquante pour l'inscription vérifiée |
 | OpenAI | `OPENAI_API_KEY`, `OPENAI_MODEL` | Assistants administrateur et recherche ATLAS | Facultative pour le socle pédagogique |
 | Tâches planifiées | `CRON_SECRET` | Protection des routes de veille planifiée | Selon activation |
@@ -43,6 +46,7 @@ Vérifier que les tables Better Auth et les tables métier existent avant d'auto
 
 - [ ] Déploiement de prévisualisation accessible aux testeurs autorisés.
 - [ ] Inscription avec vérification e-mail effective.
+- [ ] Flux OAuth Google, Microsoft et Apple testés avec leurs identifiants réels et URLs de retour déclarées.
 - [ ] Connexion, déconnexion et réinitialisation de mot de passe testées.
 - [ ] Rôle apprenant attribué par défaut ; aucun formulaire public ne peut attribuer un rôle enseignant ou administrateur.
 - [ ] Compte enseignant attribué par un administrateur, puis création d'un cours brouillon et de leçons.
