@@ -1,12 +1,19 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 
 type AuthFormProps = { mode: "sign-in" | "sign-up"; nextPath?: string };
 type Theme = "light" | "dark";
 type Accent = "violet" | "blue" | "mint" | "rose";
+type BackgroundChoice = "aurora" | "paper" | "midnight" | "forest";
+const backgroundChoices: {id:BackgroundChoice;label:string;description:string}[] = [
+  {id:"aurora",label:"Aurore",description:"Dégradé violet et bleu"},
+  {id:"paper",label:"Papier",description:"Texture claire et douce"},
+  {id:"midnight",label:"Minuit",description:"Bleu profond et discret"},
+  {id:"forest",label:"Forêt",description:"Vert et naturel"}
+];
 
 const providers = [
   {id:"google",label:"Continuer avec Google",symbol:"G"},
@@ -30,6 +37,11 @@ export default function AuthForm({ mode, nextPath = "/app" }: AuthFormProps) {
   const [accent,setAccent] = useState<Accent>("violet");
   const [writer,setWriter] = useState(true);
   const [motion,setMotion] = useState(true);
+  const [background,setBackground] = useState<BackgroundChoice | "custom">("aurora");
+  const [customImage,setCustomImage] = useState("");
+  const [imageError,setImageError] = useState("");
+  const uploadInput=useRef<HTMLInputElement>(null);
+  const cameraInput=useRef<HTMLInputElement>(null);
   const [message,setMessage] = useState("");
   const [error,setError] = useState("");
   const [busy,setBusy] = useState(false);
@@ -43,16 +55,49 @@ export default function AuthForm({ mode, nextPath = "/app" }: AuthFormProps) {
       if(["violet","blue","mint","rose"].includes(saved.accent)) setAccent(saved.accent);
       if(typeof saved.writer==="boolean") setWriter(saved.writer);
       if(typeof saved.motion==="boolean") setMotion(saved.motion);
+      if(["aurora","paper","midnight","forest"].includes(saved.background)) setBackground(saved.background);
+      if(typeof saved.customImage==="string" && saved.customImage.startsWith("data:image/")) { setCustomImage(saved.customImage); setBackground("custom"); }
     } catch {}
   },[]);
 
   function savePreferences() {
-    const prefs={theme,accent,writer,motion,backdrop:theme==="dark"?"night":"paper"};
+    const prefs={theme,accent,writer,motion,background,customImage,backdrop:theme==="dark"?"night":"paper"};
     try { localStorage.setItem("novexa-appearance",JSON.stringify(prefs)); } catch {}
     document.documentElement.dataset.novexaTheme=theme;
     document.documentElement.dataset.novexaPalette=accent==="blue"?"ocean":accent==="mint"?"aurora":accent==="rose"?"rose":"violet";
     document.documentElement.dataset.novexaWriter=writer?"on":"off";
     document.documentElement.dataset.novexaMotion=motion?"on":"off";
+  }
+
+  async function handleImage(event: ChangeEvent<HTMLInputElement>) {
+    const file=event.target.files?.[0];
+    if(!file) return;
+    setImageError("");
+    if(!file.type.startsWith("image/")) { setImageError("Choisis un fichier image."); return; }
+    if(file.size>15*1024*1024) { setImageError("Image trop volumineuse : 15 Mo maximum."); return; }
+    try {
+      const source=await new Promise<HTMLImageElement>((resolve,reject)=>{
+        const url=URL.createObjectURL(file); const img=new Image();
+        img.onload=()=>{URL.revokeObjectURL(url);resolve(img);};
+        img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("Image illisible."));};
+        img.src=url;
+      });
+      const scale=Math.min(1,1920/Math.max(source.width,source.height));
+      const canvas=document.createElement("canvas");
+      canvas.width=Math.max(1,Math.round(source.width*scale));
+      canvas.height=Math.max(1,Math.round(source.height*scale));
+      const context=canvas.getContext("2d");
+      if(!context) throw new Error("Impossible de traiter cette image.");
+      context.drawImage(source,0,0,canvas.width,canvas.height);
+      const data=canvas.toDataURL("image/webp",0.82);
+      if(data.length>2_400_000) throw new Error("Cette image reste trop lourde après optimisation. Essaie une image plus légère.");
+      setCustomImage(data); setBackground("custom");
+    } catch(cause) { setImageError(cause instanceof Error?cause.message:"Impossible d'utiliser cette image."); }
+    event.target.value="";
+  }
+
+  function chooseBackground(choice: BackgroundChoice) {
+    setBackground(choice); setImageError("");
   }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -108,6 +153,19 @@ export default function AuthForm({ mode, nextPath = "/app" }: AuthFormProps) {
                   <button type="button" className={"theme-option light-option "+(theme==="light"?"chosen":"")} onClick={()=>setTheme("light")} aria-pressed={theme==="light"}><span className="theme-mock light-mock"><i/><i/><i/><b/></span><strong>Clair</strong><small>Une page lumineuse et épurée</small>{theme==="light"&&<em>✓ Sélectionné</em>}</button>
                   <button type="button" className={"theme-option dark-option "+(theme==="dark"?"chosen":"")} onClick={()=>setTheme("dark")} aria-pressed={theme==="dark"}><span className="theme-mock dark-mock"><i/><i/><i/><b/></span><strong>Sombre</strong><small>Un environnement doux pour les yeux</small>{theme==="dark"&&<em>✓ Sélectionné</em>}</button>
                 </div>
+                <section className="onboarding-background-section">
+                  <div className="onboarding-background-heading"><b>Votre image de fond</b><small>Choisissez une ambiance ou utilisez votre propre photo.</small></div>
+                  <div className="onboarding-background-grid">{backgroundChoices.map(choice=><button key={choice.id} type="button" className={"background-choice background-"+choice.id+(background===choice.id?" selected":"")} onClick={()=>chooseBackground(choice.id)} aria-pressed={background===choice.id}><span className="background-swatch"/><b>{choice.label}</b><small>{choice.description}</small></button>)}</div>
+                  <div className="background-actions">
+                    <button type="button" onClick={()=>uploadInput.current?.click()}>↥ Importer un fichier</button>
+                    <button type="button" onClick={()=>cameraInput.current?.click()}>◎ Prendre une photo</button>
+                    <input ref={uploadInput} type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" onChange={handleImage} hidden aria-label="Importer une image depuis les fichiers"/>
+                    <input ref={cameraInput} type="file" accept="image/*" capture="environment" onChange={handleImage} hidden aria-label="Prendre une photo avec la caméra"/>
+                  </div>
+                  {background==="custom"&&customImage&&<div className="background-preview" style={{backgroundImage:"url("+customImage+")"}}><span>Aperçu de votre photo · adaptation automatique</span><button type="button" onClick={()=>{setCustomImage("");setBackground("aurora");}}>Retirer la photo</button></div>}
+                  {imageError&&<p className="auth-error" role="alert">{imageError}</p>}
+                  <p className="auth-hint">PNG, JPG, WebP, GIF ou AVIF · 15 Mo maximum. L’image reste dans votre navigateur pour le moment. Elle sera affichée en couvrant l’écran, sans déformation, avec recadrage selon le format de l’appareil.</p>
+                </section>
                 <div className="onboarding-extra"><span>COULEUR D’ACCENT</span><div className="accent-options">{accents.map(a=><button type="button" key={a.id} aria-label={a.label} aria-pressed={accent===a.id} className={accent===a.id?"active":""} style={{"--accent-swatch":a.color} as React.CSSProperties} onClick={()=>setAccent(a.id)}/>)}</div></div>
                 <label className="onboarding-check"><input type="checkbox" checked={writer} onChange={e=>setWriter(e.target.checked)}/><span><b>Style écrivain</b><small>Typographie élégante et mise en page éditoriale</small></span></label>
                 <label className="onboarding-check"><input type="checkbox" checked={motion} onChange={e=>setMotion(e.target.checked)}/><span><b>Animations et transitions</b><small>Des mouvements subtils dans l’interface</small></span></label>
