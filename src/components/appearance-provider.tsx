@@ -50,7 +50,7 @@ export function AppearanceProvider({children}:{children:ReactNode}) {
       const payload=await response.json();
       const saved=payload.appearance;
       if(!saved||!Object.keys(saved).length)return;
-      const merged={...local,...saved,customImage:local.customImage} as NovexaAppearance;
+      const merged={...local,...saved,background:local.customImage&&local.background==="custom"?"custom":saved.background,customImage:local.customImage} as NovexaAppearance;
       setAppearance(merged);applyAppearance(merged);
       try{localStorage.setItem(storageKey,JSON.stringify({...JSON.parse(localStorage.getItem(storageKey)||"{}"),...merged}));}catch{}
     }).catch(()=>{}).finally(()=>setReady(true));
@@ -60,7 +60,7 @@ export function AppearanceProvider({children}:{children:ReactNode}) {
     setAppearance(value);applyAppearance(value);
     try{const current=JSON.parse(localStorage.getItem(storageKey)||"{}");localStorage.setItem(storageKey,JSON.stringify({...current,...value}));}catch{}
     try{
-      const response=await fetch("/api/profile/appearance",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({appearance:value})});
+      const response=await fetch("/api/profile/appearance",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({appearance:{...value,background:value.background==="custom"?"aurora":value.background}})});
       return response.ok;
     }catch{return false;}
   },[]);
