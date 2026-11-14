@@ -125,7 +125,7 @@ export default function AuthForm({ mode, nextPath = "/app" }: AuthFormProps) {
   const safeNext=nextPath.startsWith("/")&&!nextPath.startsWith("//")?nextPath:"/app";
 
   return (
-    <main className={"auth-shell auth-editorial onboarding-shell theme-"+theme} data-theme={theme}>
+    <main className={"auth-shell auth-editorial onboarding-shell theme-"+theme} data-theme={theme} data-background={background} style={background==="custom"&&customImage?{backgroundImage:"linear-gradient(rgba(8,10,20,.28),rgba(8,10,20,.28)),url("+customImage+")",backgroundSize:"cover",backgroundPosition:"center",backgroundRepeat:"no-repeat"}:undefined}>
       <section className="onboarding-frame">
         <header className="onboarding-header"><Link className="auth-brand" href="/">NOV<span className="auth-brand-x">X</span>EXA</Link><span>VOTRE ESPACE D’APPRENTISSAGE</span></header>
         {isSignUp&&<div className="onboarding-progress"><span style={{width:step===1?"50%":"100%"}}/></div>}
