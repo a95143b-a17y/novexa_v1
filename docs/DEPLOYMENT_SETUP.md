@@ -27,6 +27,7 @@ Créer une base dédiée à NOVEXA, avec un utilisateur applicatif limité aux o
 3. `database/migrations/0003_seed_france_curriculum_sources.sql`
 4. `database/migrations/0004_lesson_progress.sql`
 5. `database/migrations/0005_seed_france_subject_sources.sql`
+6. `database/migrations/0006_global_curriculum_catalog.sql`
 
 Les migrations applicatives ne sont pas exécutées automatiquement au démarrage. Conserver un journal des migrations appliquées et sauvegarder la base avant toute évolution de schéma.
 
@@ -55,6 +56,6 @@ Vérifier que les tables Better Auth et les tables métier existent avant d'auto
 
 Ne pas activer la facturation, les intégrations scolaires, la génération vidéo ou la veille automatisée tant que leurs fournisseurs, coûts, conditions d'utilisation, secrets et procédures de contrôle n'ont pas été validés.
 
-Le catalogue France doit conserver la provenance, la version, les dates d'application et les droits de réutilisation de chaque ressource. Une source découverte par ATLAS ne devient pas automatiquement un programme validé : la publication requiert une vérification humaine.
+Le catalogue international doit conserver le pays, la juridiction, le système éducatif, le niveau ISCED de comparaison, le domaine ISCED-F, la provenance, la version, les dates d'application et les droits de réutilisation de chaque ressource. La migration 0006 ajoute le modèle de juridictions, systèmes, niveaux, domaines, matières et parcours ; elle ne peuple pas encore les programmes nationaux. Une source découverte par ATLAS ne devient pas automatiquement un programme validé : la publication requiert une vérification humaine.
 
 Pour les comptes de mineurs, limiter les données collectées, documenter les finalités et durées de conservation, prévoir les mécanismes d'exercice des droits et faire valider le dispositif de protection des données avant lancement.
