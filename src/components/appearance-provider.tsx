@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { DEFAULT_NOVEXA_FONT, getNovexaFontStack, isNovexaFontId } from "@/lib/appearance-options";
+import { DEFAULT_NOVEXA_FONT, getNovexaFontStack, isNovexaFontId, readableTextColor } from "@/lib/appearance-options";
 
 export type NovexaAppearance = {
   theme: "light" | "dark";
@@ -47,6 +47,7 @@ function applyAppearance(value: NovexaAppearance) {
   root.dataset.novexaFont = isNovexaFontId(value.fontFamily) ? value.fontFamily : DEFAULT_NOVEXA_FONT;
   root.style.colorScheme = value.theme;
   root.style.setProperty("--novexa-user-font", getNovexaFontStack(value.fontFamily));
+  root.style.setProperty("--novexa-user-foreground", validHex(value.backgroundColor) ? readableTextColor(value.backgroundColor) : "#F4F7FF");
 
   if (validHex(value.backgroundColor)) {
     root.style.setProperty("--novexa-user-background", value.backgroundColor);
