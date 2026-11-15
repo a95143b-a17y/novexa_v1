@@ -1,8 +1,10 @@
 "use client";
 
-import { useMemo, useState, type ChangeEvent } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent } from "react";
 import Link from "next/link";
 import { useNovexaAppearance, type NovexaAppearance } from "@/components/appearance-provider";
+import AppearanceStudio from "@/components/appearance-studio";
+import { readableTextColor } from "@/lib/appearance-options";
 import styles from "./onboarding-guide.module.css";
 
 const wallpapers = [
@@ -24,14 +26,14 @@ const accents: { id: NovexaAppearance["accent"]; label: string; color: string }[
 ];
 
 export default function OnboardingGuide() {
-  const { appearance, saveAppearance } = useNovexaAppearance();
+  const { appearance, saveAppearance, previewAppearance } = useNovexaAppearance();
   const [draft, setDraft] = useState<NovexaAppearance>(appearance);
   const [step, setStep] = useState(0);
   const [assistantName, setAssistantName] = useState("NOVA");
   const [assistantTone, setAssistantTone] = useState("Calme et pédagogique");
   const [assistantLanguage, setAssistantLanguage] = useState("Français");
   const [status, setStatus] = useState("");
-  const stepNames = useMemo(() => ["Bienvenue", "Apparence", "Fond d’écran", "Votre guide", "C’est prêt"], []);
+  const stepNames = useMemo(() => ["Bienvenue", "Apparence", "Fond d’écran", "Votre guide", "C’est prêt"], []);\n\n  useEffect(() => { setDraft(appearance); }, [appearance]);\n  useEffect(() => { previewAppearance(draft); }, [draft, previewAppearance]);
 
   function update<K extends keyof NovexaAppearance>(key: K, value: NovexaAppearance[K]) {
     setDraft(current => ({ ...current, [key]: value }));
@@ -119,7 +121,7 @@ export default function OnboardingGuide() {
           {step === 0 && <div className={styles.stepContent}>
             <p className={styles.eyebrow}>UN ESPACE QUI TE RESSEMBLE</p>
             <h1>Bonjour, bienvenue<br/><em>dans NOVEXA.</em></h1>
-            <p className={styles.lead}>Je vais te guider dans quelques choix simples : apparence, typographie, fond d’écran et style de ton assistant. Rien n’est définitif.</p>
+            <p className={styles.lead}>Je vais te guider dans quelques choix : apparence, 50 polices, 50 couleurs de fond et style de ton assistant. Tu verras chaque modification en direct.</p>
             <div className={styles.infoLine}><span>01</span> Choisir l’apparence <span>02</span> Sélectionner un fond <span>03</span> Personnaliser NOVA</div>
           </div>}
 
@@ -137,23 +139,17 @@ export default function OnboardingGuide() {
               <h2>Couleur principale</h2>
               <div className={styles.accentRow}>{accents.map(item => <button key={item.id} type="button" aria-label={item.label} aria-pressed={draft.accent === item.id} className={draft.accent === item.id ? styles.accentSelected : ""} style={{ background: item.color }} onClick={() => update("accent", item.id)} />)}</div>
             </div>
-            <div className={styles.optionBlock}>
-              <h2>Typographie</h2>
-              <div className={styles.choiceRow}>
-                <button type="button" className={draft.writer ? styles.selected : ""} onClick={() => update("writer", true)}><span className={styles.fontSerif}>Aa</span>Calligraphique</button>
-                <button type="button" className={!draft.writer ? styles.selected : ""} onClick={() => update("writer", false)}><span className={styles.fontSans}>Aa</span>Style moderne</button>
-              </div>
-            </div>
+            <AppearanceStudio value={draft} onChange={setDraft} sections="typography" />
             <label className={styles.switch}><span><b>Animations et transitions</b><small>Effets discrets lors de la navigation</small></span><input type="checkbox" checked={draft.motion} onChange={e => update("motion", e.target.checked)}/></label>
           </div>}
 
           {step === 2 && <div className={styles.stepContent}>
             <p className={styles.eyebrow}>ÉTAPE 2 · ARRIÈRE-PLAN</p>
             <h1>Choisis ton<br/><em>fond d’écran.</em></h1>
-            <p className={styles.lead}>Tu peux sélectionner un fond de la bibliothèque NOVEXA, choisir ta propre couleur ou importer une image.</p>
+            <p className={styles.lead}>Choisis parmi 50 couleurs, les fonds de la bibliothèque NOVEXA, ta propre teinte ou une image importée. L’aperçu évolue à chaque clic.</p>
             <div className={styles.wallpaperGrid}>{wallpapers.map(item => <button key={item.id} type="button" className={draft.backgroundColor === item.color && !draft.customImage ? styles.wallpaperSelected : styles.wallpaper} onClick={() => selectWallpaper(item)}><span style={{ background: item.preview }}/><b>{item.name}</b></button>)}</div>
-            <div className={styles.colorUploadRow}>
-              <label className={styles.colorPicker}>Ma couleur personnalisée <input type="color" value={draft.backgroundColor || "#101a36"} onChange={e => setDraft(current => ({ ...current, background: "aurora", backgroundColor: e.target.value, customImage: undefined }))}/></label>
+            <AppearanceStudio value={draft} onChange={setDraft} sections="background" />\n            <div className={styles.colorUploadRow}>
+              <label className={styles.colorPicker}>Ma couleur personnalisée <input type="color" value={draft.backgroundColor || "#101a36"} onChange={e => setDraft(current => ({ ...current, theme: readableTextColor(e.target.value) === "#18202B" ? "light" : "dark", background: "aurora", backgroundColor: e.target.value, customImage: undefined }))}/></label>
               <label className={styles.uploadButton}>Importer une image <input type="file" accept="image/png,image/jpeg,image/webp" onChange={importWallpaper}/></label>
             </div>
             {draft.customImage && <p className={styles.localOnly}>Image importée : conservée sur cet appareil uniquement, jusqu’à synchronisation d’un service de stockage sécurisé.</p>}
