@@ -155,7 +155,7 @@ export default function AuthForm({ mode, nextPath }: AuthFormProps) {
 
             <p className="auth-switch">
               {isSignUp ? "Déjà inscrit ?" : "Pas encore de compte ?"}{" "}
-              <Link href={isSignUp ? "/connexion" : "/inscription"}>
+              <Link href={isSignUp ? "/connexion?next=%2Fpersonnalisation" : "/inscription"}>
                 {isSignUp ? "Se connecter" : "Créer un compte"}
               </Link>
             </p>

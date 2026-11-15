@@ -18,7 +18,7 @@ export default function AppearanceSettings(){
   function update<K extends keyof NovexaAppearance>(key:K,value:NovexaAppearance[K]){setDraft(current=>({...current,[key]:value,...(key==="background"&&value!=="custom"?{customImage:undefined}:{})}));}
   async function save(){setStatus("Enregistrement…");const ok=await saveAppearance(draft);setStatus(ok?"Préférences enregistrées dans votre compte.":"Préférences enregistrées sur cet appareil. La synchronisation du compte nécessite la base de données.");}
   return <main className="appearance-settings">
-    <header><p className="auth-eyebrow">VOTRE ESPACE · PARAMÈTRES</p><h1>Votre apparence.</h1><p>Personnalisez NOVEXA et retrouvez vos réglages sur vos appareils lorsque votre compte est synchronisé.</p></header>
+    <header><p className="auth-eyebrow">VOTRE ESPACE · PARAMÈTRES</p><h1>Votre apparence.</h1><p>Personnalisez NOVEXA et retrouvez vos réglages sur vos appareils lorsque votre compte est synchronisé.</p><p><a href="/personnalisation?edit=1">Accéder aux 60 réglages de personnalisation →</a></p></header>
     <section><h2>Thème</h2><div className="appearance-choice-row">
       <button className={draft.theme==="light"?"active":""} onClick={()=>update("theme","light")}><span className="appearance-theme-preview light"/>Clair</button>
       <button className={draft.theme==="dark"?"active":""} onClick={()=>update("theme","dark")}><span className="appearance-theme-preview dark"/>Sombre</button>

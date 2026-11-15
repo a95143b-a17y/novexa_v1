@@ -490,3 +490,87 @@ html[data-novexa-theme="light"] body{background-color:#f5f3ef;color:#25242a}
 .account-type-admin-note b{font:600 12px Inter,sans-serif;color:var(--on-text,#eee)}
 .account-type-admin-note p{margin:7px 0 9px;font:10px/1.65 Inter,sans-serif;color:var(--on-muted,#8993a8)}
 .account-type-admin-note small{font:600 8px Inter,sans-serif;letter-spacing:.5px;color:#a895ed}
+
+
+/* NOVEXA — parcours de personnalisation, fichiers privés et abonnements */
+.auth-page-frame{width:min(1120px,100%);margin:0 auto}
+.auth-single-layout{grid-template-columns:minmax(250px,.8fr) minmax(340px,1.2fr)}
+.auth-single-layout .onboarding-aside{min-height:610px}
+.personalization-shell,.billing-shell{min-height:100vh;background:radial-gradient(circle at 82% 0,rgba(90,105,193,.16),transparent 34%),#090d1b;color:#f4f7ff;font-family:Inter,ui-sans-serif,system-ui,sans-serif}
+.personalization-top,.billing-top{display:flex;min-height:72px;align-items:center;justify-content:space-between;padding:0 max(22px,calc((100vw - 1120px)/2));border-bottom:1px solid rgba(158,177,218,.13);background:rgba(9,13,27,.88)}
+.personalization-exit,.billing-top nav a{color:#aebbd2;font-size:12px}
+.personalization-content,.billing-content{width:min(1120px,calc(100% - 40px));margin:0 auto;padding:52px 0 80px}
+.personalization-heading{max-width:780px;margin-bottom:30px}
+.personalization-heading .auth-eyebrow,.personalization-section-heading .auth-eyebrow{margin:0 0 9px}
+.personalization-heading h1,.billing-content h1{margin:12px 0 13px;font:500 clamp(36px,5.5vw,60px)/1.05 Georgia,"Times New Roman",serif;letter-spacing:-.04em}
+.personalization-heading h1 em,.billing-content h1 em{color:#b5a7ff;font-style:italic}
+.personalization-heading>p:not(.auth-eyebrow),.billing-lead{max-width:720px;color:#9eabc3;font-size:13px;line-height:1.8}
+.personalization-count{display:inline-flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:20px;padding:11px 14px;border:1px solid rgba(133,142,206,.24);border-radius:9px;background:rgba(71,73,126,.12)}
+.personalization-count strong{color:#d9d1ff;font-size:12px}
+.personalization-count span{color:#8e9bb4;font-size:10px}
+.personalization-panel{margin:17px 0;padding:24px;border:1px solid rgba(158,177,218,.15);border-radius:14px;background:linear-gradient(145deg,rgba(19,29,51,.94),rgba(13,20,37,.98))}
+.personalization-section-heading{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px}
+.personalization-section-heading>span{display:grid;width:34px;height:34px;flex:none;place-items:center;border:1px solid rgba(135,123,220,.35);border-radius:9px;background:rgba(135,123,220,.1);color:#b8adfa;font-size:11px;font-weight:800}
+.personalization-section-heading h2{margin:0;font-size:17px}
+.personalization-section-heading p{margin:6px 0 0;color:#8f9db6;font-size:11px;line-height:1.65}
+.personalization-form-grid,.personalization-options-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.personalization-form-grid>label,.personalization-option{display:grid;gap:7px;color:#d5deee;font-size:11px;font-weight:650}
+.personalization-form-grid input,.personalization-form-grid select,.personalization-form-grid textarea,.personalization-option select{width:100%;min-height:43px;padding:9px 11px;border:1px solid rgba(153,174,218,.22);border-radius:8px;background:#080f1d;color:#f4f7ff;font:inherit;font-size:11px}
+.personalization-form-grid textarea{min-height:86px;resize:vertical;line-height:1.5}
+.personalization-form-grid input:focus,.personalization-form-grid select:focus,.personalization-form-grid textarea:focus,.personalization-option select:focus{outline:2px solid rgba(137,117,220,.45);outline-offset:1px}
+.personalization-option{grid-template-columns:minmax(0,1fr) minmax(130px,.76fr);align-items:center;gap:12px;padding:12px;border:1px solid rgba(158,177,218,.11);border-radius:9px;background:rgba(7,13,26,.38)}
+.personalization-option>span{display:grid;gap:5px}
+.personalization-option strong{color:#dce5f5;font-size:11px}
+.personalization-option small{color:#8897b1;font-size:9px;font-weight:400;line-height:1.55}
+.personalization-option>input[type="checkbox"]{width:19px;height:19px;justify-self:end;accent-color:#8975dc}
+.personalization-save-bar{position:sticky;bottom:12px;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:22px;padding:15px 17px;border:1px solid rgba(143,132,230,.3);border-radius:12px;background:rgba(13,19,36,.96);box-shadow:0 14px 36px rgba(0,0,0,.28);backdrop-filter:blur(12px)}
+.personalization-save-bar>div{display:grid;gap:5px}
+.personalization-save-bar strong{font-size:12px}
+.personalization-save-bar small,.personalization-status{color:#929fba;font-size:10px;line-height:1.6}
+.personalization-save-bar .auth-submit{margin:0}
+.personalization-complete{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:15px;padding:17px;border:1px solid rgba(91,211,175,.25);border-radius:10px;background:rgba(91,211,175,.06)}
+.personalization-complete strong{color:#a8efd7;font-size:12px}
+.personalization-complete p{margin:6px 0 0;color:#98b6ad;font-size:10px}
+.personalization-complete button{min-height:40px;padding:0 13px;border:1px solid rgba(91,211,175,.3);border-radius:7px;background:rgba(91,211,175,.1);color:#c8f5e5;font-size:11px;font-weight:700;cursor:pointer}
+.document-library{display:grid;gap:14px;margin-top:12px}
+.document-upload-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px;border:1px dashed rgba(124,148,205,.33);border-radius:10px;background:rgba(6,12,24,.36)}
+.document-upload-row>div{display:grid;gap:6px}
+.document-upload-row strong{font-size:12px}
+.document-upload-row p,.document-privacy-note{margin:0;color:#929fba;font-size:10px;line-height:1.65}
+.document-upload-row .auth-submit{flex:none;margin:0}
+.document-privacy-note{padding:10px 12px;border:1px solid rgba(98,216,245,.15);border-radius:8px;background:rgba(60,130,164,.06)}
+.document-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.document-card{min-width:0;overflow:hidden;border:1px solid rgba(158,177,218,.14);border-radius:10px;background:rgba(7,13,26,.55)}
+.document-image-frame{display:block;max-height:280px;overflow:hidden;background:#070b16}
+.document-image-frame img{display:block;width:100%;height:auto;max-height:280px;object-fit:contain;object-position:center}
+.document-card-body{display:grid;gap:6px;padding:12px}
+.document-card-body>strong{overflow-wrap:anywhere;color:#e2eaf8;font-size:11px}
+.document-card-body>small{color:#8f9db6;font-size:9px;overflow-wrap:anywhere}
+.document-card-body>div{display:flex;align-items:center;gap:13px;margin-top:5px}
+.document-card-body a,.document-card-body button{min-height:34px;display:inline-flex;align-items:center;border:1px solid rgba(114,177,221,.25);border-radius:6px;background:rgba(65,129,179,.1);padding:0 10px;color:#cdefff;font-size:10px;cursor:pointer}
+.document-card-body button{border-color:rgba(224,133,145,.25);background:rgba(169,75,88,.08);color:#f0c5cb}
+.document-card-body button:disabled{opacity:.5;cursor:wait}
+.document-empty{padding:19px;border:1px solid rgba(158,177,218,.12);border-radius:9px}
+.document-empty strong{font-size:11px}
+.document-empty p,.document-state{color:#8f9db6;font-size:10px;line-height:1.6}
+.billing-content{max-width:1160px}
+.billing-content>h1{margin-top:12px}
+.billing-top nav{display:flex;gap:20px}
+.billing-top-cta{display:inline-flex;min-height:40px;align-items:center;padding:0 13px;border:1px solid rgba(119,207,244,.3);border-radius:8px;color:#dcf8ff;font-size:11px}
+.billing-plan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:31px}
+.billing-plan-card{display:flex;min-height:430px;flex-direction:column;align-items:flex-start;padding:22px;border:1px solid rgba(158,177,218,.16);border-radius:13px;background:linear-gradient(145deg,rgba(19,29,51,.96),rgba(11,18,34,.98))}
+.billing-plan-card.highlighted{border-color:rgba(147,132,238,.48);background:linear-gradient(145deg,rgba(54,48,104,.38),rgba(15,21,41,.98))}
+.billing-plan-kicker{color:#a99cf0;font-size:9px;font-weight:800;letter-spacing:.13em}
+.billing-plan-card h2{margin:13px 0 0;font-size:20px}
+.billing-plan-price{margin:12px 0;color:#f2f5ff;font-size:25px;font-weight:750;letter-spacing:-.04em}
+.billing-plan-price small{color:#8796b0;font-size:10px;font-weight:500;letter-spacing:0}
+.billing-plan-card>p:not(.billing-plan-price){min-height:48px;color:#9aa8c0;font-size:11px;line-height:1.65}
+.billing-plan-card ul{display:grid;gap:11px;margin:10px 0 23px;padding-left:18px;color:#b9c5da;font-size:10px;line-height:1.5}
+.billing-plan-button{display:flex;min-height:43px;align-items:center;justify-content:center;width:100%;margin-top:auto;padding:0 12px;border:1px solid rgba(119,207,244,.38);border-radius:8px;background:linear-gradient(100deg,rgba(52,147,190,.2),rgba(107,94,186,.2));color:#e7faff;font-size:11px;font-weight:750;cursor:pointer}
+.billing-plan-button.secondary{background:transparent}
+.billing-plan-button:disabled{opacity:.56;cursor:not-allowed}
+.billing-config-note,.billing-current-status{margin-top:16px;padding:13px 15px;border:1px solid rgba(237,190,112,.18);border-radius:8px;background:rgba(237,190,112,.05);color:#b8b5aa;font-size:10px;line-height:1.7}
+.billing-footnote{margin-top:21px;color:#7f8da7;font-size:10px;line-height:1.7}
+.billing-current-status{border-color:rgba(91,211,175,.2);background:rgba(91,211,175,.05);color:#a9d8c7}
+@media(max-width:850px){.billing-plan-grid{grid-template-columns:1fr}.billing-plan-card{min-height:0}.auth-single-layout{grid-template-columns:1fr}.auth-single-layout .onboarding-aside{min-height:250px}.personalization-form-grid,.personalization-options-grid,.document-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.personalization-top,.billing-top{padding:0 17px}.personalization-content,.billing-content{width:calc(100% - 32px);padding-top:34px}.personalization-panel{padding:17px}.personalization-option{grid-template-columns:1fr}.personalization-option>input[type="checkbox"]{justify-self:start}.personalization-save-bar{align-items:stretch;flex-direction:column}.personalization-save-bar .auth-submit{width:100%}.personalization-complete,.document-upload-row{align-items:stretch;flex-direction:column}.billing-top nav{gap:10px}.billing-top nav a{font-size:10px}.document-upload-row .auth-submit{width:100%}}
