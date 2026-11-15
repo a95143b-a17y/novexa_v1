@@ -1,5 +1,3 @@
-"use client";
-
 export type NovexaFontOption = {
   id: string;
   label: string;
