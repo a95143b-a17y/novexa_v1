@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
+import "./novexa-appearance.css";
 import { AppearanceProvider } from "@/components/appearance-provider";
 
 export const metadata: Metadata = {
