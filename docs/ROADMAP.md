@@ -1,94 +1,74 @@
 # Feuille de route NOVEXA
 
-Les étapes ci-dessous sont un ordre de réalisation proposé, pas des fonctionnalités déjà livrées.
+Les étapes ci-dessous décrivent le travail restant et l'ordre recommandé. Une case cochée indique que du code ou un écran existe ; elle ne signifie pas que le service externe est connecté ni que le flux complet a été validé.
 
 ## Phase 0 — Socle
 - [x] Initialiser Next.js et TypeScript.
-- [x] Définir le référentiel initial des rôles.
-- [x] Documenter les domaines et les principes de sécurité.
-- [x] Définir les six agents administrateur et leurs périmètres.
-- [x] Définir ATLAS et son pipeline d'importation mondial.
-- [x] Enregistrer la France comme premier pilote et référencer les sources institutionnelles initiales.
-- [x] Installer les dépendances et vérifier le build de production dans la CI GitHub.
+- [x] Définir les premiers rôles et contrôles d'accès serveur.
+- [x] Définir les profils des six agents administrateur.
+- [x] Créer la console administrateur et le premier pipeline de propositions ATLAS.
+- [x] Ajouter les pages publiques, l'inscription, la connexion et les abonnements.
+- [x] Définir les niveaux tarifaires 1 gratuit, 2 payant et 3 payant dans l'interface.
+- [x] Mettre en place une CI et un aperçu Vercel de la branche de développement.
 
-## Phase 1 — Identité et structure
-- [x] Intégrer Better Auth au code : inscription, connexion, sessions, vérification e-mail et rôles initiaux.
-- [x] Définir le schéma PostgreSQL initial et les migrations versionnées.
-- [x] Construire le premier espace personnel et le début de l'espace enseignant.
-- [x] Ajouter les premières routes API de création et de gestion des cours côté enseignant.
-- [ ] Provisionner PostgreSQL, appliquer les migrations et configurer les secrets de production.
-- [ ] Configurer et tester l'envoi des e-mails de vérification et de réinitialisation.
-- [ ] Finaliser les espaces parent et établissement.
-- [ ] Compléter les tests d'autorisations, de séparation des rôles et des comptes de mineurs.
+## Phase 1 — Identité, données et fichiers
+- [x] Intégrer Better Auth dans le code.
+- [x] Définir les migrations PostgreSQL applicatives 0001 à 0009.
+- [x] Ajouter les écrans de personnalisation et d'onboarding.
+- [x] Ajouter les routes de persistance des préférences et de l'apparence.
+- [x] Ajouter les routes d'importation, téléchargement et suppression de documents privés.
+- [ ] Provisionner une base PostgreSQL de test et appliquer les migrations dans l'ordre documenté.
+- [ ] Configurer Better Auth et vérifier le parcours de bout en bout.
+- [ ] Configurer un expéditeur e-mail vérifié et tester confirmation et réinitialisation.
+- [ ] Connecter un Blob Store privé et tester les droits d'accès aux documents.
+- [ ] Tester les autorisations, les relations parent-apprenant et les règles de comptes de mineurs.
 
-**État :** le code de base est présent ; la validation de bout en bout reste bloquée par la configuration des services externes et de la base.
-
-## Phase 2 — Cœur pédagogique et référentiels
-- [x] Définir le modèle international du catalogue (pays, juridictions, systèmes, niveaux ISCED, domaines ISCED-F, matières et parcours) et la migration 0006.
-- [ ] Construire le catalogue de programmes et de matières.
-- [ ] Implémenter le pipeline de collecte France en lecture seule.
-- [ ] Vérifier la provenance, les dates d'application et les droits de réutilisation.
-- [ ] Ajouter les cours et ressources pédagogiques.
-- [x] Ajouter le tableau de bord apprenant, la lecture des cours publiés et le suivi par leçon dans le code (migration 0004 à appliquer). 
-- [ ] Étendre la progression aux objectifs, parcours et statistiques détaillées.
-- [x] Ajouter une première version de quiz à choix unique, correction serveur et historique des tentatives. 
-- [ ] Étendre les exercices, formats de questions, barèmes partiels et examens blancs.
-
-## Phase 3 — Intelligence artificielle et ATLAS
-- [ ] Choisir et configurer la passerelle IA côté serveur et valider le modèle disponible dans le compte fournisseur.
-- [x] Ajouter une première route de découverte ATLAS avec recherche Web côté serveur et filtrage de domaines institutionnels (clé OpenAI requise).
-- [ ] Configurer une GitHub App à permissions minimales et workflow par Pull Request.
-- [ ] Ajouter les limites d'usage, journaux d'audit et contrôles de coût.
-- [ ] Construire NOVA et les assistants spécialisés.
-- [ ] Tester la qualité des extractions et des réponses pédagogiques.
-
-## Phase 4 — Extension internationale et collaboration
-- [ ] Terminer l’inventaire exhaustif des programmes français : maternelle, élémentaire, collège, voies générale/technologique/professionnelle, apprentissage et supérieur.
-- [ ] Valider le pilote France sur plusieurs niveaux et matières.
-- [ ] Référencer les systèmes éducatifs de tous les pays et juridictions, avec leurs autorités officielles.
-- [ ] Collecter puis vérifier les matières, filières, spécialités et qualifications par système et année d’application.
-- [ ] Étendre progressivement les programmes vérifiés par région du monde, sans annoncer une couverture mondiale avant preuve.
-- [ ] Ajouter les vidéos et ressources multimédias.
-- [ ] Construire les classes, groupes et retours enseignants.
-- [ ] Évaluer les intégrations scolaires officielles.
-
-## Phase 5 — Offre et lancement
-- [ ] Construire la gestion des offres et abonnements.
-- [ ] Réaliser les revues sécurité, confidentialité et accessibilité.
-- [ ] Effectuer les tests de charge, sécurité et sauvegarde.
-- [ ] Préparer un lancement limité avant toute ouverture générale.
-
-Aucune ouverture publique ne doit avoir lieu avant la validation de l'authentification, des autorisations, de la protection des données des mineurs, des sauvegardes, des procédures d'incident et des tests de sécurité.
-
-## État technique — 13 novembre 2026
-
-- Le tableau de bord apprenant, la consultation des cours publiés et l'enregistrement de la progression par leçon sont implémentés sur la branche de travail (migration 0004 à appliquer).
-- Les migrations `0004_lesson_progress.sql` et `0005_seed_france_subject_sources.sql` sont ajoutées, mais elles ne sont pas appliquées à une base distante.
-- Le guide de configuration et de déploiement est disponible dans `docs/DEPLOYMENT_SETUP.md`. La migration 0005 ajoute les index disciplinaires officiels au registre France.
-- L'authentification, les e-mails, les assistants IA et les données persistantes restent conditionnés par les variables d'environnement et les services externes.
-- La CI du commit `62ac2c1` a réussi (typecheck et build) ; les derniers ajouts quiz et sources disciplinaires sont en cours de validation sur la branche.
-- La Pull Request reste en brouillon et la production n'est pas modifiée.
-
-## Évaluations — état au 13 novembre 2026
-
-- [x] Création d'évaluations de type quiz à choix unique dans l'espace enseignant.
-- [x] Ajout de questions, propositions, réponse correcte et explication pédagogique.
-- [x] Publication contrôlée d'une évaluation par son auteur ou un administrateur.
-- [x] Catalogue des évaluations publiées dans l'espace apprenant.
-- [x] Correction côté serveur : les réponses correctes ne sont jamais renvoyées avec le questionnaire initial.
-- [x] Enregistrement des tentatives et affichage du résultat et des corrections détaillées.
-- [x] Affichage du dernier résultat dans le catalogue apprenant.
+## Phase 2 — Cœur pédagogique
+- [x] Créer le tableau de bord apprenant et la lecture de cours publiés.
+- [x] Ajouter le suivi de progression par leçon.
+- [x] Ajouter un premier quiz à choix unique et sa correction côté serveur.
+- [x] Créer un premier espace de gestion de cours et d'évaluations pour enseignants.
 - [ ] Ajouter les formats de questions multiples, texte libre et barèmes partiels.
-- [ ] Ajouter les examens blancs chronométrés et les rapports de résultats.
+- [ ] Construire deux formats d'examens blancs, avec chronométrage, notation et rapports.
+- [ ] Construire un planning hybride, automatique et modifiable par l'apprenant.
+- [ ] Tester toutes les écritures et lectures pédagogiques sur PostgreSQL.
 
+## Phase 3 — Catalogue national et international
+- [x] Définir le modèle des pays, juridictions, systèmes, niveaux ISCED, domaines ISCED-F, matières et parcours.
+- [x] Ajouter la page d'entrée du catalogue et le premier registre de sources institutionnelles françaises.
+- [ ] Décomposer et valider les programmes français par niveau, matière, voie, spécialité et année d'application.
+- [ ] Référencer les autorités officielles de chaque pays et juridiction.
+- [ ] Collecter puis vérifier les matières, filières et programmes par système éducatif.
+- [ ] Publier les indicateurs de couverture et la date de dernière vérification par pays.
+- [ ] Étendre progressivement le corpus mondial sans annoncer une couverture exhaustive avant preuve.
 
-## Extension internationale — 14 novembre 2026
+## Phase 4 — IA, assistants et vidéos
+- [x] Ajouter une première console d'agents consultatifs et une base ATLAS de découverte.
+- [ ] Configurer le fournisseur IA, les modèles, les quotas, les plafonds de coûts et les journaux.
+- [ ] Rendre l'assistant d'accueil configurable par nom, langue et style.
+- [ ] Développer les professeurs IA par matière avec contenus validés et contrôle pédagogique.
+- [ ] Configurer une GitHub App et tester le cycle de proposition ATLAS sans fusion automatique.
+- [ ] Construire le flux HeyGen : script validé, génération, stockage privé, sous-titres et lecture.
+- [ ] Évaluer la qualité des réponses et la protection des données envoyées aux fournisseurs.
 
-- [x] Définir un modèle de données qui distingue pays, juridictions (États/provinces/régions), systèmes éducatifs, niveaux locaux, matières et parcours.
-- [x] Ajouter les niveaux de comparaison ISCED 0 à 8 et une première taxonomie des domaines ISCED-F 2013.
-- [x] Ajouter la page d’entrée `/programmes` et la relier depuis l’accueil ; la France reste le premier pays pilote.
-- [ ] Alimenter le registre de pays et juridictions avec les autorités officielles et leurs portails de programmes.
-- [ ] Décomposer les programmes français en documents, matières, spécialités, voies, niveaux et versions vérifiées.
-- [ ] Ajouter les autres pays par lots contrôlés, avec indicateurs publics de couverture et date de dernière vérification.
+## Phase 5 — Intégrations et collaboration
+- [ ] Étudier les API officielles ou autorisations disponibles pour Pronote et les ENT.
+- [ ] Ajouter uniquement des connecteurs autorisés et documentés.
+- [ ] Terminer les espaces parent et établissement.
+- [ ] Ajouter les classes, groupes et retours enseignants.
 
-**Important :** le modèle et la taxonomie sont une fondation technique. Ils ne signifient pas que tous les pays, matières ou programmes sont déjà importés. Chaque programme doit être documenté et vérifié avant publication.
+## Phase 6 — Abonnements et lancement
+- [x] Présenter les niveaux 1 gratuit, 2 payant et 3 payant dans l'interface.
+- [x] Ajouter une intégration Stripe en mode TEST dans le code.
+- [ ] Définir les prix des niveaux 2 et 3.
+- [ ] Configurer Stripe TEST et vérifier checkout, webhooks, abonnements et portail.
+- [ ] Faire valider toute activation de paiements réels par une personne adulte et l'entité légalement autorisée.
+- [ ] Réaliser les revues sécurité, confidentialité, accessibilité et protection des mineurs.
+- [ ] Tester sauvegarde/restauration, charge, incidents et suppression/export des données.
+- [ ] Préparer un lancement restreint avant toute ouverture générale.
+
+## État des dépendances
+
+La prévisualisation Vercel est disponible, mais la branche Preview n'a pas encore de variables d'environnement configurées. Les migrations ne sont pas appliquées à une base distante. Les tâches qui dépendent de PostgreSQL, e-mail, Blob, Stripe, OpenAI, GitHub App ou HeyGen restent donc à connecter et à valider selon `docs/DEPLOYMENT_SETUP.md`.
+
+Aucune ouverture publique ne doit avoir lieu avant la validation des autorisations, de la protection des données des mineurs, des sauvegardes, des procédures d'incident et des tests de sécurité.
