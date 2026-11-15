@@ -24,7 +24,17 @@ export default function RootLayout({
 }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="fr">
-      <body><AppearanceProvider>{children}</AppearanceProvider></body>
+      <body>
+        <AppearanceProvider>
+          <div className="novexa-ambient" aria-hidden="true">
+            <span className="novexa-orb novexa-orb-one" />
+            <span className="novexa-orb novexa-orb-two" />
+            <span className="novexa-orb novexa-orb-three" />
+            <span className="novexa-orbit-line" />
+          </div>
+          <div className="novexa-app-content">{children}</div>
+        </AppearanceProvider>
+      </body>
     </html>
   );
 }
