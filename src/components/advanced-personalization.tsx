@@ -108,7 +108,7 @@ export default function AdvancedPersonalization() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ advancedSettings: values })
       });
-      const payload = await response.json().catch(() => ({}));
+      await response.json().catch(() => ({}));
       if (!response.ok) {
         setMessage("Les 50 choix sont enregistrés sur cet appareil. La synchronisation du compte sera disponible lorsque la base NOVEXA sera connectée.");
       } else {
