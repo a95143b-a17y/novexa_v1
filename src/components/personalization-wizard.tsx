@@ -2,6 +2,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import DocumentLibrary from "@/components/document-library";
+import AppearanceStudio from "@/components/appearance-studio";
+import { useNovexaAppearance, type NovexaAppearance } from "@/components/appearance-provider";
+import { NOVEXA_FONT_OPTIONS } from "@/lib/appearance-options";
 
 type Field = { key: string; label: string; help: string; kind: "select" | "toggle"; values?: string[]; initial: string | boolean };
 type Group = { title: string; description: string; fields: Field[] };
@@ -24,7 +27,7 @@ sel("feedbackStyle","Retour après un exercice","Tonalité des commentaires et c
 sel("theme","Thème","Apparence globale.",["Sombre","Clair","Automatique"],"Sombre"),
 sel("accent","Couleur d’accent","Couleur des éléments interactifs.",["Violet","Bleu","Menthe","Rose","Ambre","Monochrome"],"Violet"),
 sel("background","Arrière-plan","Ambiance générale des pages.",["Minuit","Aurore","Papier","Forêt","Uni","Personnalisé"],"Minuit"),
-sel("fontFamily","Typographie","Style des textes.",["Sans serif","Éditorial / écrivain","Serif classique","Lecture facilitée"],"Sans serif"),
+sel("fontFamily","Typographie","Sélectionne la police utilisée dans les titres et l’identité visuelle.",NOVEXA_FONT_OPTIONS.map(font=>font.label),"Georgia"),
 sel("fontSize","Taille du texte","Taille de lecture.",["Petite","Normale","Grande","Très grande"],"Normale"),
 sel("displayDensity","Densité de l’interface","Quantité d’informations visibles.",["Compacte","Équilibrée","Aérée"],"Équilibrée"),
 sel("dashboardLayout","Disposition du tableau de bord","Organisation de l’accueil.",["Cartes","Liste","Mixte","Planning en priorité"],"Cartes"),
@@ -87,6 +90,9 @@ type Education=typeof initialEducation;
 
 export default function PersonalizationWizard(){
   const router=useRouter();
+  const {appearance,saveAppearance,previewAppearance}=useNovexaAppearance();
+  const [visualAppearance,setVisualAppearance]=useState<NovexaAppearance>(appearance);
+  const [appearanceStatus,setAppearanceStatus]=useState("");
   const [education,setEducation]=useState<Education>(initialEducation);
   const [settings,setSettings]=useState<Record<string,string|boolean>>(defaults);
   const [loading,setLoading]=useState(true);
@@ -94,6 +100,8 @@ export default function PersonalizationWizard(){
   const [saved,setSaved]=useState(false);
   const [error,setError]=useState("");
   const total=useMemo(()=>groups.reduce((n,g)=>n+g.fields.length,0),[]);
+  useEffect(()=>{setVisualAppearance(appearance);},[appearance]);
+  useEffect(()=>{previewAppearance(visualAppearance);},[visualAppearance,previewAppearance]);
   useEffect(()=>{
     let active=true;
     fetch("/api/profile/preferences",{cache:"no-store"})
@@ -111,6 +119,29 @@ export default function PersonalizationWizard(){
   }
   function updateSetting(key:string,value:string|boolean){
     setSettings(current=>({...current,[key]:value}));setSaved(false);
+    setVisualAppearance(current=>{
+      if(key==="theme")return {...current,theme:value==="Clair"?"light":"dark"};
+      if(key==="accent"){
+        const accents:Record<string,NovexaAppearance["accent"]>={"Violet":"violet","Bleu":"blue","Menthe":"mint","Rose":"rose","Ambre":"rose","Monochrome":"violet"};
+        return {...current,accent:accents[String(value)]??current.accent};
+      }
+      if(key==="background"){
+        const backgrounds:Record<string,{background:NovexaAppearance["background"];backgroundColor:string}>={
+          "Minuit":{background:"midnight",backgroundColor:"#090f20"},
+          "Aurore":{background:"aurora",backgroundColor:"#101a36"},
+          "Papier":{background:"paper",backgroundColor:"#eee7d8"},
+          "Forêt":{background:"forest",backgroundColor:"#152b28"}
+        };
+        const selection=backgrounds[String(value)];
+        return selection?{...current,...selection,customImage:undefined}:current;
+      }
+      if(key==="fontFamily"){
+        const font=NOVEXA_FONT_OPTIONS.find(option=>option.label===String(value));
+        return font?{...current,fontFamily:font.id}:current;
+      }
+      if(key==="animations")return {...current,motion:Boolean(value)};
+      return current;
+    });
   }
   async function save(){
     setSaving(true);setSaved(false);setError("");
@@ -118,6 +149,8 @@ export default function PersonalizationWizard(){
       const response=await fetch("/api/profile/preferences",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({preferences:{version:1,education,settings},onboardingCompleted:true})});
       const data=await response.json().catch(()=>({}));
       if(!response.ok)throw new Error(data.error||"Impossible d’enregistrer vos préférences.");
+      const appearanceSynced=await saveAppearance(visualAppearance);
+      setAppearanceStatus(appearanceSynced?"Les réglages visuels sont synchronisés avec ton compte.":"Les réglages visuels sont conservés sur cet appareil. La synchronisation du compte sera disponible lorsque la base NOVEXA sera connectée.");
       setSaved(true);
     }catch(cause){setError(cause instanceof Error?cause.message:"Une erreur est survenue.");}
     finally{setSaving(false);}
@@ -129,6 +162,7 @@ export default function PersonalizationWizard(){
       <p>Renseignez votre parcours scolaire puis configurez vos préférences. Chaque choix pourra être modifié ensuite.</p>
       <div className="personalization-count"><strong>{total} réglages</strong><span>6 catégories · Profil modifiable à tout moment</span></div>
     </header>
+    <AppearanceStudio value={visualAppearance} onChange={next=>{setVisualAppearance(next);setSaved(false);}} sections="all"/>
     <section className="personalization-panel">
       <div className="personalization-section-heading"><span>01</span><div><h2>Vos informations scolaires</h2><p>Ces informations servent à sélectionner les programmes et matières adaptés.</p></div></div>
       <div className="personalization-form-grid">
@@ -164,6 +198,6 @@ export default function PersonalizationWizard(){
     </div>
     {loading&&<p className="personalization-status">Chargement de vos préférences…</p>}
     {error&&<p className="auth-error" role="alert">{error}</p>}
-    {saved&&<div className="personalization-complete" role="status"><div><strong>Personnalisation enregistrée.</strong><p>Vos choix sont sauvegardés sur votre compte.</p></div><button onClick={()=>router.push("/app")}>Accéder à mon espace →</button></div>}
+    {saved&&<div className="personalization-complete" role="status"><div><strong>Personnalisation enregistrée.</strong><p>Vos préférences générales sont sauvegardées. {appearanceStatus}</p></div><button onClick={()=>router.push("/app")}>Accéder à mon espace →</button></div>}
   </div>;
 }
