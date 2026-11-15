@@ -140,7 +140,7 @@ export default function OnboardingGuide() {
             <div className={styles.optionBlock}>
               <h2>Typographie</h2>
               <div className={styles.choiceRow}>
-                <button type="button" className={draft.writer ? styles.selected : ""} onClick={() => update("writer", true)}><span className={styles.fontSerif}>Aa</span>Style écrivain</button>
+                <button type="button" className={draft.writer ? styles.selected : ""} onClick={() => update("writer", true)}><span className={styles.fontSerif}>Aa</span>Calligraphique</button>
                 <button type="button" className={!draft.writer ? styles.selected : ""} onClick={() => update("writer", false)}><span className={styles.fontSans}>Aa</span>Style moderne</button>
               </div>
             </div>
