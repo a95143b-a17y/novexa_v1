@@ -15,7 +15,7 @@ export async function DELETE(request:NextRequest,context:{params:Promise<{docume
     const pool=getDatabasePool();
     const result=await pool.query("SELECT blob_path FROM user_documents WHERE id=$1 AND user_id=$2 LIMIT 1",[documentId,session.user.id]);
     if(result.rowCount!==1)return NextResponse.json({error:"Document introuvable."},{status:404});
-    await del(result.rows[0].blob_path,{access:"private"});
+    await del(result.rows[0].blob_path);
     await pool.query("DELETE FROM user_documents WHERE id=$1 AND user_id=$2",[documentId,session.user.id]);
     return NextResponse.json({success:true});
   }catch{

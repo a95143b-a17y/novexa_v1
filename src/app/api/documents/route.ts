@@ -62,7 +62,7 @@ export async function POST(request:NextRequest){
     );
     return NextResponse.json({document:result.rows[0]},{status:201});
   }catch{
-    if(blobPath)await del(blobPath,{access:"private"}).catch(()=>undefined);
+    if(blobPath)await del(blobPath).catch(()=>undefined);
     return NextResponse.json({error:"L’importation a échoué. Vérifie le stockage privé et la migration 0009."},{status:503});
   }
 }
