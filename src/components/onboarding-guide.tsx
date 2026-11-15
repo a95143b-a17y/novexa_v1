@@ -33,7 +33,10 @@ export default function OnboardingGuide() {
   const [assistantTone, setAssistantTone] = useState("Calme et pédagogique");
   const [assistantLanguage, setAssistantLanguage] = useState("Français");
   const [status, setStatus] = useState("");
-  const stepNames = useMemo(() => ["Bienvenue", "Apparence", "Fond d’écran", "Votre guide", "C’est prêt"], []);\n\n  useEffect(() => { setDraft(appearance); }, [appearance]);\n  useEffect(() => { previewAppearance(draft); }, [draft, previewAppearance]);
+  const stepNames = useMemo(() => ["Bienvenue", "Apparence", "Fond d’écran", "Votre guide", "C’est prêt"], []);
+
+  useEffect(() => { setDraft(appearance); }, [appearance]);
+  useEffect(() => { previewAppearance(draft); }, [draft, previewAppearance]);
 
   function update<K extends keyof NovexaAppearance>(key: K, value: NovexaAppearance[K]) {
     setDraft(current => ({ ...current, [key]: value }));
@@ -43,6 +46,7 @@ export default function OnboardingGuide() {
     setDraft(current => ({
       ...current,
       background: wallpaper.id === "paper" || wallpaper.id === "midnight" || wallpaper.id === "forest" ? wallpaper.id : "aurora",
+      theme: readableTextColor(wallpaper.color) === "#18202B" ? "light" : "dark",
       backgroundColor: wallpaper.color,
       customImage: undefined
     }));
@@ -148,7 +152,8 @@ export default function OnboardingGuide() {
             <h1>Choisis ton<br/><em>fond d’écran.</em></h1>
             <p className={styles.lead}>Choisis parmi 50 couleurs, les fonds de la bibliothèque NOVEXA, ta propre teinte ou une image importée. L’aperçu évolue à chaque clic.</p>
             <div className={styles.wallpaperGrid}>{wallpapers.map(item => <button key={item.id} type="button" className={draft.backgroundColor === item.color && !draft.customImage ? styles.wallpaperSelected : styles.wallpaper} onClick={() => selectWallpaper(item)}><span style={{ background: item.preview }}/><b>{item.name}</b></button>)}</div>
-            <AppearanceStudio value={draft} onChange={setDraft} sections="background" />\n            <div className={styles.colorUploadRow}>
+            <AppearanceStudio value={draft} onChange={setDraft} sections="background" />
+            <div className={styles.colorUploadRow}>
               <label className={styles.colorPicker}>Ma couleur personnalisée <input type="color" value={draft.backgroundColor || "#101a36"} onChange={e => setDraft(current => ({ ...current, theme: readableTextColor(e.target.value) === "#18202B" ? "light" : "dark", background: "aurora", backgroundColor: e.target.value, customImage: undefined }))}/></label>
               <label className={styles.uploadButton}>Importer une image <input type="file" accept="image/png,image/jpeg,image/webp" onChange={importWallpaper}/></label>
             </div>
