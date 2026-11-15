@@ -28,6 +28,20 @@ const roleLabels: Record<string, string> = {
 export default async function LearnerHomePage() {
   const session = await getSessionFromHeaders(await headers());
   if (!session) redirect("/connexion?next=%2Fapp");
+  if (isDatabaseConfigured()) {
+    try {
+      const profile = await getDatabasePool().query(
+        "SELECT onboarding_completed_at FROM profiles WHERE id = $1 LIMIT 1",
+        [session.user.id]
+      );
+      if (profile.rowCount === 1 && !profile.rows[0].onboarding_completed_at) {
+        redirect("/personnalisation");
+      }
+    } catch (error) {
+      if (error && typeof error === "object" && "digest" in error) throw error;
+      // En cas de migration indisponible, le tableau de bord signale la configuration requise.
+    }
+  }
   if (session.user.role === "teacher") redirect("/app/enseignant");
 
   let courses: CourseSummary[] = [];
