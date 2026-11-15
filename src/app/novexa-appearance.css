@@ -1,0 +1,4 @@
+html body{background-color:var(--novexa-user-background,var(--background))}
+html[data-novexa-background="custom"] body{background-image:var(--novexa-wallpaper);background-position:center;background-size:cover;background-repeat:no-repeat;background-attachment:fixed}
+html[data-novexa-writer="on"] h1 em,html[data-novexa-writer="on"] h2 em,html[data-novexa-writer="on"] .welcome-heading-script{font-family:"Segoe Script","Brush Script MT",cursive;font-weight:400}
+html[data-novexa-motion="off"] *,html[data-novexa-motion="off"] *::before,html[data-novexa-motion="off"] *::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
