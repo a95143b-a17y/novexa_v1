@@ -13,10 +13,19 @@ export async function DELETE(request:NextRequest,context:{params:Promise<{docume
   if(!/^[0-9a-f-]{36}$/i.test(documentId))return NextResponse.json({error:"Identifiant invalide."},{status:400});
   try{
     const pool=getDatabasePool();
-    const result=await pool.query("SELECT blob_path FROM user_documents WHERE id=$1 AND user_id=$2 LIMIT 1",[documentId,session.user.id]);
+    const result=await pool.query(
+      "DELETE FROM user_documents WHERE id=$1 AND user_id=$2 RETURNING blob_path",
+      [documentId,session.user.id]
+    );
     if(result.rowCount!==1)return NextResponse.json({error:"Document introuvable."},{status:404});
-    await del(result.rows[0].blob_path);
-    await pool.query("DELETE FROM user_documents WHERE id=$1 AND user_id=$2",[documentId,session.user.id]);
+
+    // Remove the database reference first so a storage deletion failure cannot
+    // leave a visible document record pointing to a missing private blob.
+    try {
+      await del(result.rows[0].blob_path);
+    } catch {
+      return NextResponse.json({success:true,storageCleanupPending:true});
+    }
     return NextResponse.json({success:true});
   }catch{
     return NextResponse.json({error:"Impossible de supprimer le document."},{status:503});
