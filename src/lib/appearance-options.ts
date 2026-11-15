@@ -56,7 +56,6 @@ export const NOVEXA_FONT_OPTIONS: NovexaFontOption[] = [
   { id: "consolas", label: "Consolas", category: "Monospace", stack: 'Consolas,"Courier New",monospace' },
   { id: "courier-new", label: "Courier New", category: "Monospace", stack: '"Courier New",Courier,monospace' },
   { id: "menlo", label: "Menlo", category: "Monospace", stack: 'Menlo,Monaco,monospace' },
-  { id: "monaco", label: "Monaco", category: "Monospace", stack: 'Monaco,Menlo,monospace' }
 ];
 
 export const NOVEXA_BACKGROUND_COLORS = [
