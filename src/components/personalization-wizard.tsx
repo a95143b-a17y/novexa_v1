@@ -72,7 +72,7 @@ tog("focusMode","Mode concentration","Réduire les éléments non essentiels.",f
 sel("imageAspectRatio","Format d’image préféré","Format à privilégier pour créer une image.",["16:9","1:1","9:16","4:3","3:2","Format source"],"16:9"),
 tog("preserveImageRatio","Conserver les proportions originales","Ne jamais étirer une image.",true),
 tog("autoCrop","Recadrage automatique","Autoriser le recadrage automatique.",false),
-sel("imageFit","Ajustement des images","Mode d’affichage dans l’interface.",["Contenir sans recadrer","Couvrir avec recadrage","Taille originale"],"Contenir sans recadrer"),
+sel("imageFit","Ajustement des images","Mode d’affichage dans l’interface.",["Contenir sans recadrer","Taille originale"],"Contenir sans recadrer"),
 sel("videoAspectRatio","Format vidéo préféré","Format des vidéos pédagogiques.",["16:9","9:16","1:1","Format source"],"16:9"),
 sel("videoQuality","Qualité vidéo","Qualité de lecture souhaitée.",["Économie de données","Standard","Haute définition","Automatique"],"Automatique"),
 sel("uploadPrivacy","Confidentialité des importations","Vos documents restent privés à votre compte.",["Privé — mon compte uniquement"],"Privé — mon compte uniquement"),

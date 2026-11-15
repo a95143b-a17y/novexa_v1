@@ -460,7 +460,7 @@ h2 { margin: 8px 0 0; font-size: 21px; letter-spacing: -.025em; }
 .onboarding-shell[data-background="paper"]{background:radial-gradient(ellipse at 15% 10%,rgba(255,255,255,.7),transparent 36%),linear-gradient(130deg,#e9e4db,#d4cfc7)}
 .onboarding-shell[data-background="midnight"]{background:radial-gradient(ellipse at 75% 15%,rgba(71,100,161,.24),transparent 36%),linear-gradient(130deg,#070b17,#141d37)}
 .onboarding-shell[data-background="forest"]{background:radial-gradient(ellipse at 80% 10%,rgba(153,194,154,.18),transparent 38%),linear-gradient(130deg,#0c201e,#1e3d35)}
-.onboarding-shell[data-background="custom"]{background-position:center;background-size:cover;background-repeat:no-repeat}
+.onboarding-shell[data-background="custom"]{background-position:center;background-size:contain;background-repeat:no-repeat;background-color:#0b1020}
 @media(max-width:480px){.onboarding-background-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.background-swatch{height:52px}}
 
 /* Appearance settings and cross-page preference tokens */
@@ -477,7 +477,7 @@ html[data-novexa-background="aurora"] body{background:radial-gradient(ellipse at
 html[data-novexa-background="paper"] body{background:linear-gradient(130deg,#e9e4db,#d4cfc7);color:#25242a}
 html[data-novexa-background="midnight"] body{background:radial-gradient(ellipse at 75% 15%,rgba(71,100,161,.2),transparent 36%),linear-gradient(130deg,#070b17,#141d37)}
 html[data-novexa-background="forest"] body{background:linear-gradient(130deg,#0c201e,#1e3d35)}
-html[data-novexa-background="custom"] body{background-image:var(--novexa-wallpaper);background-position:center;background-size:cover;background-repeat:no-repeat;background-attachment:fixed}
+html[data-novexa-background="custom"] body{background-image:var(--novexa-wallpaper);background-position:center;background-size:contain;background-repeat:no-repeat;background-attachment:fixed;background-color:#0b1020}
 html[data-novexa-theme="light"] body{background-color:#f5f3ef;color:#25242a}
 
 .account-type-select{width:100%;min-height:48px;padding:0 13px;border:1px solid var(--on-border,rgba(130,145,175,.3));border-radius:7px;background:var(--on-card,#fff);color:var(--on-text,#202333);font:500 12px Inter,sans-serif;outline:none}
