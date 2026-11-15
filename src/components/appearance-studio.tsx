@@ -27,7 +27,7 @@ export default function AppearanceStudio({ value, onChange, sections = "all" }: 
   }
 
   function selectColor(hex: string) {
-    onChange({ ...value, background: "aurora", backgroundColor: hex, customImage: undefined });
+    onChange({ ...value, theme: readableTextColor(hex) === "#18202B" ? "light" : "dark", background: "aurora", backgroundColor: hex, customImage: undefined });
   }
 
   return (
