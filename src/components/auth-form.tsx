@@ -59,7 +59,15 @@ export default function AuthForm({ mode, nextPath }: AuthFormProps) {
         setPassword("");
         setMessage("Un e-mail de vérification a été demandé. Après confirmation de votre adresse, connectez-vous pour terminer votre personnalisation.");
       } else {
-        window.location.assign(destination);
+        let target = destination;
+        if (destination === "/app") {
+          const profileResponse = await fetch("/api/profile/preferences", { cache: "no-store" });
+          if (profileResponse.ok) {
+            const profile = await profileResponse.json().catch(() => ({}));
+            if (!profile.onboardingCompletedAt) target = "/personnalisation";
+          }
+        }
+        window.location.assign(target);
       }
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Une erreur est survenue.");
