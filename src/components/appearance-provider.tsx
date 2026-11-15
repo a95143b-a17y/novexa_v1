@@ -49,12 +49,15 @@ function applyAppearance(value: NovexaAppearance) {
   root.style.setProperty("--novexa-user-font", getNovexaFontStack(value.fontFamily));
   root.style.setProperty("--novexa-user-foreground", validHex(value.backgroundColor) ? readableTextColor(value.backgroundColor) : "#F4F7FF");
 
-  if (validHex(value.backgroundColor)) root.style.setProperty("--novexa-user-background", value.backgroundColor);
-  else root.style.removeProperty("--novexa-user-background");
-\n  if (validHex(value.backgroundColor) && !(value.background === "custom" && value.customImage)) {
-    root.dataset.novexaCustomColor = "true";
+  if (validHex(value.backgroundColor)) {
+    root.style.setProperty("--novexa-user-background", value.backgroundColor);
   } else {
     root.style.removeProperty("--novexa-user-background");
+  }
+
+  if (validHex(value.backgroundColor) && !(value.background === "custom" && value.customImage)) {
+    root.dataset.novexaCustomColor = "true";
+  } else {
     delete root.dataset.novexaCustomColor;
   }
 
