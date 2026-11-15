@@ -6,6 +6,8 @@ export const runtime = "nodejs";
 const themes = ["light", "dark"] as const;
 const accents = ["violet", "blue", "mint", "rose"] as const;
 const backgrounds = ["aurora", "paper", "midnight", "forest"] as const;
+const validHex = (value: unknown): value is string =>
+  typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
 
 function validAppearance(value: unknown) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
@@ -14,10 +16,12 @@ function validAppearance(value: unknown) {
   if (!accents.includes(input.accent as typeof accents[number])) return null;
   if (!backgrounds.includes(input.background as typeof backgrounds[number])) return null;
   if (typeof input.writer !== "boolean" || typeof input.motion !== "boolean") return null;
+  if (input.backgroundColor !== undefined && !validHex(input.backgroundColor)) return null;
   return {
     theme: input.theme,
     accent: input.accent,
     background: input.background,
+    backgroundColor: validHex(input.backgroundColor) ? input.backgroundColor : "#101a36",
     writer: input.writer,
     motion: input.motion
   };
