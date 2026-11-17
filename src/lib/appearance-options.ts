@@ -127,6 +127,8 @@ export const NOVEXA_BACKGROUND_GRADIENTS:NovexaGradientOption[]=[
 {id:"electric-spectrum",label:"Spectre électrique",colors:["#17153B","#4B479F","#4B91D1"],css:"linear-gradient(135deg,#17153B 0%,#4B479F 52%,#4B91D1 100%)"},
 {id:"ocean-forest",label:"Océan forêt",colors:["#103447","#145A4A","#C7E6DA"],css:"linear-gradient(135deg,#103447 0%,#145A4A 52%,#C7E6DA 100%)"},
 ];
+export const DEFAULT_NOVEXA_FONT = "playfair-display";
+
 export function isNovexaGradientId(value:unknown):value is string{return typeof value==="string"&&NOVEXA_BACKGROUND_GRADIENTS.some(g=>g.id===value)}
 export function getNovexaGradient(value:unknown):NovexaGradientOption|undefined{return NOVEXA_BACKGROUND_GRADIENTS.find(g=>g.id===value)}
 export function isNovexaFontId(value: unknown): value is string {
