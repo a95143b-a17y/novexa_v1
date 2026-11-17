@@ -3,6 +3,8 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
+import NovexaLogo from "@/components/novexa-logo";
+import NovaRobot from "@/components/nova-robot";
 
 type AuthFormProps = {
   mode: "sign-in" | "sign-up";
@@ -10,6 +12,7 @@ type AuthFormProps = {
   authAvailable: boolean;
   emailAvailable: boolean;
   socialProviders: Array<"google" | "microsoft" | "apple">;
+  adminEntry?: boolean;
 };
 
 type AccountType = "student" | "university" | "teacher" | "institution" | "parent";
@@ -20,7 +23,7 @@ const providers = [
   { id: "apple", label: "Continuer avec Apple", symbol: "●" }
 ] as const;
 
-export default function AuthForm({ mode, nextPath, authAvailable, emailAvailable, socialProviders }: AuthFormProps) {
+export default function AuthForm({ mode, nextPath, authAvailable, emailAvailable, socialProviders, adminEntry = false }: AuthFormProps) {
   const isSignUp = mode === "sign-up";
   const emailFlowDisabled = !authAvailable || (isSignUp && !emailAvailable);
   const configuredProviders = providers.filter(provider => socialProviders.includes(provider.id));
@@ -99,43 +102,48 @@ export default function AuthForm({ mode, nextPath, authAvailable, emailAvailable
     <main className="auth-shell auth-editorial onboarding-shell">
       <section className="onboarding-frame auth-page-frame">
         <header className="onboarding-header">
-          <Link className="auth-brand" href="/">NOV<span className="auth-brand-x">X</span>EXA</Link>
+          <NovexaLogo href="/" width={210} height={69} className="novexa-auth-logo" />
           <span>VOTRE ESPACE D’APPRENTISSAGE</span>
         </header>
         <div className="onboarding-layout auth-single-layout">
           <aside className="onboarding-aside">
-            <p className="auth-art-kicker">APPRENDRE SANS LIMITES</p>
-            <h1>{isSignUp ? <>Votre parcours.<br /><i>Votre méthode.</i></> : <>Heureux de<br /><i>vous retrouver.</i></>}</h1>
+            <p className="auth-art-kicker">{adminEntry ? "ESPACE RÉSERVÉ À L’ADMINISTRATION" : "APPRENDRE SANS LIMITES"}</p>
+            <h1>{isSignUp ? <>Votre parcours.<br /><i>Votre méthode.</i></> : adminEntry ? <>Votre console.<br /><i>Votre mission.</i></> : <>Heureux de<br /><i>vous retrouver.</i></>}</h1>
             <p>{isSignUp
               ? "Créez votre compte. Après vérification de votre adresse, NOVEXA vous guidera dans une configuration complète de votre espace."
-              : "Connectez-vous pour retrouver vos cours, vos documents et votre environnement personnalisé."}</p>
+              : adminEntry
+                ? "Connectez-vous avec votre compte NOVEXA déjà habilité comme administrateur. Les droits sont vérifiés côté serveur ; un compte utilisateur classique ne donne pas accès à la console."
+                : "Connectez-vous pour retrouver vos cours, vos documents et votre environnement personnalisé."}</p>
+            <div className="auth-art-robot"><NovaRobot name="NOVA" size="large" /></div>
             <span className="auth-art-foot">NOVEXA · LE SAVOIR EN MOUVEMENT</span>
           </aside>
 
           <section className="onboarding-content">
-            <p className="auth-eyebrow">{isSignUp ? "CRÉATION DE COMPTE" : "ESPACE PERSONNEL"}</p>
-            <h2>{isSignUp ? "Créer votre compte." : "Connectez-vous."}</h2>
+            <p className="auth-eyebrow">{adminEntry ? "ACCÈS ADMINISTRATEUR" : isSignUp ? "CRÉATION DE COMPTE" : "ESPACE PERSONNEL"}</p>
+            <h2>{isSignUp ? "Créer votre compte." : adminEntry ? "Connexion à la console." : "Connectez-vous."}</h2>
             <p className="auth-muted">{isSignUp
               ? "Quelques informations pour ouvrir votre espace NOVEXA."
+              : adminEntry ? "Utilisez le compte auquel le rôle administrateur a été attribué."
               : "Retrouvez votre espace et votre progression."}</p>
 
             {!authAvailable && <p className="auth-config-notice" role="status">La connexion et la création de compte seront activées après la configuration de la base de données NOVEXA.</p>}
             {isSignUp && authAvailable && !emailAvailable && <p className="auth-config-notice" role="status">La vérification des adresses e-mail n’est pas encore configurée. La création de compte par e-mail est temporairement désactivée.</p>}
-            {configuredProviders.length > 0 && <div className="social-auth-list">
-              {configuredProviders.map(provider => (
-                <button
-                  key={provider.id}
-                  type="button"
-                  className="social-auth-button"
-                  onClick={() => socialSignIn(provider.id)}
-                  disabled={Boolean(socialBusy) || busy}
-                >
-                  <span className={"social-symbol social-" + provider.id}>{provider.symbol}</span>
-                  {socialBusy === provider.id ? "Redirection…" : provider.label}
-                </button>
-              ))}
-            </div>}
-            {configuredProviders.length === 0 && <p className="auth-muted auth-provider-note">Aucun fournisseur Google, Microsoft ou Apple n’est configuré sur cet aperçu.</p>}
+            <div className="social-auth-list">
+              {providers.map(provider => {
+                const enabled = socialProviders.includes(provider.id);
+                return (
+                  <button key={provider.id} type="button"
+                    className={"social-auth-button" + (!enabled ? " social-auth-disabled" : "")}
+                    onClick={() => enabled && socialSignIn(provider.id)}
+                    disabled={!enabled || Boolean(socialBusy) || busy || !authAvailable}
+                    title={enabled ? provider.label : "Identifiants OAuth à configurer dans Vercel"}>
+                    <span className={"social-symbol social-" + provider.id}>{provider.symbol}</span>
+                    {socialBusy === provider.id ? "Redirection…" : enabled ? provider.label : provider.label + " · configuration requise"}
+                  </button>
+                );
+              })}
+            </div>
+            {configuredProviders.length < 3 && <p className="auth-muted auth-provider-note">Les trois fournisseurs sont prévus. Chaque bouton sera activé dès que ses identifiants officiels OAuth seront enregistrés dans l’environnement Vercel.</p>}
 
             <div className="auth-divider"><span />OU AVEC VOTRE E-MAIL<span /></div>
             <form className="auth-form onboarding-form" onSubmit={submit}>
@@ -177,6 +185,8 @@ export default function AuthForm({ mode, nextPath, authAvailable, emailAvailable
                 {isSignUp ? "Se connecter" : "Créer un compte"}
               </Link>
             </p>
+            {!isSignUp && !adminEntry && <p className="auth-switch"><Link href="/admin/login">Accès administrateur →</Link></p>}
+            {adminEntry && <p className="auth-switch"><Link href="/connexion">Retour à la connexion utilisateur →</Link></p>}
             {!isSignUp && <p className="auth-switch"><Link href="/abonnement">Voir les formules NOVEXA</Link></p>}
             <Link className="auth-back-link" href="/">← Retour à l’accueil</Link>
           </section>

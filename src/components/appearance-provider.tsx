@@ -1,13 +1,14 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { DEFAULT_NOVEXA_FONT, getNovexaFontStack, isNovexaFontId, readableTextColor } from "@/lib/appearance-options";
+import { DEFAULT_NOVEXA_FONT, getNovexaFontStack, getNovexaGradient, isNovexaFontId, isNovexaGradientId, readableTextColor } from "@/lib/appearance-options";
 
 export type NovexaAppearance = {
   theme: "light" | "dark";
   accent: "violet" | "blue" | "mint" | "rose";
   background: "aurora" | "paper" | "midnight" | "forest" | "custom";
   backgroundColor?: string;
+  backgroundGradient?: string;
   customImage?: string;
   writer: boolean;
   motion: boolean;
@@ -19,6 +20,7 @@ const defaults: NovexaAppearance = {
   accent: "violet",
   background: "aurora",
   backgroundColor: "#101a36",
+  backgroundGradient: undefined,
   customImage: undefined,
   writer: true,
   motion: true,
@@ -47,6 +49,9 @@ function applyAppearance(value: NovexaAppearance) {
   root.dataset.novexaFont = isNovexaFontId(value.fontFamily) ? value.fontFamily : DEFAULT_NOVEXA_FONT;
   root.style.colorScheme = value.theme;
   root.style.setProperty("--novexa-user-font", getNovexaFontStack(value.fontFamily));
+  const gradient = getNovexaGradient(value.backgroundGradient);
+  if (gradient) { root.style.setProperty("--novexa-user-gradient", gradient.css); root.dataset.novexaGradient = gradient.id; }
+  else { root.style.removeProperty("--novexa-user-gradient"); delete root.dataset.novexaGradient; }
   root.style.setProperty("--novexa-user-foreground", validHex(value.backgroundColor) ? readableTextColor(value.backgroundColor) : "#F4F7FF");
 
   if (validHex(value.backgroundColor)) {
@@ -92,6 +97,7 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
               ? parsed.background
               : "aurora",
         backgroundColor: validHex(parsed.backgroundColor) ? parsed.backgroundColor : defaults.backgroundColor,
+        backgroundGradient: isNovexaGradientId(parsed.backgroundGradient) ? parsed.backgroundGradient : undefined,
         customImage,
         writer: typeof parsed.writer === "boolean" ? parsed.writer : true,
         motion: typeof parsed.motion === "boolean" ? parsed.motion : true,
@@ -113,6 +119,7 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
           ...saved,
           backgroundColor: validHex(saved.backgroundColor) ? saved.backgroundColor : local.backgroundColor,
           fontFamily: isNovexaFontId(saved.fontFamily) ? saved.fontFamily : local.fontFamily,
+          backgroundGradient: isNovexaGradientId(saved.backgroundGradient) ? saved.backgroundGradient : local.backgroundGradient,
           background: local.customImage && local.background === "custom" ? "custom" : saved.background,
           customImage: local.customImage
         };
@@ -136,7 +143,8 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
   const saveAppearance = useCallback(async (value: NovexaAppearance) => {
     const normalized: NovexaAppearance = {
       ...value,
-      fontFamily: isNovexaFontId(value.fontFamily) ? value.fontFamily : DEFAULT_NOVEXA_FONT
+      fontFamily: isNovexaFontId(value.fontFamily) ? value.fontFamily : DEFAULT_NOVEXA_FONT,
+      backgroundGradient: isNovexaGradientId(value.backgroundGradient) ? value.backgroundGradient : undefined
     };
     setAppearance(normalized);
     applyAppearance(normalized);

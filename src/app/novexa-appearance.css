@@ -1,7 +1,8 @@
-:root{--novexa-user-font:Georgia,"Times New Roman",serif;--novexa-user-foreground:#f4f7ff}
-body{background-color:var(--novexa-user-background,var(--background));color:var(--novexa-user-foreground,var(--text))}
+:root{--novexa-user-font:"Playfair Display",Georgia,serif;--novexa-user-foreground:#f4f7ff}
+body{background:var(--novexa-user-gradient,var(--novexa-user-background,var(--background)));color:var(--novexa-user-foreground,var(--text));background-attachment:fixed;transition:background .55s ease,color .35s ease}
 html[data-novexa-background="custom"] body{background-image:var(--novexa-wallpaper);background-position:center;background-size:cover;background-repeat:no-repeat;background-attachment:fixed}
-html[data-novexa-custom-color="true"] body{background:var(--novexa-user-background)!important;color:var(--novexa-user-foreground)!important}
+html[data-novexa-custom-color="true"] body{background:var(--novexa-user-gradient,var(--novexa-user-background))!important;color:var(--novexa-user-foreground)!important}
+html[data-novexa-gradient] .shell,html[data-novexa-gradient] .main-panel,html[data-novexa-gradient] .auth-shell,html[data-novexa-gradient] .learning-shell,html[data-novexa-gradient] .personalization-shell,html[data-novexa-gradient] .billing-shell,html[data-novexa-gradient] .catalog-shell,html[data-novexa-gradient] .novexa-app-content>main{background-color:transparent!important}
 html[data-novexa-custom-color="true"] .shell,
 html[data-novexa-custom-color="true"] .main-panel,
 html[data-novexa-custom-color="true"] .auth-shell,
@@ -52,3 +53,11 @@ html[data-novexa-motion="on"] .primary-button:hover{transform:translateY(-2px);b
 ::view-transition-old(root){animation:nx-page-leave .18s ease both}
 ::view-transition-new(root){animation:nx-page-enter .42s cubic-bezier(.2,.75,.25,1) both}
 @media(prefers-reduced-motion:reduce){.novexa-ambient{display:none!important}*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+.novexa-brand-link{display:inline-flex;align-items:center;flex:none;max-width:100%}.novexa-brand-img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain;filter:drop-shadow(0 5px 22px rgba(91,117,204,.16))}
+.novexa-auth-logo{display:block;width:min(100%,210px);height:auto;margin:0 auto 16px}.novexa-app-logo{width:190px}.auth-art-robot{display:flex;justify-content:center;align-items:center;min-height:205px;margin:5px auto 0}.social-auth-disabled{opacity:.47;cursor:not-allowed!important;filter:saturate(.55)}
+html[data-novexa-motion="on"] .novexa-brand-img{animation:nx-logo-breathe 7s ease-in-out infinite}html[data-novexa-motion="on"] .novexa-ambient{opacity:.52}
+@keyframes nx-logo-breathe{0%,100%{filter:drop-shadow(0 5px 18px rgba(91,117,204,.12))}50%{filter:drop-shadow(0 6px 27px rgba(104,154,242,.28))}}
+@keyframes nx-gradient-wave{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+html[data-novexa-motion="on"] .welcome-primary,html[data-novexa-motion="on"] .auth-submit,html[data-novexa-motion="on"] .admin-primary-button{background-size:180% 180%;animation:nx-gradient-wave 8s ease infinite}
+@media(prefers-reduced-motion:reduce){.novexa-brand-img{animation:none!important}}

@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getSessionFromHeaders } from "@/lib/auth-guards";
 import { getDatabasePool, isDatabaseConfigured } from "@/lib/database";
+import NovexaLogo from "@/components/novexa-logo";
 
 export const metadata: Metadata = { title: "Mon espace" };
 export const dynamic = "force-dynamic";
@@ -86,7 +87,7 @@ export default async function LearnerHomePage() {
   return (
     <main className="learning-shell">
       <header className="learning-top">
-        <Link href="/" className="auth-brand"><span className="auth-brand-mark">N</span>NOVEXA<span className="auth-brand-dot">.</span></Link>
+        <NovexaLogo href="/" width={190} height={62} className="novexa-app-logo" />
         <nav className="learning-nav">
           <Link href="/app/parametres/apparence">Apparence</Link>
           {session.user.role === "platform_admin" && <Link href="/admin">Administration</Link>}

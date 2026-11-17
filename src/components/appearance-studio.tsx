@@ -3,9 +3,11 @@
 import styles from "./appearance-studio.module.css";
 import {
   NOVEXA_BACKGROUND_COLORS,
+  NOVEXA_BACKGROUND_GRADIENTS,
   NOVEXA_FONT_OPTIONS,
   getNovexaFontStack,
-  readableTextColor
+  readableTextColor,
+  getNovexaGradient
 } from "@/lib/appearance-options";
 import type { NovexaAppearance } from "@/components/appearance-provider";
 
@@ -20,14 +22,21 @@ export default function AppearanceStudio({ value, onChange, sections = "all" }: 
   const showBackground = sections === "background" || sections === "all";
   const selectedFont = NOVEXA_FONT_OPTIONS.find((font) => font.id === value.fontFamily) ?? NOVEXA_FONT_OPTIONS[20];
   const selectedColor = value.backgroundColor || "#101A36";
-  const previewText = readableTextColor(selectedColor);
+  const selectedGradient = getNovexaGradient(value.backgroundGradient);
+  const previewText = readableTextColor(selectedGradient?.colors[0] || selectedColor);
 
   function selectFont(fontId: string) {
     onChange({ ...value, fontFamily: fontId });
   }
 
   function selectColor(hex: string) {
-    onChange({ ...value, theme: readableTextColor(hex) === "#18202B" ? "light" : "dark", background: "aurora", backgroundColor: hex, customImage: undefined });
+    onChange({ ...value, theme: readableTextColor(hex) === "#18202B" ? "light" : "dark", background: "aurora", backgroundColor: hex, backgroundGradient: undefined, customImage: undefined });
+  }
+
+  function selectGradient(id: string) {
+    const gradient = NOVEXA_BACKGROUND_GRADIENTS.find((item) => item.id === id);
+    if (!gradient) return;
+    onChange({ ...value, theme: readableTextColor(gradient.colors[0]) === "#18202B" ? "light" : "dark", background: "aurora", backgroundColor: gradient.colors[0], backgroundGradient: id, customImage: undefined });
   }
 
   return (
@@ -41,7 +50,7 @@ export default function AppearanceStudio({ value, onChange, sections = "all" }: 
         <span className={styles.livePill}><i /> Aperçu en direct</span>
       </div>
 
-      <div className={styles.preview} style={{ backgroundColor: selectedColor, color: previewText }}>
+      <div className={styles.preview} style={{ background: selectedGradient?.css ?? selectedColor, color: previewText }}>
         <div className={styles.previewTop}>
           <span className={styles.previewBrand}>NOVEXA</span>
           <span className={styles.previewState}>APERÇU EN DIRECT</span>
@@ -63,7 +72,7 @@ export default function AppearanceStudio({ value, onChange, sections = "all" }: 
             <div><span>01 · TYPOGRAPHIE</span><h3>50 polices d’écriture</h3></div>
             <small>{selectedFont.label} sélectionnée</small>
           </div>
-          <p className={styles.helper}>Des styles calligraphiques, éditoriaux, manuscrits, sans serif et monospace. Le rendu exact dépend des polices disponibles sur ton appareil.</p>
+          <p className={styles.helper}>50 familles web distinctes : calligraphiques, manuscrites, éditoriales, sans serif, monospace et technologiques.</p>
           <div className={styles.fontGrid}>
             {NOVEXA_FONT_OPTIONS.map((font, index) => (
               <button
@@ -103,6 +112,12 @@ export default function AppearanceStudio({ value, onChange, sections = "all" }: 
                 onClick={() => selectColor(color.hex)}
               ><span>{color.hex.toUpperCase()}</span></button>
             ))}
+          </div>
+          <div className={styles.gradientSection}>
+            <div className={styles.sectionHeading}><div><span>03 · DÉGRADÉS</span><h3>20 dégradés de couleurs</h3></div><small>{selectedGradient?.label ?? "Aucun dégradé sélectionné"}</small></div>
+            <div className={styles.gradientGrid}>{NOVEXA_BACKGROUND_GRADIENTS.map((gradient) => (
+              <button key={gradient.id} type="button" className={gradient.id === value.backgroundGradient ? styles.gradientSelected : styles.gradientChoice} style={{ background: gradient.css }} aria-label={gradient.label} aria-pressed={gradient.id === value.backgroundGradient} title={gradient.label} onClick={() => selectGradient(gradient.id)}><span>{gradient.label}</span></button>
+            ))}</div>
           </div>
         </div>
       )}

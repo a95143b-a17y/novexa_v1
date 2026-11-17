@@ -143,3 +143,4 @@
 .user-management-error{border:1px solid rgba(255,123,139,.25);background:rgba(255,123,139,.08);color:#ffb2bd}
 .user-management-foot{margin:0;padding:13px 16px;border-top:1px solid var(--admin-line)}
 @media(max-width:600px){.user-management-toolbar{align-items:flex-start;flex-direction:column}.user-search{width:100%}.user-search input{flex:1;min-width:0;width:auto}}
+.admin-brand-image{display:inline-flex;align-items:center;max-width:190px}.admin-brand-image img{display:block;width:100%;height:auto;object-fit:contain}

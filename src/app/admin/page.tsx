@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
   const session = await getSessionFromHeaders(await headers());
-  if (!session) redirect("/connexion?next=%2Fadmin");
+  if (!session) redirect("/admin/login");
   if (session.user.role !== "platform_admin") redirect("/app");
   return <AdminDashboard />;
 }

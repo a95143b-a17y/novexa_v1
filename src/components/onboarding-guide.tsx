@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState, type ChangeEvent } from "react";
 import Link from "next/link";
 import { useNovexaAppearance, type NovexaAppearance } from "@/components/appearance-provider";
 import AppearanceStudio from "@/components/appearance-studio";
+import NovaRobot from "@/components/nova-robot";
+import NovexaLogo from "@/components/novexa-logo";
 import { readableTextColor } from "@/lib/appearance-options";
 import styles from "./onboarding-guide.module.css";
 
@@ -48,6 +50,7 @@ export default function OnboardingGuide() {
       background: wallpaper.id === "paper" || wallpaper.id === "midnight" || wallpaper.id === "forest" ? wallpaper.id : "aurora",
       theme: readableTextColor(wallpaper.color) === "#18202B" ? "light" : "dark",
       backgroundColor: wallpaper.color,
+      backgroundGradient: undefined,
       customImage: undefined
     }));
   }
@@ -71,7 +74,7 @@ export default function OnboardingGuide() {
         setStatus("Impossible de lire cette image.");
         return;
       }
-      setDraft(current => ({ ...current, background: "custom", customImage: reader.result as string }));
+      setDraft(current => ({ ...current, background: "custom", backgroundGradient: undefined, customImage: reader.result as string }));
       setStatus("Image ajoutée à ton aperçu.");
     };
     reader.onerror = () => setStatus("La lecture de l’image a échoué.");
@@ -104,7 +107,7 @@ export default function OnboardingGuide() {
   return (
     <main className={styles.shell} style={previewStyle}>
       <header className={styles.topbar}>
-        <Link href="/" className={styles.logo}>NOV<span>X</span>EXA</Link>
+        <NovexaLogo href="/" width={178} height={59} className={styles.logoImage} />
         <nav><Link href="/decouvrir">Découvrir</Link><Link href="/abonnement">Abonnements</Link><Link href="/connexion?next=%2Fpersonnalisation">Connexion</Link></nav>
       </header>
 
@@ -114,7 +117,7 @@ export default function OnboardingGuide() {
 
         <section className={styles.card}>
           <div className={styles.robotRow}>
-            <div className={styles.robot} aria-hidden="true"><span>✦</span><b>◉ ◉</b><i>⌣</i></div>
+            <NovaRobot name="NOVA" size="compact" />
             <div><span className={styles.robotLabel}>NOVA · TON GUIDE NOVEXA</span><p className={styles.robotSpeech}>{step === 0
               ? "Bonjour ! Bienvenue sur NOVEXA. Je suis NOVA, ton guide. Je vais t’accompagner pour créer un espace de travail qui te ressemble, étape par étape."
               : step === 4
@@ -125,7 +128,7 @@ export default function OnboardingGuide() {
           {step === 0 && <div className={styles.stepContent}>
             <p className={styles.eyebrow}>UN ESPACE QUI TE RESSEMBLE</p>
             <h1>Bonjour, bienvenue<br/><em>dans NOVEXA.</em></h1>
-            <p className={styles.lead}>Je vais te guider dans quelques choix : apparence, 50 polices, 50 couleurs de fond et style de ton assistant. Tu verras chaque modification en direct.</p>
+            <p className={styles.lead}>Je vais te guider dans quelques choix : 50 typographies, 50 teintes, 20 dégradés et ton espace NOVEXA. Tu verras chaque modification en direct.</p>
             <div className={styles.infoLine}><span>01</span> Choisir l’apparence <span>02</span> Sélectionner un fond <span>03</span> Personnaliser NOVA</div>
           </div>}
 
@@ -150,7 +153,7 @@ export default function OnboardingGuide() {
           {step === 2 && <div className={styles.stepContent}>
             <p className={styles.eyebrow}>ÉTAPE 2 · ARRIÈRE-PLAN</p>
             <h1>Choisis ton<br/><em>fond d’écran.</em></h1>
-            <p className={styles.lead}>Choisis parmi 50 couleurs, les fonds de la bibliothèque NOVEXA, ta propre teinte ou une image importée. L’aperçu évolue à chaque clic.</p>
+            <p className={styles.lead}>Choisis parmi 50 couleurs, 20 dégradés, une teinte libre ou une image importée. L’aperçu évolue à chaque clic.</p>
             <div className={styles.wallpaperGrid}>{wallpapers.map(item => <button key={item.id} type="button" className={draft.backgroundColor === item.color && !draft.customImage ? styles.wallpaperSelected : styles.wallpaper} onClick={() => selectWallpaper(item)}><span style={{ background: item.preview }}/><b>{item.name}</b></button>)}</div>
             <AppearanceStudio value={draft} onChange={setDraft} sections="background" />
             <div className={styles.colorUploadRow}>
