@@ -1,6 +1,16 @@
 import { betterAuth } from "better-auth";
 import { Pool } from "pg";
 
+export type SocialProviderId = "google" | "microsoft" | "apple";
+
+export function getConfiguredSocialProviders(): SocialProviderId[] {
+  const configured: SocialProviderId[] = [];
+  if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) configured.push("google");
+  if (process.env.MICROSOFT_CLIENT_ID && process.env.MICROSOFT_CLIENT_SECRET) configured.push("microsoft");
+  if (process.env.APPLE_CLIENT_ID && process.env.APPLE_CLIENT_SECRET) configured.push("apple");
+  return configured;
+}
+
 function makeAuth(database: Pool, baseURL: string, secret: string, trustedOrigins: string[]) {
   const socialProviders = {
     ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET ? {

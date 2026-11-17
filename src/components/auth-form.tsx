@@ -7,6 +7,9 @@ import { authClient } from "@/lib/auth-client";
 type AuthFormProps = {
   mode: "sign-in" | "sign-up";
   nextPath?: string;
+  authAvailable: boolean;
+  emailAvailable: boolean;
+  socialProviders: Array<"google" | "microsoft" | "apple">;
 };
 
 type AccountType = "student" | "university" | "teacher" | "institution" | "parent";
@@ -17,8 +20,10 @@ const providers = [
   { id: "apple", label: "Continuer avec Apple", symbol: "●" }
 ] as const;
 
-export default function AuthForm({ mode, nextPath }: AuthFormProps) {
+export default function AuthForm({ mode, nextPath, authAvailable, emailAvailable, socialProviders }: AuthFormProps) {
   const isSignUp = mode === "sign-up";
+  const emailFlowDisabled = !authAvailable || (isSignUp && !emailAvailable);
+  const configuredProviders = providers.filter(provider => socialProviders.includes(provider.id));
   const requestedPath = nextPath && nextPath.startsWith("/") && !nextPath.startsWith("//")
     ? nextPath
     : isSignUp ? "/personnalisation" : "/app";
@@ -35,6 +40,7 @@ export default function AuthForm({ mode, nextPath }: AuthFormProps) {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (emailFlowDisabled) return;
     setError("");
     setMessage("");
     setBusy(true);
@@ -77,6 +83,7 @@ export default function AuthForm({ mode, nextPath }: AuthFormProps) {
   }
 
   async function socialSignIn(provider: "google" | "microsoft" | "apple") {
+    if (!authAvailable || !socialProviders.includes(provider)) return;
     setError("");
     setSocialBusy(provider);
     try {
@@ -112,8 +119,10 @@ export default function AuthForm({ mode, nextPath }: AuthFormProps) {
               ? "Quelques informations pour ouvrir votre espace NOVEXA."
               : "Retrouvez votre espace et votre progression."}</p>
 
-            <div className="social-auth-list">
-              {providers.map(provider => (
+            {!authAvailable && <p className="auth-config-notice" role="status">La connexion et la création de compte seront activées après la configuration de la base de données NOVEXA.</p>}
+            {isSignUp && authAvailable && !emailAvailable && <p className="auth-config-notice" role="status">La vérification des adresses e-mail n’est pas encore configurée. La création de compte par e-mail est temporairement désactivée.</p>}
+            {configuredProviders.length > 0 && <div className="social-auth-list">
+              {configuredProviders.map(provider => (
                 <button
                   key={provider.id}
                   type="button"
@@ -125,17 +134,18 @@ export default function AuthForm({ mode, nextPath }: AuthFormProps) {
                   {socialBusy === provider.id ? "Redirection…" : provider.label}
                 </button>
               ))}
-            </div>
+            </div>}
+            {configuredProviders.length === 0 && <p className="auth-muted auth-provider-note">Aucun fournisseur Google, Microsoft ou Apple n’est configuré sur cet aperçu.</p>}
 
             <div className="auth-divider"><span />OU AVEC VOTRE E-MAIL<span /></div>
             <form className="auth-form onboarding-form" onSubmit={submit}>
               {isSignUp && <>
                 <label htmlFor="auth-name">Nom et prénom</label>
                 <input id="auth-name" name="name" autoComplete="name" required maxLength={80}
-                  placeholder="Votre nom" value={name} onChange={event => setName(event.target.value)} />
+                  placeholder="Votre nom" value={name} onChange={event => setName(event.target.value)} disabled={emailFlowDisabled} />
                 <label htmlFor="auth-account-type">Vous êtes…</label>
                 <select id="auth-account-type" name="accountType" className="account-type-select"
-                  value={accountType} onChange={event => setAccountType(event.target.value as AccountType)} required>
+                  value={accountType} onChange={event => setAccountType(event.target.value as AccountType)} required disabled={emailFlowDisabled}>
                   <option value="student">Élève / étudiant</option>
                   <option value="university">Université / enseignement supérieur</option>
                   <option value="teacher">Professeur / enseignant</option>
@@ -146,17 +156,17 @@ export default function AuthForm({ mode, nextPath }: AuthFormProps) {
 
               <label htmlFor="auth-email">Adresse e-mail</label>
               <input id="auth-email" name="email" type="email" autoComplete="email" required maxLength={254}
-                placeholder="vous@exemple.fr" value={email} onChange={event => setEmail(event.target.value)} />
+                placeholder="vous@exemple.fr" value={email} onChange={event => setEmail(event.target.value)} disabled={emailFlowDisabled} />
               <label htmlFor="auth-password">Mot de passe</label>
               <input id="auth-password" name="password" type="password"
                 autoComplete={isSignUp ? "new-password" : "current-password"}
                 minLength={isSignUp ? 12 : undefined} maxLength={128} required
                 placeholder={isSignUp ? "12 caractères minimum" : "Votre mot de passe"}
-                value={password} onChange={event => setPassword(event.target.value)} />
+                value={password} onChange={event => setPassword(event.target.value)} disabled={emailFlowDisabled} />
 
               {error && <p className="auth-error" role="alert">{error}</p>}
               {message && <p className="auth-success" role="status">{message}</p>}
-              <button className="auth-submit" type="submit" disabled={busy}>
+              <button className="auth-submit" type="submit" disabled={busy || emailFlowDisabled}>
                 {busy ? "Veuillez patienter…" : isSignUp ? "Créer mon compte" : "Se connecter"} <span>↗</span>
               </button>
             </form>

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import AuthForm from "@/components/auth-form";
+import { getConfiguredSocialProviders, isAuthConfigured, isEmailConfigured } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Créer un compte" };
 
 export default async function SignUpPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
@@ -8,5 +10,5 @@ export default async function SignUpPage({ searchParams }: { searchParams: Promi
   const requested = params.next && params.next.startsWith("/") && !params.next.startsWith("//")
     ? params.next
     : "/personnalisation";
-  return <AuthForm mode="sign-up" nextPath={requested} />;
+  return <AuthForm mode="sign-up" nextPath={requested} authAvailable={isAuthConfigured()} emailAvailable={isEmailConfigured()} socialProviders={getConfiguredSocialProviders()} />;
 }
