@@ -1,8 +1,26 @@
 import { getAuth, isAuthConfigured } from "@/lib/auth";
 
-export async function getSessionFromHeaders(headers: Headers) {
+type AuthSession = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getAuth>["api"]["getSession"]>>
+>;
+
+type SessionWithRole = AuthSession & {
+  user: AuthSession["user"] & { role: string };
+};
+
+function hasStringRole(
+  session: AuthSession | null
+): session is SessionWithRole {
+  return Boolean(session && typeof session.user.role === "string");
+}
+
+export async function getSessionFromHeaders(
+  headers: Headers
+): Promise<SessionWithRole | null> {
   if (!isAuthConfigured()) return null;
-  return getAuth().api.getSession({ headers });
+
+  const session = await getAuth().api.getSession({ headers });
+  return hasStringRole(session) ? session : null;
 }
 
 export async function isPlatformAdmin(headers: Headers): Promise<boolean> {

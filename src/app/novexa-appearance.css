@@ -1,0 +1,63 @@
+:root{--novexa-user-font:"Playfair Display",Georgia,serif;--novexa-user-foreground:#f4f7ff}
+body{background:var(--novexa-user-gradient,var(--novexa-user-background,var(--background)));color:var(--novexa-user-foreground,var(--text));background-attachment:fixed;transition:background .55s ease,color .35s ease}
+html[data-novexa-background="custom"] body{background-image:var(--novexa-wallpaper);background-position:center;background-size:cover;background-repeat:no-repeat;background-attachment:fixed}
+html[data-novexa-custom-color="true"] body{background:var(--novexa-user-gradient,var(--novexa-user-background))!important;color:var(--novexa-user-foreground)!important}
+html[data-novexa-gradient] .shell,html[data-novexa-gradient] .main-panel,html[data-novexa-gradient] .auth-shell,html[data-novexa-gradient] .learning-shell,html[data-novexa-gradient] .personalization-shell,html[data-novexa-gradient] .billing-shell,html[data-novexa-gradient] .catalog-shell,html[data-novexa-gradient] .novexa-app-content>main{background-color:transparent!important}
+html[data-novexa-custom-color="true"] .shell,
+html[data-novexa-custom-color="true"] .main-panel,
+html[data-novexa-custom-color="true"] .auth-shell,
+html[data-novexa-custom-color="true"] .user-home-shell,
+html[data-novexa-custom-color="true"] .learning-shell,
+html[data-novexa-custom-color="true"] .personalization-shell,
+html[data-novexa-custom-color="true"] .billing-shell,
+html[data-novexa-custom-color="true"] .catalog-shell,
+html[data-novexa-custom-color="true"] .novexa-app-content>main{background:transparent!important;color:var(--novexa-user-foreground)!important}
+html[data-novexa-font] h1,
+html[data-novexa-font] h2,
+html[data-novexa-font] h3,
+html[data-novexa-font] .welcome-heading-script{font-family:var(--novexa-user-font,Georgia,serif)}
+html[data-novexa-writer="on"] h1 em,
+html[data-novexa-writer="on"] h2 em{font-family:var(--novexa-user-font,"Segoe Script","Brush Script MT",cursive);font-weight:400}
+html[data-novexa-motion="off"] *,
+html[data-novexa-motion="off"] *::before,
+html[data-novexa-motion="off"] *::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+.novexa-app-content{position:relative;z-index:1;min-height:100vh}
+.novexa-ambient{position:fixed;inset:0;z-index:2;overflow:hidden;pointer-events:none;mix-blend-mode:screen;opacity:.32}
+.novexa-orb{position:absolute;display:block;width:clamp(170px,24vw,360px);aspect-ratio:1;border:1px solid rgba(145,207,255,.15);border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(115,192,245,.18),rgba(120,110,220,.07) 40%,transparent 72%);filter:blur(2px);will-change:transform}
+.novexa-orb-one{top:8%;left:-8%;animation:nx-float-one 21s ease-in-out infinite}
+.novexa-orb-two{top:38%;right:-10%;width:clamp(220px,30vw,430px);animation:nx-float-two 27s ease-in-out infinite}
+.novexa-orb-three{bottom:-19%;left:32%;width:clamp(160px,21vw,310px);animation:nx-float-three 24s ease-in-out infinite}
+.novexa-orbit-line{position:absolute;top:17%;right:12%;width:clamp(180px,28vw,390px);aspect-ratio:1;border:1px solid rgba(143,196,245,.1);border-radius:50%;transform:rotate(-27deg) scaleY(.36);animation:nx-orbit-turn 34s linear infinite}
+.novexa-orbit-line::after{position:absolute;top:9%;left:16%;width:8px;height:8px;border-radius:50%;background:#91d8f5;box-shadow:0 0 24px 8px rgba(116,194,239,.42);content:""}
+@keyframes nx-float-one{0%,100%{transform:translate3d(0,0,0) scale(.96)}50%{transform:translate3d(44px,28px,0) scale(1.08)}}
+@keyframes nx-float-two{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-48px,-36px,0) scale(.9)}}
+@keyframes nx-float-three{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(34px,-42px,0)}}
+@keyframes nx-orbit-turn{from{rotate:0deg}to{rotate:360deg}}
+@keyframes nx-page-enter{from{opacity:0;transform:translateY(12px) scale(.995)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes nx-page-leave{from{opacity:1}to{opacity:0;transform:translateY(-5px)}}
+@keyframes nx-card-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes nx-soft-pulse{0%,100%{box-shadow:0 0 0 rgba(110,207,239,0)}50%{box-shadow:0 0 24px rgba(110,207,239,.12)}}
+html[data-novexa-motion="on"] .novexa-app-content main{animation:nx-page-enter .58s cubic-bezier(.2,.75,.25,1) both}
+html[data-novexa-motion="on"] .module-card,
+html[data-novexa-motion="on"] .panel-card,
+html[data-novexa-motion="on"] .personalization-panel,
+html[data-novexa-motion="on"] .learning-course-card,
+html[data-novexa-motion="on"] .learning-overview-card,
+html[data-novexa-motion="on"] .billing-plan-card{animation:nx-card-rise .62s cubic-bezier(.2,.75,.25,1) both}
+html[data-novexa-motion="on"] .module-card:hover,
+html[data-novexa-motion="on"] .learning-course-card:hover,
+html[data-novexa-motion="on"] .personalization-panel:hover{transform:translateY(-3px);transition:transform .24s ease,border-color .24s ease,box-shadow .24s ease}
+html[data-novexa-motion="on"] .auth-submit:hover,
+html[data-novexa-motion="on"] .primary-button:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(73,165,209,.15);transition:transform .2s ease,box-shadow .2s ease}
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:nx-page-leave .18s ease both}
+::view-transition-new(root){animation:nx-page-enter .42s cubic-bezier(.2,.75,.25,1) both}
+@media(prefers-reduced-motion:reduce){.novexa-ambient{display:none!important}*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+.novexa-brand-link{display:inline-flex;align-items:center;flex:none;max-width:100%}.novexa-brand-img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain;filter:drop-shadow(0 5px 22px rgba(91,117,204,.16))}
+.novexa-auth-logo{display:block;width:min(100%,210px);height:auto;margin:0 auto 16px}.novexa-app-logo{width:190px}.auth-art-robot{display:flex;justify-content:center;align-items:center;min-height:205px;margin:5px auto 0}.social-auth-disabled{opacity:.47;cursor:not-allowed!important;filter:saturate(.55)}
+html[data-novexa-motion="on"] .novexa-brand-img{animation:nx-logo-breathe 7s ease-in-out infinite}html[data-novexa-motion="on"] .novexa-ambient{opacity:.52}
+@keyframes nx-logo-breathe{0%,100%{filter:drop-shadow(0 5px 18px rgba(91,117,204,.12))}50%{filter:drop-shadow(0 6px 27px rgba(104,154,242,.28))}}
+@keyframes nx-gradient-wave{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+html[data-novexa-motion="on"] .welcome-primary,html[data-novexa-motion="on"] .auth-submit,html[data-novexa-motion="on"] .admin-primary-button{background-size:180% 180%;animation:nx-gradient-wave 8s ease infinite}
+@media(prefers-reduced-motion:reduce){.novexa-brand-img{animation:none!important}}

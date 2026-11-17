@@ -47,7 +47,7 @@ ATLAS est le sixième agent administrateur. Son objectif est de rechercher, vér
 - Toute publication d'un programme dans le catalogue actif exige une validation humaine.
 - Les documents sont importés uniquement lorsque leur accès et leurs droits de réutilisation le permettent.
 
-Consulter [les spécifications d'ATLAS](docs/AGENT_ATLAS.md), [le pilote France](docs/FRANCE_PILOT.md) et [le pipeline d'importation](docs/CURRICULUM_INGESTION.md).
+Consulter [le référentiel public des sources France](/programmes/france), [l'état d'implémentation](docs/IMPLEMENTATION_STATUS.md), [la feuille de route](docs/ROADMAP.md), [les spécifications d'ATLAS](docs/AGENT_ATLAS.md), [le pilote France](docs/FRANCE_PILOT.md) et [le pipeline d'importation](docs/CURRICULUM_INGESTION.md).
 
 ## Console administrateur
 

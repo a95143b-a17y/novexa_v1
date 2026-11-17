@@ -91,7 +91,7 @@ export default function TeacherWorkspace({ isAdmin }: { isAdmin: boolean }) {
 
   return (
     <main className="teacher-shell">
-      <header className="teacher-top"><Link href="/app" className="auth-brand"><span className="auth-brand-mark">N</span>NOVEXA<span className="auth-brand-dot">.</span></Link><Link href="/app" className="user-home-link">Mon apprentissage ↗</Link></header>
+      <header className="teacher-top"><Link href="/app" className="auth-brand"><span className="auth-brand-mark">N</span>NOVEXA<span className="auth-brand-dot">.</span></Link><div className="teacher-header-links"><Link href="/app/enseignant/evaluations" className="user-home-link">Créer des évaluations ↗</Link><Link href="/app" className="user-home-link">Mon apprentissage ↗</Link></div></header>
       <section className="teacher-content">
         <p className="auth-eyebrow">CRÉATION PÉDAGOGIQUE</p>
         <h1>Espace enseignant</h1>

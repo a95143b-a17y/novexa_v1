@@ -16,11 +16,13 @@
     "auth:promote-admin": "node scripts/promote-platform-admin.mjs"
   },
   "dependencies": {
+    "@vercel/blob": "^2.3.0",
     "better-auth": "^1.7.22",
     "next": "16.4.6",
     "pg": "^8.16.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "stripe": "^20.0.0",
     "unpdf": "^1.9.1"
   },
   "devDependencies": {

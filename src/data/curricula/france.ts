@@ -94,5 +94,45 @@ export const FRANCE_OFFICIAL_SOURCES: readonly OfficialSource[] = [
       "Cartographier les voies de formation, diplômes et établissements ; vérifier ensuite les accréditations et maquettes officielles applicables.",
     priority: 2,
     requiresDocumentLevelVerification: true
-  }
+  },
+  {
+    id: "fr-eduscol-nsi",
+    title: "Programmes et ressources en numérique et sciences informatiques",
+    authority: "Éduscol — DGESCO",
+    url: "https://eduscol.education.gouv.fr/5823/programmes-et-ressources-en-numerique-et-sciences-informatiques-voie-g",
+    kind: "national_curriculum_index",
+    intendedUse: "Référencer les programmes de spécialité NSI de première et terminale générale, ainsi que les ressources d'accompagnement. Vérifier séparément le BO et les modalités d'épreuve applicables.",
+    priority: 1,
+    requiresDocumentLevelVerification: true
+  },
+  {
+    id: "fr-eduscol-ses",
+    title: "Programmes et ressources en sciences économiques et sociales",
+    authority: "Éduscol — DGESCO",
+    url: "https://eduscol.education.gouv.fr/5838/programmes-et-ressources-en-sciences-economiques-et-sociales-voie-gt",
+    kind: "national_curriculum_index",
+    intendedUse: "Référencer l'enseignement commun de SES en seconde et la spécialité SES en première et terminale générale, en distinguant programme et modalités d'examen.",
+    priority: 1,
+    requiresDocumentLevelVerification: true
+  },
+  {
+    id: "fr-eduscol-histoire-geographie",
+    title: "Programmes et ressources en histoire-géographie",
+    authority: "Éduscol — DGESCO",
+    url: "https://eduscol.education.gouv.fr/5799/programmes-et-ressources-en-histoire-geographie-voie-gt",
+    kind: "national_curriculum_index",
+    intendedUse: "Référencer les programmes d'histoire-géographie de seconde, première et terminale des voies générale et technologique, avec vérification des adaptations territoriales éventuelles.",
+    priority: 2,
+    requiresDocumentLevelVerification: true
+  },
+  {
+    id: "fr-eduscol-snt",
+    title: "Programmes et ressources en sciences numériques et technologie",
+    authority: "Éduscol — DGESCO",
+    url: "https://eduscol.education.gouv.fr/5841/programmes-et-ressources-en-sciences-numeriques-et-technologie-voie-gt",
+    kind: "national_curriculum_index",
+    intendedUse: "Référencer le programme de SNT de seconde générale et technologique et ses ressources d'accompagnement.",
+    priority: 2,
+    requiresDocumentLevelVerification: true
+  },
 ] as const;

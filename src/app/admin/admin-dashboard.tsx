@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { ADMIN_AGENTS } from "@/lib/admin-agents";
 import AgentDesk from "./agent-desk";
 import UserManagement from "./user-management";
+import NovexaLogo from "@/components/novexa-logo";
 
 type Source = { title: string; url: string };
 type Discovery = { text: string; sources: Source[]; createdAt: string };
@@ -23,7 +24,7 @@ export default function AdminDashboard() {
 
   async function logout() {
     await fetch("/api/auth/sign-out", { method: "POST" });
-    window.location.assign("/connexion?next=%2Fadmin");
+    window.location.assign("/admin/login");
   }
 
   async function discover(event: FormEvent<HTMLFormElement>) {
@@ -77,7 +78,7 @@ export default function AdminDashboard() {
   return (
     <main className="admin-shell">
       <aside className="admin-sidebar">
-        <a href="/" className="admin-brand"><span className="admin-brand-mark">N</span>NOVEXA<span className="admin-brand-dot">.</span></a>
+        <NovexaLogo href="/" width={186} height={61} className="admin-brand-image" />
         <p className="admin-nav-label">DIRECTION</p>
         <a className="admin-nav-link active" href="#overview">◈ Vue générale</a>
         <a className="admin-nav-link" href="#agents">✦ Équipe IA</a>
